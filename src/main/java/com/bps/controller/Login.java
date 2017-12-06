@@ -21,9 +21,19 @@ public class Login extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/loginSuccess.jsp");
-		response.setStatus(200);
-		request.setAttribute("name", "Bhanu");
+		String page = null;
+		String userType = null;
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		if (email.equals("owner") && password.equals("owner")) {
+			userType = "owner";
+		} else if (email.equals("admin") && password.equals("admin")) {
+			userType = "admin";
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+		request.setAttribute("name", email);
+		request.setAttribute("isLoggedIn", true);
+		request.setAttribute("userType", userType);
 		dispatcher.forward(request, response);
 	}
 }
