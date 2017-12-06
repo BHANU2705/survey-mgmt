@@ -18,6 +18,7 @@
   </head>
 
   <body>
+  <%String x = "dummy";%>
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Survey Management</a>
@@ -51,18 +52,18 @@
     <div class="container-fluid">
       <div class="row">
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-          <ul class="nav nav-pills flex-column">
+          <ul class="nav nav-pills flex-column" id="someid">
             <li class="nav-item">
               <a class="nav-link active" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Surveys</a>
+              <a class="nav-link" onclick="myFunction('survey')" href="">Surveys</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" >My Users</a>
+              <a class="nav-link" onclick="myFunction('user')" href="" >My Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Analytics</a>
+              <a class="nav-link" onclick="myFunction('analytics')" href="">Analytics</a>
             </li>
           </ul>
         </nav>
@@ -85,23 +86,36 @@
     <script src="../Test/js/vendor/popper.min.js"></script>
     <script src="../Test/js/bootstrap.min.js"></script>
     
-    <!-- <script>
+    <script>
     function myFunction(caller) {
-    	var html = null;
+    	console.log("clicked: " + caller);
+    	var txt = null;
     	if(caller) {
     		if (caller === 'survey') {
-    			html = "views/survey.html";
+    			<%x = "views/survey.html";%>
+    			txt = "views/survey.html";
     		} else if(caller === 'user') {
-    			html = "views/survey.html";
-    		} else if(caller == 'analytics') {
-    			html = "views/survey.html";
+    			<%x = "views/user.html";%>
+    			txt = "views/user.html";
+    		} else if(caller === 'analytics') {
+    			<%x = "views/analytics.html";%>
+    			txt = "views/analytics.html";
     		}
     	}
-    	document.getElementById("page1").innerHTML = html;
-	}
-    </script> -->
-    <script type="text/javascript">
+    	console.log(txt);
+    	console.log("<%=x%>");
     	w3IncludeHTML();
-	</script>
+	}
+    
+    $(function() {
+        // Use .on() to bind click even on dynamically added elements
+        $(document).on('click', '#someid', function(e) {
+            e.preventDefault();
+        });
+    });
+    </script>
+    <!-- <script type="text/javascript">
+    	w3IncludeHTML();
+	</script> -->
   </body>
 </html>
