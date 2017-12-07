@@ -14,6 +14,26 @@
     <script src="../Test/js/vendor/jquery-slim.min.js"></script>
     <script src="../Test/js/vendor/popper.min.js"></script>
     <script src="../Test/js/bootstrap.min.js"></script>
+    
+    <script>
+    	$(document).ready(function(){
+    		$("#overview").show();
+			$("#survey").hide();
+			$("#user").hide();
+			$("#analytics").hide();
+			
+			$("#a_overview").addClass("active");
+			$("#li_home").addClass("active");
+			$("#a_survey").removeClass("active");
+			$("#a_user").removeClass("active");
+			$("#a_analytics").removeClass("active");
+			
+	        $(document).on('click', '#left_panel', function(e) {
+	            e.preventDefault();
+	        });
+    	});
+    </script>
+    
   </head>
 
   <body>
@@ -26,8 +46,8 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <li id="li_home"class="nav-item active">
+              <a class="nav-link" onclick="myFunction('overview')" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link" href="#">Settings</a>
@@ -50,24 +70,24 @@
     <div class="container-fluid">
       <div class="row">
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-          <ul class="nav nav-pills flex-column" id="someid">
+          <ul class="nav nav-pills flex-column" id="left_panel">
             <li class="nav-item">
-              <a class="nav-link active" onclick="myFunction('common')" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
+              <a id="a_overview" class="nav-link active" onclick="myFunction('overview')" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" onclick="myFunction('survey')" href="">Surveys</a>
+              <a id="a_survey" class="nav-link" onclick="myFunction('survey')" href="">Surveys</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" onclick="myFunction('user')" href="" >My Users</a>
+              <a id="a_user" class="nav-link" onclick="myFunction('user')" href="" >My Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" onclick="myFunction('analytics')" href="">Analytics</a>
+              <a id="a_analytics" class="nav-link" onclick="myFunction('analytics')" href="">Analytics</a>
             </li>
           </ul>
         </nav>
         <main id="main" role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-			<div id="common">
-				This is the common page.
+			<div id="overview">
+				This is the overview page.
 			</div>
 			<div id="survey">
 				This is the survey page.
@@ -81,42 +101,56 @@
 		</main>
       </div>
     </div>
-
     <script>
     function myFunction(caller) {
     	if(caller) {
-    		if (caller === 'common') {
-    			$("#common").show();
+    		if (caller === 'overview') {
+    			$("#overview").show();
     			$("#survey").hide();
     			$("#user").hide();
     			$("#analytics").hide();
+    			
+    			$("#a_overview").addClass("active");
+    			$("#li_home").addClass("active");
+    			$("#a_survey").removeClass("active");
+    			$("#a_user").removeClass("active");
+    			$("#a_analytics").removeClass("active");
     		} else if (caller === 'survey') {
-    			$("#common").hide();
+    			$("#overview").hide();
     			$("#survey").show();
     			$("#user").hide();
     			$("#analytics").hide();
+    			
+    			$("#a_overview").removeClass("active");
+    			$("#li_home").removeClass("active");
+    			$("#a_survey").addClass("active");
+    			$("#a_user").removeClass("active");
+    			$("#a_analytics").removeClass("active");
     		} else if(caller === 'user') {
-    			$("#common").hide();
+    			$("#overview").hide();
     			$("#survey").hide();
     			$("#user").show();
     			$("#analytics").hide();
+    			
+    			$("#a_overview").removeClass("active");
+    			$("#li_home").removeClass("active");
+    			$("#a_survey").removeClass("active");
+    			$("#a_user").addClass("active");
+    			$("#a_analytics").removeClass("active");
     		} else if(caller === 'analytics') {
-    			$("#common").hide();
+    			$("#overview").hide();
     			$("#survey").hide();
     			$("#user").hide();
     			$("#analytics").show();
+    			
+    			$("#a_overview").removeClass("active");
+    			$("#li_home").removeClass("active");
+    			$("#a_survey").removeClass("active");
+    			$("#a_user").removeClass("active");
+    			$("#a_analytics").addClass("active");
     		}
     	}
 	};
-    $(function() {
-    	$("#common").show();
-		$("#survey").hide();
-		$("#user").hide();
-		$("#analytics").hide();
-        $(document).on('click', '#someid', function(e) {
-            e.preventDefault();
-        });
-    });
     </script>
   </body>
 </html>
