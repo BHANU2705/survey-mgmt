@@ -15,20 +15,32 @@
     <script src="../Test/js/vendor/popper.min.js"></script>
     <script src="../Test/js/bootstrap.min.js"></script>
     
+    <!-- <link href="../Test/css/metisMenu.min.css" rel="stylesheet">
+    <link href="../Test/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../Test/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    
     <script>
     	$(document).ready(function(){
     		$("#overview").show();
 			$("#survey").hide();
 			$("#user").hide();
 			$("#analytics").hide();
+			$("#subscription").hide();
 			
 			$("#a_overview").addClass("active");
 			$("#li_home").addClass("active");
 			$("#a_survey").removeClass("active");
 			$("#a_user").removeClass("active");
 			$("#a_analytics").removeClass("active");
+			$("#a_subscription").removeClass("active");
+			
+			$("#a_survey_new").addClass("active");
+			$("#a_survey_existing").removeClass("active");
 			
 	        $(document).on('click', '#left_panel', function(e) {
+	            e.preventDefault();
+	        });
+	        $(document).on('click', '#survey_tab', function(e) {
 	            e.preventDefault();
 	        });
     	});
@@ -47,11 +59,8 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav ml-auto">
             <li id="li_home"class="nav-item active">
-              <a class="nav-link" onclick="myFunction('overview')" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" onclick="handleLeftPane('overview')" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#">Settings</a>
-            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="#">Profile</a>
             </li>
@@ -72,16 +81,19 @@
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
           <ul class="nav nav-pills flex-column" id="left_panel">
             <li class="nav-item">
-              <a id="a_overview" class="nav-link active" onclick="myFunction('overview')" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
+              <a id="a_overview" class="nav-link active" onclick="handleLeftPane('overview')" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
             </li>
             <li class="nav-item">
-              <a id="a_survey" class="nav-link" onclick="myFunction('survey')" href="">Surveys</a>
+              <a id="a_survey" class="nav-link" onclick="handleLeftPane('survey')" href="">Surveys</a>
             </li>
             <li class="nav-item">
-              <a id="a_user" class="nav-link" onclick="myFunction('user')" href="" >My Users</a>
+              <a id="a_user" class="nav-link" onclick="handleLeftPane('user')" href="" >My Users</a>
             </li>
             <li class="nav-item">
-              <a id="a_analytics" class="nav-link" onclick="myFunction('analytics')" href="">Analytics</a>
+              <a id="a_analytics" class="nav-link" onclick="handleLeftPane('analytics')" href="">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a id="a_subscription" class="nav-link" onclick="handleLeftPane('subscription')" href="">Subscription</a>
             </li>
           </ul>
         </nav>
@@ -90,7 +102,53 @@
 				This is the overview page.
 			</div>
 			<div id="survey">
-				This is the survey page.
+				<ul class="nav nav-tabs" id="survey_tab">
+				  <li class="nav-item">
+				    <a id="a_survey_new" onclick="handleSurveyTab('survey_new')" class="nav-link active" href="">New</a>
+				  </li>
+				  <li class="nav-item">
+				    <a id="a_survey_existing" onclick="handleSurveyTab('survey_existing')" class="nav-link" href="">Existing</a>
+				  </li>
+				</ul>
+				<div id="div_survey_new">
+				    <div class="row">
+				        <div class="col-lg-12">
+				            <h1 class="page-header">Survey</h1>
+				        </div>
+				    </div>
+				    <div class="row">
+				        <div class="col-lg-12">
+				            <div class="panel panel-default">
+				                <div class="panel-heading">
+				                    Enter Survey Details
+				                </div>
+				                <div class="panel-body">
+				                    <div class="row">
+				                        <div class="col-lg-12">
+				                            <form role="form">
+				                                <div class="form-group">
+				                                    <input class="form-control" placeholder="Survey Name">
+				                                    <label>Survey Description</label>
+				                                    <textarea class="form-control" rows="2"></textarea>
+				                                    <label>Question Type</label>
+				                                    <select class="form-control">
+				                                        <option>Check Box</option>
+				                                        <option>Radio Button</option>
+				                                        <option>Text</option>
+				                                        <option>Location</option>
+				                                        <option>Image</option>
+				                                    </select>
+				                                </div>
+				                                <button type="submit" class="btn btn-default">Submit Button</button>
+				                                <button type="reset" class="btn btn-default">Reset Button</button>
+				                            </form>
+				                        </div>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
 			</div>
 			<div id="user">
 				This is the user page.
@@ -98,59 +156,97 @@
 			<div id="analytics">
 				This is the analytics page.
 			</div>
+			<div id="subscription">
+				This is the subscriptions page.
+			</div>
 		</main>
       </div>
     </div>
     <script>
-    function myFunction(caller) {
+    function handleLeftPane(caller) {
     	if(caller) {
     		if (caller === 'overview') {
     			$("#overview").show();
     			$("#survey").hide();
     			$("#user").hide();
     			$("#analytics").hide();
+    			$("#subscription").hide();
     			
     			$("#a_overview").addClass("active");
     			$("#li_home").addClass("active");
     			$("#a_survey").removeClass("active");
     			$("#a_user").removeClass("active");
     			$("#a_analytics").removeClass("active");
+    			$("#a_subscription").removeClass("active");
+    			
     		} else if (caller === 'survey') {
     			$("#overview").hide();
     			$("#survey").show();
     			$("#user").hide();
     			$("#analytics").hide();
+    			$("#subscription").hide();
     			
     			$("#a_overview").removeClass("active");
     			$("#li_home").removeClass("active");
     			$("#a_survey").addClass("active");
     			$("#a_user").removeClass("active");
     			$("#a_analytics").removeClass("active");
+    			$("#a_subscription").removeClass("active");
     		} else if(caller === 'user') {
     			$("#overview").hide();
     			$("#survey").hide();
     			$("#user").show();
     			$("#analytics").hide();
+    			$("#subscription").hide();
     			
     			$("#a_overview").removeClass("active");
     			$("#li_home").removeClass("active");
     			$("#a_survey").removeClass("active");
     			$("#a_user").addClass("active");
     			$("#a_analytics").removeClass("active");
+    			$("#a_subscription").removeClass("active");
     		} else if(caller === 'analytics') {
     			$("#overview").hide();
     			$("#survey").hide();
     			$("#user").hide();
     			$("#analytics").show();
+    			$("#subscription").hide();
     			
     			$("#a_overview").removeClass("active");
     			$("#li_home").removeClass("active");
     			$("#a_survey").removeClass("active");
     			$("#a_user").removeClass("active");
     			$("#a_analytics").addClass("active");
+    			$("#a_subscription").removeClass("active");
+    		} else if(caller === 'subscription') {
+    			$("#overview").hide();
+    			$("#survey").hide();
+    			$("#user").hide();
+    			$("#analytics").hide();
+    			$("#subscription").show();
+    			
+    			$("#a_overview").removeClass("active");
+    			$("#li_home").removeClass("active");
+    			$("#a_survey").removeClass("active");
+    			$("#a_user").removeClass("active");
+    			$("#a_analytics").removeClass("active");
+    			$("#a_subscription").addClass("active");
     		}
     	}
 	};
+	
+	function handleSurveyTab(caller) {
+		if (caller) {
+			if(caller === 'survey_new') {
+				$("#a_survey_new").addClass("active");
+				$("#a_survey_existing").removeClass("active");
+				$("#div_survey_new").show();
+			} else if(caller === 'survey_existing') {
+				$("#a_survey_new").removeClass("active");
+				$("#a_survey_existing").addClass("active");
+			}
+		}
+	}
     </script>
   </body>
 </html>
