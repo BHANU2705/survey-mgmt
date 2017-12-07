@@ -3,3 +3,4 @@
 *.war
 *.class
 .gitignore
+/target/
