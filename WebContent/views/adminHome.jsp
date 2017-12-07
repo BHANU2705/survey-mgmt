@@ -9,16 +9,14 @@
 
     <title>Admin Home</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="../Test/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="../Test/css/dashboard.css" rel="stylesheet">
-    <!-- <link rel="import" href="views/survey.html" id="s1"> -->
+    <script src="../Test/js/vendor/jquery-slim.min.js"></script>
+    <script src="../Test/js/vendor/popper.min.js"></script>
+    <script src="../Test/js/bootstrap.min.js"></script>
   </head>
 
   <body>
-  <%String x = "dummy";%>
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Survey Management</a>
@@ -54,7 +52,7 @@
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
           <ul class="nav nav-pills flex-column" id="someid">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
+              <a class="nav-link active" onclick="myFunction('common')" href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" onclick="myFunction('survey')" href="">Surveys</a>
@@ -68,54 +66,57 @@
           </ul>
         </nav>
         <main id="main" role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-			<div>
-				Bhanu
-				<script src="https://www.w3schools.com/lib/w3data.js"></script>
-				<div w3-include-html="views/survey.html"></div>
+			<div id="common">
+				This is the common page.
+			</div>
+			<div id="survey">
+				This is the survey page.
+			</div>
+			<div id="user">
+				This is the user page.
+			</div>
+			<div id="analytics">
+				This is the analytics page.
 			</div>
 		</main>
       </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <!-- <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script> -->
-    <script src="../Test/js/vendor/jquery-slim.min.js"></script>
-    <script src="../Test/js/vendor/popper.min.js"></script>
-    <script src="../Test/js/bootstrap.min.js"></script>
-    
     <script>
     function myFunction(caller) {
-    	console.log("clicked: " + caller);
-    	var txt = null;
     	if(caller) {
-    		if (caller === 'survey') {
-    			<%x = "views/survey.html";%>
-    			txt = "views/survey.html";
+    		if (caller === 'common') {
+    			$("#common").show();
+    			$("#survey").hide();
+    			$("#user").hide();
+    			$("#analytics").hide();
+    		} else if (caller === 'survey') {
+    			$("#common").hide();
+    			$("#survey").show();
+    			$("#user").hide();
+    			$("#analytics").hide();
     		} else if(caller === 'user') {
-    			<%x = "views/user.html";%>
-    			txt = "views/user.html";
+    			$("#common").hide();
+    			$("#survey").hide();
+    			$("#user").show();
+    			$("#analytics").hide();
     		} else if(caller === 'analytics') {
-    			<%x = "views/analytics.html";%>
-    			txt = "views/analytics.html";
+    			$("#common").hide();
+    			$("#survey").hide();
+    			$("#user").hide();
+    			$("#analytics").show();
     		}
     	}
-    	console.log(txt);
-    	console.log("<%=x%>");
-    	w3IncludeHTML();
-	}
-    
+	};
     $(function() {
-        // Use .on() to bind click even on dynamically added elements
+    	$("#common").show();
+		$("#survey").hide();
+		$("#user").hide();
+		$("#analytics").hide();
         $(document).on('click', '#someid', function(e) {
             e.preventDefault();
         });
     });
     </script>
-    <!-- <script type="text/javascript">
-    	w3IncludeHTML();
-	</script> -->
   </body>
 </html>
