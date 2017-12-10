@@ -16,6 +16,7 @@
 
 <link href="../Test/css/bootstrap.min.css" rel="stylesheet">
 <link href="../Test/css/dashboard.css" rel="stylesheet">
+<link href="../Test/css/carousel.css" rel="stylesheet">
 <script src="../Test/js/vendor/Chart.js"></script>
 
 <script>
@@ -93,9 +94,74 @@
 					</li>
 				</ul>
 			</nav>
-			<main id="main" role="main"
-				class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-			<div id="overview">This is the overview page.</div>
+			<main id="main" role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+			<div id="overview">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+						<li data-target="#myCarousel" data-slide-to="1"></li>
+						<li data-target="#myCarousel" data-slide-to="2"></li>
+					</ol>
+					<div class="carousel-outer">
+						<div class="carousel-item active">
+							<img class="first-slide"
+								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAVCAYAAAC6wOViAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNzoxMjoxMCAxOToxNzowN5BAw24AAAAzSURBVEhLYxRftOM/A50BE5SmKxi1lKZg1FKaglFLaQpGLaUpGLWUpmDUUpqCAbCUgQEAMf8Cmv9FGeUAAAAASUVORK5CYII="
+								alt="First slide">
+							<div class="container">
+								<div class="carousel-caption text-left">
+									<h1>Survey Management.</h1>
+									<p>This is Survey Management Solution. This is Survey Management Solution. This is Survey Management Solution. This is Survey Management Solution.
+									This is Survey Management Solution. This is Survey Management Solution. This is Survey Management Solution.</p>
+									<p>
+										<a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="carousel-item">
+							<img class="second-slide"
+								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAVCAYAAAC6wOViAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNzoxMjoxMCAxOToxNzowN5BAw24AAAAzSURBVEhLYxRftOM/A50BE5SmKxi1lKZg1FKaglFLaQpGLaUpGLWUpmDUUpqCAbCUgQEAMf8Cmv9FGeUAAAAASUVORK5CYII="
+								alt="Second slide">
+							<div class="container">
+								<div class="carousel-caption">
+									<h1>Another example headline.</h1>
+									<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+										quam. Donec id elit non mi porta gravida at eget metus. Nullam
+										id dolor id nibh ultricies vehicula ut id elit.</p>
+									<p>
+										<a class="btn btn-lg btn-primary" href="#" role="button">Learn
+											more</a>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="carousel-item">
+							<img class="third-slide"
+								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAVCAYAAAC6wOViAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNzoxMjoxMCAxOToxNzowN5BAw24AAAAzSURBVEhLYxRftOM/A50BE5SmKxi1lKZg1FKaglFLaQpGLaUpGLWUpmDUUpqCAbCUgQEAMf8Cmv9FGeUAAAAASUVORK5CYII="
+								alt="Third slide">
+							<div class="container">
+								<div class="carousel-caption text-right">
+									<h1>One more for good measure.</h1>
+									<p>Cras justo odio, dapibus ac facilisis in, egestas eget
+										quam. Donec id elit non mi porta gravida at eget metus. Nullam
+										id dolor id nibh ultricies vehicula ut id elit.</p>
+									<p>
+										<a class="btn btn-lg btn-primary" href="#" role="button">Browse
+											gallery</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#myCarousel" role="button"
+						data-slide="prev"> <span class="carousel-control-prev-icon"
+						aria-hidden="true"></span> <span class="sr-only">Previous</span>
+					</a> <a class="carousel-control-next" href="#myCarousel" role="button"
+						data-slide="next"> <span class="carousel-control-next-icon"
+						aria-hidden="true"></span> <span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
 			<div id="survey">
 				<div class="alert alert-warning">
 					<strong>Warning!</strong> You should <a id="a_survey_subscription"
