@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/login")
+@WebServlet("/home")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -17,11 +17,10 @@ public class Login extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Bhanu being Served at: ").append(request.getContextPath());
+		response.sendRedirect("/Test/");
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = null;
 		String userType = null;
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -30,7 +29,7 @@ public class Login extends HttpServlet {
 		} else if (email.equals("admin") && password.equals("admin")) {
 			userType = "admin";
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/maincontroller");
 		request.setAttribute("name", email);
 		request.setAttribute("isLoggedIn", true);
 		request.setAttribute("userType", userType);

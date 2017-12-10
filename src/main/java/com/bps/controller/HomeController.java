@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class OwnerHomeController
- */
-@WebServlet("/home")
+@WebServlet("/maincontroller")
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -20,20 +17,6 @@ public class HomeController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if((boolean) request.getAttribute("isLoggedIn")) {
-			String name = request.getAttribute("name").toString();
-			String userType = request.getAttribute("userType").toString();
-			String page = null;
-			if (userType.equals("owner")) {
-				page = "/views/ownerHome.jsp";
-			} else if (userType.equals("admin")) {
-				page = "/views/adminHome.jsp";
-			}
-			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-			request.setAttribute("name", name);
-			request.setAttribute("isLoggedIn", true);
-			dispatcher.forward(request, response);
-		}
 	}
 	
 	@Override
