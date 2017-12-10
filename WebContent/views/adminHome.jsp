@@ -157,7 +157,95 @@
 				This is the analytics page.
 			</div>
 			<div id="subscription">
-				This is the subscriptions page.
+				<div class="container-fluid">
+					<div class="alert alert-info">
+						Your current subscription is <strong>Basic</strong> Package.
+					</div>
+					<div class="text-center">
+						<h2>Pricing</h2>
+						<h4>Choose a payment plan that works for you</h4>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="panel panel-default text-center">
+								<div class="panel-heading">
+									<h1>Free</h1>
+								</div>
+								<div class="panel-body">
+									<p>
+										<strong>10</strong> Questions
+									</p>
+									<p>
+										<strong>25</strong> Responses
+									</p>
+									<p>
+										<strong>10 MB</strong> Upload Storage
+									</p>
+									<p>
+										<strong>1 Month Validity</strong>
+									</p>
+								</div>
+								<div class="panel-footer">
+									<h3>$0</h3>
+									<h4>per month</h4>
+									<button class="btn btn-lg">Subscribe</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="panel panel-default text-center">
+								<div class="panel-heading">
+									<h1>Basic</h1>
+								</div>
+								<div class="panel-body">
+									<p>
+										<strong>100</strong> Questions
+									</p>
+									<p>
+										<strong>1000</strong> Responses
+									</p>
+									<p>
+										<strong>350 MB</strong> Upload Storage
+									</p>
+									<p>
+										<strong>Monthly/ Annually</strong>
+									</p>
+								</div>
+								<div class="panel-footer">
+									<h3>$29</h3>
+									<h4>per month</h4>
+									<button class="btn btn-lg">Subscribe</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="panel panel-default text-center">
+								<div class="panel-heading">
+									<h1>Advanced</h1>
+								</div>
+								<div class="panel-body">
+									<p>
+										<strong>Unlimited</strong> Questions
+									</p>
+									<p>
+										<strong>Unlimited</strong> Responses
+									</p>
+									<p>
+										<strong>1 GB</strong> Upload Storage
+									</p>
+									<p>
+										<strong>Monthly/ Annually</strong>
+									</p>
+								</div>
+								<div class="panel-footer">
+									<h3>$49</h3>
+									<h4>per month</h4>
+									<button class="btn btn-lg">Subscribe</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</main>
       </div>
