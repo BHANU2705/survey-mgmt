@@ -1,0 +1,31 @@
+#myFooter{
+    padding-top:20px;
+}
+
+#myFooter .container{
+    text-align: center;
+}
+
+#myFooter .footer-copyright{
+    margin-bottom: 1px;
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+}
+
+#myFooter ul{
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 2px;
+}
+
+#myFooter a{
+    color: #282b2d;
+    font-size: 14px;
+}
+
+#myFooter li{
+    display: inline-block;
+    margin: 0px 15px;
+    line-height: 2;
+}

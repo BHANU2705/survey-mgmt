@@ -13,48 +13,52 @@
 <script src="../Test/js/vendor/jquery-slim.min.js"></script>
 <script src="../Test/js/vendor/popper.min.js"></script>
 <script src="../Test/js/bootstrap.min.js"></script>
+<script src="../Test/js/vendor/Chart.js"></script>
+
 
 <link href="../Test/css/bootstrap.min.css" rel="stylesheet">
 <link href="../Test/css/dashboard.css" rel="stylesheet">
 <link href="../Test/css/carousel.css" rel="stylesheet">
-<script src="../Test/js/vendor/Chart.js"></script>
+<link href="../Test/css/footer.css" rel="stylesheet">
 
 <script>
-    	$(document).ready(function(){
-    		$("#overview").show();
-			$("#survey").hide();
-			$("#user").hide();
-			$("#analytics").hide();
-			$("#subscription").hide();
-			
-			$("#a_overview").addClass("active");
-			$("#li_home").addClass("active");
-			$("#a_survey").removeClass("active");
-			$("#a_user").removeClass("active");
-			$("#a_analytics").removeClass("active");
-			$("#a_subscription").removeClass("active");
-			
-			$("#a_survey_new").addClass("active");
-			$("#a_survey_existing").removeClass("active");
-			
-	        $(document).on('click', '#left_panel', function(e) {
-	            e.preventDefault();
-	        });
-	        $(document).on('click', '#survey_tab', function(e) {
-	            e.preventDefault();
-	        });
-	        $(document).on('click', '#a_survey_subscription', function(e) {
-	            e.preventDefault();
-	        });
-    	});
-    </script>
+	$(document).ready(function() {
+		$("#overview").show();
+		$("#survey").hide();
+		$("#user").hide();
+		$("#analytics").hide();
+		$("#subscription").hide();
 
+		$("#a_overview").addClass("active");
+		$("#li_home").addClass("active");
+		$("#a_survey").removeClass("active");
+		$("#a_user").removeClass("active");
+		$("#a_analytics").removeClass("active");
+		$("#a_subscription").removeClass("active");
+
+		$("#a_survey_new").addClass("active");
+		$("#a_survey_existing").removeClass("active");
+
+		$(document).on('click', '#left_panel', function(e) {
+			e.preventDefault();
+		});
+		$(document).on('click', '#survey_tab', function(e) {
+			e.preventDefault();
+		});
+		$(document).on('click', '#a_survey_subscription', function(e) {
+			e.preventDefault();
+		});
+	});
+</script>
 </head>
 
 <body>
 	<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-info">
-			<a class="navbar-brand" href="#">Survey Management</a>
+			<a class="navbar-brand" href="#">
+				<img src="../Test/images/logo.png" width="30" height="30" style="display: inline-block;">
+  				<span style="display: inline-block;">Dalin's Survey</span>
+			</a>
 			<button class="navbar-toggler d-lg-none" type="button"
 				data-toggle="collapse" data-target="#navbarsExampleDefault"
 				aria-controls="navbarsExampleDefault" aria-expanded="false"
@@ -94,7 +98,8 @@
 					</li>
 				</ul>
 			</nav>
-			<main id="main" role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+			<main id="main" role="main"
+				class="col-sm-9 ml-sm-auto col-md-10 pt-3">
 			<div id="overview">
 				<div id="myCarousel" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
@@ -110,10 +115,14 @@
 							<div class="container">
 								<div class="carousel-caption text-left">
 									<h1>Survey Management.</h1>
-									<p>This is Survey Management Solution. This is Survey Management Solution. This is Survey Management Solution. This is Survey Management Solution.
-									This is Survey Management Solution. This is Survey Management Solution. This is Survey Management Solution.</p>
+									<p>This is Survey Management Solution. This is Survey
+										Management Solution. This is Survey Management Solution. This
+										is Survey Management Solution. This is Survey Management
+										Solution. This is Survey Management Solution. This is Survey
+										Management Solution.</p>
 									<p>
-										<a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a>
+										<a class="btn btn-lg btn-primary" href="#" role="button">Sign
+											up today</a>
 									</p>
 								</div>
 							</div>
@@ -218,32 +227,32 @@
 			<div id="user">This is the user page.</div>
 			<div id="analytics">
 				<div class="row">
-	                <div class="col-lg-12">
-	                    <h1 class="page-header">Analytical Charts</h1>
-	                </div>
-	            </div>
-	            <div class="row container">
+					<div class="col-lg-12">
+						<h1 class="page-header">Analytical Charts</h1>
+					</div>
+				</div>
+				<div class="row container">
 					<div class="col-md-6">
-	                    <div class="panel panel-default">
-	                        <div class="panel-heading">
-	                            <strong>Survey vs End-User Count</strong>
-	                        </div>
-	                        <div class="panel-body">
-	                            <canvas id="myChart1"></canvas>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="col-md-6">
-	                    <div class="panel panel-default">
-	                        <div class="panel-heading">
-	                            <strong>Survey vs Survey Response</strong>
-	                        </div>
-	                        <div class="panel-body">
-	                            <canvas id="myChart2"></canvas>
-	                        </div>
-	                    </div>
-	                </div>
-                </div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong>Survey vs End-User Count</strong>
+							</div>
+							<div class="panel-body">
+								<canvas id="myChart1"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong>Survey vs Survey Response</strong>
+							</div>
+							<div class="panel-body">
+								<canvas id="myChart2"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div id="subscription">
 				<div class="container-fluid">
@@ -336,176 +345,20 @@
 					</div>
 				</div>
 			</div>
+				<footer id="myFooter">
+					<div class="container">
+						<ul>
+							<li><a href="#">Company Information</a></li>
+							<li><a href="#">Contact us</a></li>
+							<li><a href="#">Reviews</a></li>
+							<li><a href="#">Terms of service</a></li>
+						</ul>
+						<p class="footer-copyright">© 2016 Copyright Text</p>
+					</div>
+				</footer>
 			</main>
 		</div>
 	</div>
-	<script>
-    function handleLeftPane(caller) {
-    	if(caller) {
-    		if (caller === 'overview') {
-    			$("#overview").show();
-    			$("#survey").hide();
-    			$("#user").hide();
-    			$("#analytics").hide();
-    			$("#subscription").hide();
-    			
-    			$("#a_overview").addClass("active");
-    			$("#li_home").addClass("active");
-    			$("#a_survey").removeClass("active");
-    			$("#a_user").removeClass("active");
-    			$("#a_analytics").removeClass("active");
-    			$("#a_subscription").removeClass("active");
-    			
-    		} else if (caller === 'survey') {
-    			$("#overview").hide();
-    			$("#survey").show();
-    			$("#user").hide();
-    			$("#analytics").hide();
-    			$("#subscription").hide();
-    			
-    			$("#a_overview").removeClass("active");
-    			$("#li_home").removeClass("active");
-    			$("#a_survey").addClass("active");
-    			$("#a_user").removeClass("active");
-    			$("#a_analytics").removeClass("active");
-    			$("#a_subscription").removeClass("active");
-    		} else if(caller === 'user') {
-    			$("#overview").hide();
-    			$("#survey").hide();
-    			$("#user").show();
-    			$("#analytics").hide();
-    			$("#subscription").hide();
-    			
-    			$("#a_overview").removeClass("active");
-    			$("#li_home").removeClass("active");
-    			$("#a_survey").removeClass("active");
-    			$("#a_user").addClass("active");
-    			$("#a_analytics").removeClass("active");
-    			$("#a_subscription").removeClass("active");
-    		} else if(caller === 'analytics') {
-    			$("#overview").hide();
-    			$("#survey").hide();
-    			$("#user").hide();
-    			$("#analytics").show();
-    			$("#subscription").hide();
-    			
-    			$("#a_overview").removeClass("active");
-    			$("#li_home").removeClass("active");
-    			$("#a_survey").removeClass("active");
-    			$("#a_user").removeClass("active");
-    			$("#a_analytics").addClass("active");
-    			$("#a_subscription").removeClass("active");
-    		} else if(caller === 'subscription') {
-    			$("#overview").hide();
-    			$("#survey").hide();
-    			$("#user").hide();
-    			$("#analytics").hide();
-    			$("#subscription").show();
-    			
-    			$("#a_overview").removeClass("active");
-    			$("#li_home").removeClass("active");
-    			$("#a_survey").removeClass("active");
-    			$("#a_user").removeClass("active");
-    			$("#a_analytics").removeClass("active");
-    			$("#a_subscription").addClass("active");
-    		}
-    	}
-	};
-	
-	function handleSurveyTab(caller) {
-		if (caller) {
-			if(caller === 'survey_new') {
-				$("#a_survey_new").addClass("active");
-				$("#a_survey_existing").removeClass("active");
-				$("#div_survey_new").show();
-			} else if(caller === 'survey_existing') {
-				$("#a_survey_new").removeClass("active");
-				$("#a_survey_existing").addClass("active");
-			}
-		}
-	};
-	
-	function navigateToSubscription() {
-		$("#a_subscription").click();
-	};
-
-	var ctx1 = $("#myChart1");
-	var ctx2 = $("#myChart2");
-	var myChart1 = new Chart(ctx1, {
-	    type: 'bar',
-	    data: {
-	        labels: ["Survey 1", "Survey 2", "Survey 3", "Survey 4", "Survey 5", "Survey 6"],
-	        datasets: [{
-	            label: '# of End-Users',
-	            data: [12, 19, 3, 5, 2, 3],
-	            backgroundColor: [
-	                'rgba(255, 99, 132, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
-	            ],
-	            borderColor: [
-	                'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
-	            ],
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {
-	    	responsive: true,
-	        scales: {
-	            yAxes: [{
-	                ticks: {
-	                    beginAtZero:true
-	                }
-	            }]
-	        }
-	    }
-	});
-	
-	var myChart2 = new Chart(ctx2, {
-	    type: 'bar',
-	    data: {
-	        labels: ["Survey 1", "Survey 2", "Survey 3", "Survey 4", "Survey 5", "Survey 6"],
-	        datasets: [{
-	            label: '# of Responses',
-	            data: [65, 9, 33, 47, 21, 7],
-	            backgroundColor: [
-	                'rgba(255, 99, 132, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
-	            ],
-	            borderColor: [
-	                'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
-	            ],
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {
-	    	responsive: true,
-	        scales: {
-	            yAxes: [{
-	                ticks: {
-	                    beginAtZero:true
-	                }
-	            }]
-	        }
-	    }
-	});
-    </script>
+	<script src="../Test/js/adminHome.js"></script>
 </body>
 </html>
