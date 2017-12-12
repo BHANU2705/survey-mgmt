@@ -109,9 +109,9 @@
 					</ol>
 					<div class="carousel-outer">
 						<div class="carousel-item active">
-							<img class="first-slide"
+							<!-- <img class="first-slide"
 								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAVCAYAAAC6wOViAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNzoxMjoxMCAxOToxNzowN5BAw24AAAAzSURBVEhLYxRftOM/A50BE5SmKxi1lKZg1FKaglFLaQpGLaUpGLWUpmDUUpqCAbCUgQEAMf8Cmv9FGeUAAAAASUVORK5CYII="
-								alt="First slide">
+								alt="First slide"> -->
 							<div class="container">
 								<div class="carousel-caption text-left">
 									<h1>Survey Management.</h1>
@@ -128,9 +128,9 @@
 							</div>
 						</div>
 						<div class="carousel-item">
-							<img class="second-slide"
+							<!-- <img class="second-slide"
 								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAVCAYAAAC6wOViAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNzoxMjoxMCAxOToxNzowN5BAw24AAAAzSURBVEhLYxRftOM/A50BE5SmKxi1lKZg1FKaglFLaQpGLaUpGLWUpmDUUpqCAbCUgQEAMf8Cmv9FGeUAAAAASUVORK5CYII="
-								alt="Second slide">
+								alt="Second slide"> -->
 							<div class="container">
 								<div class="carousel-caption">
 									<h1>Another example headline.</h1>
@@ -145,9 +145,9 @@
 							</div>
 						</div>
 						<div class="carousel-item">
-							<img class="third-slide"
+							<!-- <img class="third-slide"
 								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAVCAYAAAC6wOViAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNzoxMjoxMCAxOToxNzowN5BAw24AAAAzSURBVEhLYxRftOM/A50BE5SmKxi1lKZg1FKaglFLaQpGLaUpGLWUpmDUUpqCAbCUgQEAMf8Cmv9FGeUAAAAASUVORK5CYII="
-								alt="Third slide">
+								alt="Third slide"> -->
 							<div class="container">
 								<div class="carousel-caption text-right">
 									<h1>One more for good measure.</h1>
@@ -345,7 +345,10 @@
 					</div>
 				</div>
 			</div>
-				<footer id="myFooter">
+			<div>
+			
+			<footer id="myFooter">
+			<hr>
 					<div class="container">
 						<ul>
 							<li><a href="#">Company Information</a></li>
@@ -356,6 +359,7 @@
 						<p class="footer-copyright">© 2016 Copyright Text</p>
 					</div>
 				</footer>
+			</div>
 			</main>
 		</div>
 	</div>

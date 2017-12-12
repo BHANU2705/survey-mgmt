@@ -30,7 +30,8 @@ h1 {
   padding: 20px 0;
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  border-right: 1px solid #eee;
+  border-right: 1px solid #a2e1b0;
+  border-left: 1px solid #a2e1b0;
 }
 
 .sidebar .nav {
