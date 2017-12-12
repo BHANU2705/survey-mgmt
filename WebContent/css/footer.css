@@ -1,11 +1,5 @@
 #myFooter{
-	bottom: 15px;
-	left: 0;
-    right: 0;
-    padding-top:20px;
-	text-align: center;
-	position: fixed;
-    
+	padding-top:20px;
 }
 
 #myFooter .container{
