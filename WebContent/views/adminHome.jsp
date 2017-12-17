@@ -199,7 +199,7 @@
 			        </div><!-- /.row -->
 			      </div><!-- /.container -->
 			</div>
-			<div id="survey">
+			<div id="survey" style="display:none;">
 				<div class="alert alert-info">
 					<strong>Info!</strong> You should <a id="a_survey_subscription"
 						onclick="navigateToSubscription()" href="" class="alert-link">subscribe</a>
@@ -252,8 +252,8 @@
 					</div>
 				</div>
 			</div>
-			<div id="user">This is the user page.</div>
-			<div id="analytics">
+			<div id="user" style="display:none;">This is the user page.</div>
+			<div id="analytics" style="display:none;">
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">Analytical Charts</h1>
@@ -282,7 +282,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="subscription">
+			<div id="subscription" style="display:none;">
 				<div class="container-fluid">
 					<div class="alert alert-info">
 						Your current subscription is <strong>Basic</strong> Package.

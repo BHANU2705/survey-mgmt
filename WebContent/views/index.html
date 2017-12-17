@@ -16,26 +16,45 @@
 	<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-info">
 			<a class="navbar-brand" href="#">Survey Management</a>
-			<button class="navbar-toggler d-lg-none" type="button"
-				data-toggle="collapse" data-target="#navbarsExampleDefault"
-				aria-controls="navbarsExampleDefault" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
 		</nav>
 	</header>
-	<div class="container">
-		<form class="form-signin" action="/Test/home" method="post">
-			<h2 class="form-signin-heading">Please Sign In</h2>
-			<label for="inputEmail" class="sr-only">Email address</label> <input
-				type="text" name="email" id="inputEmail" class="form-control"
-				placeholder="Email address" required autofocus> <label
-				for="inputPassword" class="sr-only">Password</label> <input
-				type="password" name="password" id="inputPassword"
-				class="form-control" placeholder="Password" required>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-				in</button>
-		</form>
-	</div>
+    <div class="container">
+	    <div id="loginbox">
+		    <form class="form-signin" action="/Test/home" method="post">
+				<h2 class="form-signin-heading">Please Sign In</h2>
+				<input type="text" name="loginEmail" id="loginEmail" class="form-control" placeholder="Email address" required autofocus>
+				<input type="password" name="loginPassword" id="loginPassword" class="form-control" placeholder="Password" required>
+				<input type="hidden" name="action" value="signin">
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			</form>
+           <div class="col-md-12 control">
+               <div style="text-align:right; border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                   Don't have an account! 
+               <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+                   Sign Up Here
+               </a>
+               </div>
+           </div>
+		</div>
+	    <div id="signupbox" style="display:none;">
+	    	<form class="form-signin" action="/Test/home" method="post">
+				<h2 class="form-signin-heading">Please Sign Up</h2>
+				<input type="text" name="signUpEmail" id="signUpEmail" class="form-control" placeholder="Email address" required autofocus>
+				<input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
+				<input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+				<input type="hidden" name="action" value="signup">
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			</form>
+           <div class="col-md-12 control">
+               <div style="text-align:right; border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                   Already have an account! 
+               <a href="#" onClick="$('#signupbox').hide(); $('#loginbox').show()">
+                   Login Here
+               </a>
+               </div>
+           </div>
+	    </div>
+    </div>
+	<script src="../Test/js/index.js"></script>
 </body>
 </html>

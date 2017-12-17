@@ -8,12 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
 import com.bps.service.ProcessContext;
 import com.bps.service.ProcessContextPool;
-import com.bps.service.SessionFactoryManager;
-import com.bps.service.UserManager;
 
+@WebFilter(filterName = "ProcessContextFilter", servletNames = {"Home"})
 public class ProcessContextFilter implements Filter {
 
 	@Override
@@ -24,13 +24,12 @@ public class ProcessContextFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		ProcessContext processContext = new ProcessContext();
-		processContext.setUser(UserManager.getUser("email"));
-		processContext.setSessionFactory(SessionFactoryManager.getSessionFactory());
 		ProcessContextPool.set(processContext);
 		chain.doFilter(request, response);
 	}
 	@Override
 	public void destroy() {
+		ProcessContextPool.remove();
 		return;
 	}
 }

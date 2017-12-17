@@ -3,9 +3,13 @@ package com.bps.dao;
 import org.hibernate.Session;
 
 import com.bps.service.ProcessContextPool;
+import com.bps.service.SessionFactoryManager;
 
 public class SessionManager {
 	public static Session getSession() {
+		if(ProcessContextPool.get().getSessionFactory() == null) {
+			ProcessContextPool.get().setSessionFactory(SessionFactoryManager.getSessionFactory());
+		}
 		return ProcessContextPool.get().getSessionFactory().openSession();
 	}
 	public static void closeSession(Session session) {
