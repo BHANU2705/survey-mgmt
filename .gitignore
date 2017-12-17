@@ -4,3 +4,6 @@
 *.class
 .gitignore
 /target/
+/.classpath
+/.project
+/.tern-project

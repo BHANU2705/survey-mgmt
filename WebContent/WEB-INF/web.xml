@@ -2,6 +2,26 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Test</display-name>
   <welcome-file-list>
-  	<welcome-file>/views/index.html</welcome-file>
+    <welcome-file>/views/index.html</welcome-file>
   </welcome-file-list>
+  <session-config>
+    <session-timeout>10</session-timeout>
+  </session-config>
+  <filter>
+    <filter-name>ProcessContextFilter</filter-name>
+    <filter-class>com.bps.service.filters.ProcessContextFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ProcessContextFilter</filter-name>
+    <servlet-name>HomeController</servlet-name>
+    <servlet-name>Login</servlet-name>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>HomeController</servlet-name>
+    <servlet-class>com.bps.controller.HomeController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HomeController</servlet-name>
+    <url-pattern>/maincontroller</url-pattern>
+  </servlet-mapping>
 </web-app>
