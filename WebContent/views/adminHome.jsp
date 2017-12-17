@@ -71,9 +71,8 @@
 					<li id="li_home" class="nav-item active"><a class="nav-link"
 						onclick="handleLeftPane('overview')" href="#">Home <span
 							class="sr-only">(current)</span></a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Profile</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+					<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -379,7 +378,7 @@
 			<hr>
 					<div class="container">
 						<ul>
-							<li><a href="#">Company Information</a></li>
+							<li><a href="#">About Us</a></li>
 							<li><a href="#">Contact us</a></li>
 							<li><a href="#">Reviews</a></li>
 							<li><a href="#">Terms of service</a></li>
