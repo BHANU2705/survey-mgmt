@@ -48,6 +48,12 @@
 		$(document).on('click', '#a_survey_subscription', function(e) {
 			e.preventDefault();
 		});
+		var userName = "<%= request.getAttribute("name") %>";
+		if (userName) {
+			$("#a_user_dropdown").text(userName);
+		} else {
+			$("#a_user_dropdown").text("User");
+		}
 	});
 </script>
 </head>
@@ -71,8 +77,15 @@
 					<li id="li_home" class="nav-item active"><a class="nav-link"
 						onclick="handleLeftPane('overview')" href="#">Home <span
 							class="sr-only">(current)</span></a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
-					<li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+					<li class="nav-item dropdown">
+			            <a class="nav-link dropdown-toggle" href="#" id=a_user_dropdown role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+			            <div class="dropdown-menu" aria-labelledby="a_user_dropdown" style="right: 0; left: auto;">
+			              <a class="dropdown-item" href="#">My Profile</a>
+			              <!-- <div class="dropdown-divider"></div> -->
+			              <a class="dropdown-item" href="logout">Logout</a>
+			            </div>
+			        </li>
+					<!-- <li class="nav-item"><a class="nav-link" href="#">About</a></li> -->
 				</ul>
 			</div>
 		</nav>

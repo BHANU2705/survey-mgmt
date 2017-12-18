@@ -20,10 +20,10 @@ public class User implements IBaseEntity {
 	@Column(name = "EMAIL")
 	private String email;
 	
-	@Column
+	@Column(nullable = false)
 	private String name;
 	
-	@Column
+	@Column(nullable = false)
 	private String password;
 	
 	@Column(length = 20)

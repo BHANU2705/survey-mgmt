@@ -9,7 +9,9 @@ public final class CommonConstants {
 	public static final String URL_MAIN_CONTROLLER = "/maincontroller";
 	public static final String NAME = "name";
 	public static final String EMAIL = "email";
-	public static final String LOGIN_PASSWORD = "loginPassword";
-	public static final String LOGIN_EMAIL = "loginEmail";
+	public static final String PASSWORD = "password";
 	public static final String HOME = "Home";
+	public static final String SYSTEM = "System";
+	public static final String SELF = "Self";
+	public static final String UTC = "UTC";
 }

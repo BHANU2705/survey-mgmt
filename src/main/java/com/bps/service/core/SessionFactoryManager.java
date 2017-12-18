@@ -12,6 +12,7 @@ public class SessionFactoryManager {
 	private static SessionFactory sessionFactory = null;
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
+			System.out.println("Loading Session factory for first time.");
 			final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 					.configure().build();
 			try {
