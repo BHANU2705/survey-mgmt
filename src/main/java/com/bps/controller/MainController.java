@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.UserRole;
-import com.bps.service.ProcessContextPool;
+import com.bps.service.core.ProcessContextPool;
 
 @WebServlet(urlPatterns = "/maincontroller", name = "MainController")
 public class MainController extends HttpServlet {

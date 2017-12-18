@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bps.service.ProcessContext;
-import com.bps.service.ProcessContextPool;
+import com.bps.service.core.ProcessContext;
+import com.bps.service.core.ProcessContextPool;
 
 @WebFilter(filterName = "ProcessContextFilter", servletNames = {"Home"})
 public class ProcessContextFilter implements Filter {

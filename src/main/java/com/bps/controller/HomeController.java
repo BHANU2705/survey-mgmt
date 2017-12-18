@@ -9,15 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bps.model.validators.UserValidator;
 import com.bps.persistence.tables.User;
-import com.bps.service.ProcessContextPool;
+import com.bps.service.core.ProcessContextPool;
+import com.bps.service.core.UserManager;
+import com.bps.util.CommonConstants;
 
-@WebServlet(urlPatterns = "/home", name = "Home")
-public class Home extends HttpServlet {
+@WebServlet(urlPatterns = CommonConstants.URL_HOME_CONTROLLER, name = CommonConstants.HOME)
+public class HomeController extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
-    public Home() {
+    public HomeController() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,25 +28,26 @@ public class Home extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = null;
-		String action = request.getParameter("action");
+		String action = request.getParameter(CommonConstants.LOGIN_ACTION);
 		if (action != null) {
-			if (action.equalsIgnoreCase("signin")) {
-				email = request.getParameter("loginEmail");
-				String password = request.getParameter("loginPassword");
+			if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNIN)) {
+				email = request.getParameter(CommonConstants.LOGIN_EMAIL);
+				String password = request.getParameter(CommonConstants.LOGIN_PASSWORD);
 				User user = new User(email, password);
-				UserValidator validator = new UserValidator();
+				UserManager validator = new UserManager();
 				User dbUser = (User) validator.validate(user);
 				if(dbUser != null) {
 					ProcessContextPool.get().setUser(dbUser);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/maincontroller");
-					request.setAttribute("email", email);
-					request.setAttribute("name", dbUser.getName());
+					RequestDispatcher dispatcher = request.getRequestDispatcher(CommonConstants.URL_MAIN_CONTROLLER);
+					request.setAttribute(CommonConstants.EMAIL, email);
+					request.setAttribute(CommonConstants.NAME, dbUser.getName());
 					ProcessContextPool.get().setUser(dbUser);
 					dispatcher.forward(request, response);
 				} else {
 					//TODO: handle error case
 				}
-			} else if (action.equalsIgnoreCase("signup")){
+			} else if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNUP)) {
+				
 
 			} else {
 				//TODO: handle error case

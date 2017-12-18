@@ -2,8 +2,8 @@ package com.bps.dao;
 
 import org.hibernate.Session;
 
-import com.bps.service.ProcessContextPool;
-import com.bps.service.SessionFactoryManager;
+import com.bps.service.core.ProcessContextPool;
+import com.bps.service.core.SessionFactoryManager;
 
 public class SessionManager {
 	public static Session getSession() {

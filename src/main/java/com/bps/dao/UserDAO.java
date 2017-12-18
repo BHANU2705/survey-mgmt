@@ -63,11 +63,15 @@ public class UserDAO implements IBaseDAO {
 	@Override
 	public User read(IBaseEntity entity) {
 		User user = (User) entity;
-		Session session = SessionManager.getSession();
-		session.setDefaultReadOnly(true);
-		User dbUser = session.get(User.class, user.getEmail());
-		SessionManager.closeSession(session);
-		return dbUser;
+		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
+			Session session = SessionManager.getSession();
+			session.setDefaultReadOnly(true);
+			User dbUser = session.get(User.class, user.getEmail());
+			SessionManager.closeSession(session);
+			return dbUser;
+		}
+		return null;
+		
 	}
 	
 }

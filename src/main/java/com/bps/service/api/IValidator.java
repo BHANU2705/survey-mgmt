@@ -1,4 +1,4 @@
-package com.bps.model.validators;
+package com.bps.service.api;
 
 import com.bps.persistence.tables.IBaseEntity;
 

@@ -1,4 +1,4 @@
-package com.bps.service;
+package com.bps.service.core;
 
 public final class ProcessContextPool {
 	private static ThreadLocal<ProcessContext> processContext = new ThreadLocal<ProcessContext>();

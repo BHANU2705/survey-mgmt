@@ -1,4 +1,4 @@
-package com.bps.service;
+package com.bps.service.core;
 
 import org.hibernate.SessionFactory;
 
