@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bps.persistence.tables.User;
 import com.bps.service.core.ProcessContextPool;
-import com.bps.service.core.SessionFactoryManager;
 import com.bps.service.core.UserManager;
 import com.bps.service.exceptions.BaseException;
 import com.bps.util.CommonConstants;
@@ -24,16 +23,11 @@ public class HomeController extends HttpServlet {
 	public HomeController() {
 	}
 
-	static {
-		try {
-			SessionFactoryManager.getSessionFactory();
-		} catch (BaseException e) {
-			e.printStackTrace();
-		}
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		/*RequestDispatcher dispatcher = request
+				.getRequestDispatcher(CommonConstants.URL_HOME_CONTROLLER);
+		dispatcher.forward(request, response);*/
 		response.sendRedirect("/Test/");
 	}
 
@@ -58,8 +52,12 @@ public class HomeController extends HttpServlet {
 						request.setAttribute(CommonConstants.NAME, dbUser.getName());
 						ProcessContextPool.get().setUser(dbUser);
 						dispatcher.forward(request, response);
-					} else {
-						// TODO: handle error case
+					} else { // User validation failed
+//						response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Wrong user name and password");
+						request.setAttribute(CommonConstants.IS_LOGIN_FAILED, true);
+						RequestDispatcher dispatcher = request
+								.getRequestDispatcher("/");
+						dispatcher.forward(request, response);
 					}
 				} else if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNUP)) {
 					String email = request.getParameter(CommonConstants.EMAIL);

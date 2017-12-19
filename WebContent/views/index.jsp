@@ -11,6 +11,16 @@
 	<script src="../Test/js/vendor/jquery-slim.min.js"></script>
 	<script src="../Test/js/vendor/popper.min.js"></script>
 	<script src="../Test/js/bootstrap.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		var isLoginFailed = <%= request.getAttribute("isLoginFailed") %>;
+		if (isLoginFailed) {
+			$("#loginFailure").show();
+		} else {
+			$("#loginFailure").hide();
+		}
+	});
+	</script>
 </head>
 <body>
 	<header>
@@ -22,6 +32,12 @@
 	    <div id="loginbox">
 		    <form class="form-signin" action="/Test/home" method="post">
 				<h2 class="form-signin-heading">Please Sign In</h2>
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" id="loginFailure" style="display: none;">
+				  Incorrect Credentials - Try Again !
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    				<span aria-hidden="true">&times;</span>
+ 				  </button>
+				</div>
 				<input type="text" name="email" id="loginEmail" class="form-control" placeholder="Email address" required autofocus>
 				<input type="password" name="password" id="loginPassword" class="form-control" placeholder="Password" required>
 				<input type="hidden" name="action" value="signin">
