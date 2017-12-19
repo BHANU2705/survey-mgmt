@@ -4,9 +4,10 @@ import org.hibernate.Session;
 
 import com.bps.service.core.ProcessContextPool;
 import com.bps.service.core.SessionFactoryManager;
+import com.bps.service.exceptions.BaseException;
 
 public class SessionManager {
-	public static Session getSession() {
+	public static Session getSession() throws BaseException {
 		if(ProcessContextPool.get().getSessionFactory() == null) {
 			ProcessContextPool.get().setSessionFactory(SessionFactoryManager.getSessionFactory());
 		}

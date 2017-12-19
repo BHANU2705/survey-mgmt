@@ -7,6 +7,7 @@ public class BaseException extends Exception {
 	private String errorCode;
 	private String errorTitle;
 	private String errorMessage;
+	private Exception coreException;
 	
 	public BaseException(int httpResponseCode, String errorCode) {
 		super();
@@ -30,5 +31,13 @@ public class BaseException extends Exception {
 
 	public String getErrorMessage() {
 		return errorMessage;
+	}
+
+	public Exception getCoreException() {
+		return coreException;
+	}
+
+	public void setCoreException(Exception coreException) {
+		this.coreException = coreException;
 	}
 }

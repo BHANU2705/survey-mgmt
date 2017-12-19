@@ -11,11 +11,12 @@ import org.hibernate.Transaction;
 
 import com.bps.persistence.tables.IBaseEntity;
 import com.bps.persistence.tables.User;
+import com.bps.service.exceptions.BaseException;
 
 public class UserDAO implements IBaseDAO {
 
 	@Override
-	public User create(IBaseEntity entity) {
+	public User create(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
 		Session session = SessionManager.getSession();
 		Transaction tx = session.beginTransaction();
@@ -26,7 +27,7 @@ public class UserDAO implements IBaseDAO {
 	}
 
 	@Override
-	public boolean update(IBaseEntity entity) {
+	public boolean update(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
 		Session session = SessionManager.getSession();
 		Transaction tx = session.beginTransaction();
@@ -37,7 +38,7 @@ public class UserDAO implements IBaseDAO {
 	}
 
 	@Override
-	public boolean delete(IBaseEntity entity) {
+	public boolean delete(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
 		Session session = SessionManager.getSession();
 		Transaction tx = session.beginTransaction();
@@ -48,7 +49,7 @@ public class UserDAO implements IBaseDAO {
 	}
 
 	@Override
-	public User[] read() {
+	public User[] read() throws BaseException {
 		List<User> users = new ArrayList<User>();
 		Session session = SessionManager.getSession();
 		session.setDefaultReadOnly(true);
@@ -61,7 +62,7 @@ public class UserDAO implements IBaseDAO {
 	}
 
 	@Override
-	public User read(IBaseEntity entity) {
+	public User read(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
 		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
 			Session session = SessionManager.getSession();

@@ -14,10 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bps.service.core.ProcessContext;
 import com.bps.service.core.ProcessContextPool;
 
-@WebFilter(filterName = "ProcessContextFilter", servletNames = {"Home"})
+@WebFilter(filterName = "ProcessContextFilter", servletNames = {"MainController"})
 public class ProcessContextFilter implements Filter {
 
 	@Override
@@ -33,12 +32,10 @@ public class ProcessContextFilter implements Filter {
 	    response.setHeader("Pragma", "no-cache");
 	    response.setDateHeader("Expires", 0);
 	    HttpSession session = request.getSession();
-	    if (session == null || request.getAttribute("email") != null) {
+	    if (session == null || request.getAttribute("name") == null) {
 	    	RequestDispatcher rd=request.getRequestDispatcher("/");
 	        rd.forward(request, response);
 		} else {
-			ProcessContext processContext = new ProcessContext();
-			ProcessContextPool.set(processContext);
 			chain.doFilter(req, resp);
 		}
 	}

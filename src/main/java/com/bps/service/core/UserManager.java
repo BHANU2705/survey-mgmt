@@ -41,7 +41,7 @@ public class UserManager implements IValidator {
 		return user;
 	}
 	
-	public User getUser(String email) {
+	public User getUser(String email) throws BaseException {
 		if (email != null && !email.isEmpty()) {
 			User user = new User();
 			user.setEmail(email);
@@ -50,7 +50,7 @@ public class UserManager implements IValidator {
 		return null;
 	}
 	
-	public User getUser(User user) {
+	public User getUser(User user) throws BaseException {
 		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
 			return userDAO.read(user);
 		}
@@ -58,7 +58,7 @@ public class UserManager implements IValidator {
 	}
 
 	@Override
-	public IBaseEntity validate(IBaseEntity entity) {
+	public IBaseEntity validate(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
 		User dbUser = this.getUser(user);
 		if (dbUser != null) {
