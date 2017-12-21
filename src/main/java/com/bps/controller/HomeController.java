@@ -1,6 +1,8 @@
 package com.bps.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,9 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.User;
+import com.bps.persistence.tables.UserRole;
 import com.bps.service.core.ProcessContextPool;
 import com.bps.service.core.UserManager;
+import com.bps.service.core.email.EmailManager;
 import com.bps.service.exceptions.BaseException;
 import com.bps.util.CommonConstants;
 
@@ -53,7 +58,6 @@ public class HomeController extends HttpServlet {
 						ProcessContextPool.get().setUser(dbUser);
 						dispatcher.forward(request, response);
 					} else { // User validation failed
-//						response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Wrong user name and password");
 						request.setAttribute(CommonConstants.IS_LOGIN_FAILED, true);
 						RequestDispatcher dispatcher = request
 								.getRequestDispatcher("/");
@@ -66,7 +70,19 @@ public class HomeController extends HttpServlet {
 					User user = new User(email, password);
 					user.setName(name);
 					UserManager userManager = new UserManager();
+					Role role = new Role();
+					role.setId(UserRole.Admin.toString());
+					List<Role> roles = new ArrayList<>();
+					roles.add(role);
+					user.setRoles(roles);
 					userManager.createUser(user);
+					EmailManager emailManager = new EmailManager();
+					emailManager.sendSignUpEmail(email);
+					ProcessContextPool.get().setUser(user);
+					request.setAttribute(CommonConstants.EMAIL, user.getEmail());
+					request.setAttribute(CommonConstants.NAME, user.getName());
+					MainController mainController = new MainController();
+					mainController.doPost(request, response);
 				} else {
 					// TODO: handle error case
 				}

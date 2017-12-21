@@ -14,10 +14,9 @@
 	<script>
 	$(document).ready(function() {
 		var isLoginFailed = <%= request.getAttribute("isLoginFailed") %>;
+		$("#loginFailure").hide();
 		if (isLoginFailed) {
 			$("#loginFailure").show();
-		} else {
-			$("#loginFailure").hide();
 		}
 	});
 	</script>

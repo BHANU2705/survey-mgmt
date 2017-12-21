@@ -1,15 +1,10 @@
 package com.bps.service.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 
 import com.bps.dao.UserDAO;
 import com.bps.persistence.tables.IBaseEntity;
-import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.User;
-import com.bps.persistence.tables.UserRole;
 import com.bps.service.api.IValidator;
 import com.bps.service.exceptions.BaseException;
 import com.bps.service.exceptions.ErrorCode;
@@ -32,11 +27,6 @@ public class UserManager implements IValidator {
 			throw e;
 		}
 		user.setLifeCycle(CommonUtility.getLifeCycle(Operation.CREATE, CommonConstants.SELF));
-		Role role = new Role();
-		role.setId(UserRole.Admin.toString());
-		List<Role> roles = new ArrayList<>();
-		roles.add(role);
-		user.setRoles(roles);
 		userDAO.create(user);
 		return user;
 	}

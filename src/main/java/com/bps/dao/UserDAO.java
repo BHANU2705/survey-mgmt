@@ -72,7 +72,6 @@ public class UserDAO implements IBaseDAO {
 			return dbUser;
 		}
 		return null;
-		
 	}
 	
 }
