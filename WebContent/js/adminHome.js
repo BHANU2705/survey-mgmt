@@ -6,6 +6,9 @@ function handleLeftPane(caller) {
 			$("#user").hide();
 			$("#analytics").hide();
 			$("#subscription").hide();
+			$("#myProfile").hide();
+			$("#div_general").hide();
+			$("#div_account").hide();
 
 			$("#a_overview").addClass("active");
 			$("#li_home").addClass("active");
@@ -20,6 +23,9 @@ function handleLeftPane(caller) {
 			$("#user").hide();
 			$("#analytics").hide();
 			$("#subscription").hide();
+			$("#myProfile").hide();
+			$("#div_general").hide();
+			$("#div_account").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");
@@ -34,6 +40,9 @@ function handleLeftPane(caller) {
 			$("#user").show();
 			$("#analytics").hide();
 			$("#subscription").hide();
+			$("#myProfile").hide();
+			$("#div_general").hide();
+			$("#div_account").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");
@@ -48,6 +57,9 @@ function handleLeftPane(caller) {
 			$("#user").hide();
 			$("#analytics").show();
 			$("#subscription").hide();
+			$("#myProfile").hide();
+			$("#div_general").hide();
+			$("#div_account").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");
@@ -62,6 +74,9 @@ function handleLeftPane(caller) {
 			$("#user").hide();
 			$("#analytics").hide();
 			$("#subscription").show();
+			$("#myProfile").hide();
+			$("#div_general").hide();
+			$("#div_account").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");

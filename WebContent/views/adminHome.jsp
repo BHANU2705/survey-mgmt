@@ -16,7 +16,7 @@
 <script src="../Test/js/vendor/Chart.js"></script>
 
 
-<link href="../Test/css/bootstrap.min.css" rel="stylesheet">
+<link href="../Test/css/bootstrap.css" rel="stylesheet">
 <link href="../Test/css/dashboard.css" rel="stylesheet">
 <link href="../Test/css/carousel.css" rel="stylesheet">
 <link href="../Test/css/footer.css" rel="stylesheet">
@@ -404,36 +404,26 @@
 					General Settings
 				</div>
 				<div id="div_account">
-					Account Settings
-					<!-- <div class="modal" id="password_modal">
-					    <div class="modal-header">
-					        <h3>Change Password <span class="extra-title muted"></span></h3>
-					    </div>
-					    <div class="modal-body form-horizontal">
-					        <div class="control-group">
-					            <label for="current_password" class="control-label">Current Password</label>
-					            <div class="controls">
-					                <input type="password" name="current_password">
-					            </div>
-					        </div>
-					        <div class="control-group">
-					            <label for="new_password" class="control-label">New Password</label>
-					            <div class="controls">
-					                <input type="password" name="new_password">
-					            </div>
-					        </div>
-					        <div class="control-group">
-					            <label for="confirm_password" class="control-label">Confirm Password</label>
-					            <div class="controls">
-					                <input type="password" name="confirm_password">
-					            </div>
-					        </div>      
-					    </div>
-					    <div class="modal-footer">
-					        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-					        <button class="btn btn-primary" id="password_modal_save">Save changes</button>
-					    </div>
-					</div> -->
+					<!-- Account Settings -->
+					<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 				</div>
 			</div>
 			<div>
