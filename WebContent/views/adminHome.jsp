@@ -48,6 +48,12 @@
 		$(document).on('click', '#a_survey_subscription', function(e) {
 			e.preventDefault();
 		});
+		$(document).on('click', '#a_profile_general', function(e) {
+			e.preventDefault();
+		});
+		$(document).on('click', '#a_profile_account', function(e) {
+			e.preventDefault();
+		});
 		var userName = "<%= request.getAttribute("name") %>";
 		if (userName) {
 			$("#a_user_dropdown").text(userName);
@@ -77,10 +83,10 @@
 					<li id="li_home" class="nav-item active"><a class="nav-link"
 						onclick="handleLeftPane('overview')" href="#">Home <span
 							class="sr-only">(current)</span></a></li>
-					<li class="nav-item dropdown">
+					<li class="nav-item dropdown" id="li_user">
 			            <a class="nav-link dropdown-toggle" href="#" id=a_user_dropdown role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
 			            <div class="dropdown-menu" aria-labelledby="a_user_dropdown" style="right: 0; left: auto;">
-			              <a class="dropdown-item" href="#">My Profile</a>
+			              <a class="dropdown-item" id="a_my_profile" onclick="handleMyProfile()" href="#">My Profile</a>
 			              <!-- <div class="dropdown-divider"></div> -->
 			              <a class="dropdown-item" href="logout">Logout</a>
 			            </div>
@@ -383,6 +389,51 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div id="myProfile" style="display:none;">
+				<ul class="nav nav-tabs" id="profile_tab">
+					<li class="nav-item"><a id="a_profile_general"
+						onclick="handleProfileTab('general')" class="nav-link active"
+						href="">Profile</a></li>
+					<li class="nav-item"><a id="a_profile_account"
+						onclick="handleProfileTab('account')" class="nav-link"
+						href="">Account</a></li>
+				</ul>
+				<div id="div_general">
+					General Settings
+				</div>
+				<div id="div_account">
+					Account Settings
+					<!-- <div class="modal" id="password_modal">
+					    <div class="modal-header">
+					        <h3>Change Password <span class="extra-title muted"></span></h3>
+					    </div>
+					    <div class="modal-body form-horizontal">
+					        <div class="control-group">
+					            <label for="current_password" class="control-label">Current Password</label>
+					            <div class="controls">
+					                <input type="password" name="current_password">
+					            </div>
+					        </div>
+					        <div class="control-group">
+					            <label for="new_password" class="control-label">New Password</label>
+					            <div class="controls">
+					                <input type="password" name="new_password">
+					            </div>
+					        </div>
+					        <div class="control-group">
+					            <label for="confirm_password" class="control-label">Confirm Password</label>
+					            <div class="controls">
+					                <input type="password" name="confirm_password">
+					            </div>
+					        </div>      
+					    </div>
+					    <div class="modal-footer">
+					        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					        <button class="btn btn-primary" id="password_modal_save">Save changes</button>
+					    </div>
+					</div> -->
 				</div>
 			</div>
 			<div>

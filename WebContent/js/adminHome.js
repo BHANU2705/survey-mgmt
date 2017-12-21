@@ -13,7 +13,7 @@ function handleLeftPane(caller) {
 			$("#a_user").removeClass("active");
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
-
+			$("#li_user").removeClass("active");
 		} else if (caller === 'survey') {
 			$("#overview").hide();
 			$("#survey").show();
@@ -27,6 +27,7 @@ function handleLeftPane(caller) {
 			$("#a_user").removeClass("active");
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
+			$("#li_user").removeClass("active");
 		} else if (caller === 'user') {
 			$("#overview").hide();
 			$("#survey").hide();
@@ -40,6 +41,7 @@ function handleLeftPane(caller) {
 			$("#a_user").addClass("active");
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
+			$("#li_user").removeClass("active");
 		} else if (caller === 'analytics') {
 			$("#overview").hide();
 			$("#survey").hide();
@@ -53,6 +55,7 @@ function handleLeftPane(caller) {
 			$("#a_user").removeClass("active");
 			$("#a_analytics").addClass("active");
 			$("#a_subscription").removeClass("active");
+			$("#li_user").removeClass("active");
 		} else if (caller === 'subscription') {
 			$("#overview").hide();
 			$("#survey").hide();
@@ -66,6 +69,7 @@ function handleLeftPane(caller) {
 			$("#a_user").removeClass("active");
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").addClass("active");
+			$("#li_user").removeClass("active");
 		}
 	}
 };
@@ -85,6 +89,48 @@ function handleSurveyTab(caller) {
 
 function navigateToSubscription() {
 	$("#a_subscription").click();
+};
+
+function handleMyProfile() {
+	$("#li_user").addClass("active");
+	$("#li_home").removeClass("active");
+	$("#a_my_profile").addClass("active");
+	$("#a_overview").removeClass("active");
+	$("#overview").hide();
+	$("#survey").hide();
+	$("#user").hide();
+	$("#analytics").hide();
+	$("#subscription").hide();
+	$("#myProfile").show();
+	$("#div_general").show();
+	$("#div_account").hide();
+};
+
+function handleProfileTab(caller) {
+	if (caller) {
+		$("#li_home").removeClass("active");
+		$("#li_user").addClass("active");
+		$("#a_overview").removeClass("active");
+		$("#li_home").removeClass("active");
+		$("#a_survey").removeClass("active");
+		$("#a_user").removeClass("active");
+		$("#a_analytics").removeClass("active");
+		$("#a_subscription").removeClass("active");
+		$("#a_profile_general").addClass("active");
+		$("#div_general").show();
+		$("#div_account").hide();
+		if (caller === 'general') {
+			$("#div_general").show();
+			$("#div_account").hide();
+			$("#a_profile_general").addClass("active");
+			$("#a_profile_account").removeClass("active");
+		} else if (caller === 'account') {
+			$("#div_general").hide();
+			$("#div_account").show();
+			$("#a_profile_account").addClass("active");
+			$("#a_profile_general").removeClass("active");
+		}
+	}
 };
 
 var ctx1 = $("#myChart1");
