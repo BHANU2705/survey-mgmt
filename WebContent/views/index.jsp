@@ -37,7 +37,7 @@
     				<span aria-hidden="true">&times;</span>
  				  </button>
 				</div>
-				<input type="text" name="email" id="loginEmail" class="form-control" placeholder="Email address" required autofocus>
+				<input type="email" name="email" id="loginEmail" class="form-control" placeholder="Email address" required autofocus>
 				<input type="password" name="password" id="loginPassword" class="form-control" placeholder="Password" required>
 				<input type="hidden" name="action" value="signin">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
@@ -54,7 +54,7 @@
 	    <div id="signupbox" style="display:none;">
 	    	<form class="form-signin" action="/Test/home" method="post">
 				<h2 class="form-signin-heading">Please Sign Up</h2>
-				<input type="text" name="email" id="signUpEmail" class="form-control" placeholder="Email address" required autofocus>
+				<input type="email" name="email" id="signUpEmail" class="form-control" placeholder="Email address" required autofocus>
 				<input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
 				<input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
 				<input type="hidden" name="action" value="signup">
