@@ -67,9 +67,10 @@
 <body>
 	<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-info">
-			<a class="navbar-brand" href="#">
-				<img src="../Test/images/logo.png" width="30" height="30" style="display: inline-block;">
-  				<span style="display: inline-block;">Dalin's Survey</span>
+			<a class="navbar-brand" href="#"> <img
+				src="../Test/images/logo.png" width="30" height="30"
+				style="display: inline-block;"> <span
+				style="display: inline-block;">Dalin's Survey</span>
 			</a>
 			<button class="navbar-toggler d-lg-none" type="button"
 				data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -83,14 +84,17 @@
 					<li id="li_home" class="nav-item active"><a class="nav-link"
 						onclick="handleLeftPane('overview')" href="#">Home <span
 							class="sr-only">(current)</span></a></li>
-					<li class="nav-item dropdown" id="li_user">
-			            <a class="nav-link dropdown-toggle" href="#" id=a_user_dropdown role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
-			            <div class="dropdown-menu" aria-labelledby="a_user_dropdown" style="right: 0; left: auto;">
-			              <a class="dropdown-item" id="a_my_profile" onclick="handleMyProfile()" href="#">My Profile</a>
-			              <!-- <div class="dropdown-divider"></div> -->
-			              <a class="dropdown-item" href="logout">Logout</a>
-			            </div>
-			        </li>
+					<li class="nav-item dropdown" id="li_user"><a
+						class="nav-link dropdown-toggle" href="#" id=a_user_dropdown
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">User</a>
+						<div class="dropdown-menu" aria-labelledby="a_user_dropdown"
+							style="right: 0; left: auto;">
+							<a class="dropdown-item" id="a_my_profile"
+								onclick="handleMyProfile()" href="#">My Profile</a>
+							<!-- <div class="dropdown-divider"></div> -->
+							<a class="dropdown-item" href="logout">Logout</a>
+						</div></li>
 					<!-- <li class="nav-item"><a class="nav-link" href="#">About</a></li> -->
 				</ul>
 			</div>
@@ -189,35 +193,57 @@
 					</a>
 				</div>
 				<div class="container marketing">
-			        <!-- Three columns of text below the carousel -->
-			        <div class="row">
-				        <div class="col-lg-4"></div>
-				        <div class="col-lg-4"><h1>How It Works</h1></div>
-				        <div class="col-lg-4"></div>
-			        </div>
-			        <div class="row">
-			          <div class="col-lg-4">
-			            <img class="rounded-circle" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAwSURBVEhL7c0hEQAACAAx+scgAZVIAhleYLgX04vsmmsmiAligpggJogJYoJ8SWoWvwt9ml4QbdsAAAAASUVORK5CYII=" alt="Generic placeholder image" width="140" height="140">
-			            <h2>Subscribe</h2>
-			            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-			            <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
-			          </div><!-- /.col-lg-4 -->
-			          <div class="col-lg-4">
-			            <img class="rounded-circle" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAwSURBVEhL7c0hEQAACAAx+scgAZVIAhleYLgX04vsmmsmiAligpggJogJYoJ8SWoWvwt9ml4QbdsAAAAASUVORK5CYII=" alt="Generic placeholder image" width="140" height="140">
-			            <h2>Create</h2>
-			            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-			            <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
-			          </div><!-- /.col-lg-4 -->
-			          <div class="col-lg-4">
-			            <img class="rounded-circle" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAwSURBVEhL7c0hEQAACAAx+scgAZVIAhleYLgX04vsmmsmiAligpggJogJYoJ8SWoWvwt9ml4QbdsAAAAASUVORK5CYII=" alt="Generic placeholder image" width="140" height="140">
-			            <h2>Publish</h2>
-			            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum.</p>
-			            <!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
-			          </div><!-- /.col-lg-4 -->
-			        </div><!-- /.row -->
-			      </div><!-- /.container -->
+					<!-- Three columns of text below the carousel -->
+					<div class="row">
+						<div class="col-lg-4"></div>
+						<div class="col-lg-4">
+							<h1>How It Works</h1>
+						</div>
+						<div class="col-lg-4"></div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4">
+							<img class="rounded-circle"
+								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAwSURBVEhL7c0hEQAACAAx+scgAZVIAhleYLgX04vsmmsmiAligpggJogJYoJ8SWoWvwt9ml4QbdsAAAAASUVORK5CYII="
+								alt="Generic placeholder image" width="140" height="140">
+							<h2>Subscribe</h2>
+							<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis
+								euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
+								Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+								Praesent commodo cursus magna.</p>
+							<!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+						</div>
+						<!-- /.col-lg-4 -->
+						<div class="col-lg-4">
+							<img class="rounded-circle"
+								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAwSURBVEhL7c0hEQAACAAx+scgAZVIAhleYLgX04vsmmsmiAligpggJogJYoJ8SWoWvwt9ml4QbdsAAAAASUVORK5CYII="
+								alt="Generic placeholder image" width="140" height="140">
+							<h2>Create</h2>
+							<p>Duis mollis, est non commodo luctus, nisi erat porttitor
+								ligula, eget lacinia odio sem nec elit. Cras mattis consectetur
+								purus sit amet fermentum. Fusce dapibus, tellus ac cursus
+								commodo, tortor mauris condimentum nibh.</p>
+							<!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+						</div>
+						<!-- /.col-lg-4 -->
+						<div class="col-lg-4">
+							<img class="rounded-circle"
+								src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAwSURBVEhL7c0hEQAACAAx+scgAZVIAhleYLgX04vsmmsmiAligpggJogJYoJ8SWoWvwt9ml4QbdsAAAAASUVORK5CYII="
+								alt="Generic placeholder image" width="140" height="140">
+							<h2>Publish</h2>
+							<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis
+								in, egestas eget quam. Vestibulum id ligula porta felis euismod
+								semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+								condimentum nibh, ut fermentum.</p>
+							<!-- <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+						</div>
+						<!-- /.col-lg-4 -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container -->
 			</div>
-			<div id="survey" style="display:none;">
+			<div id="survey" style="display: none;">
 				<div class="alert alert-info">
 					<strong>Info!</strong> You should <a id="a_survey_subscription"
 						onclick="navigateToSubscription()" href="" class="alert-link">subscribe</a>
@@ -270,8 +296,8 @@
 					</div>
 				</div>
 			</div>
-			<div id="user" style="display:none;">This is the user page.</div>
-			<div id="analytics" style="display:none;">
+			<div id="user" style="display: none;">This is the user page.</div>
+			<div id="analytics" style="display: none;">
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">Analytical Charts</h1>
@@ -300,7 +326,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="subscription" style="display:none;">
+			<div id="subscription" style="display: none;">
 				<div class="container-fluid">
 					<div class="alert alert-info">
 						Your current subscription is <strong>Basic</strong> Package.
@@ -391,45 +417,82 @@
 					</div>
 				</div>
 			</div>
-			<div id="myProfile" style="display:none;">
+			<div id="myProfile" style="display: none;">
 				<ul class="nav nav-tabs" id="profile_tab">
 					<li class="nav-item"><a id="a_profile_general"
 						onclick="handleProfileTab('general')" class="nav-link active"
 						href="">Profile</a></li>
 					<li class="nav-item"><a id="a_profile_account"
-						onclick="handleProfileTab('account')" class="nav-link"
-						href="">Account</a></li>
+						onclick="handleProfileTab('account')" class="nav-link" href="">Account</a></li>
 				</ul>
-				<div id="div_general">
-					General Settings
-				</div>
+				<div id="div_general">General Settings</div>
 				<div id="div_account">
-					<!-- Account Settings -->
-					<div class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+					<div class="row">
+						<div class="col">
+							<div class="card" style="margin-top: 20px; /* width: 20rem */">
+								<div class="card-body">
+									<h4 class="card-title">Name</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Change your name</h6>
+									<form class="form-signin" action="/Test/user" method="post">
+										<input type="text" name="name" id="name" class="form-control"
+											placeholder="Name" required style="margin-top: 20px;">
+										<input type="hidden" name="action" value="changeName">
+										<button class="btn btn-md btn-primary btn-block" type="submit"
+											style="margin-top: 20px;">Save</button>
+										<button class="btn btn-md btn-primary btn-block" type="reset"
+											style="margin-top: 20px;">Reset</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card" style="margin-top: 20px; /* width: 20rem */">
+								<div class="card-body">
+									<h4 class="card-title">Password</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Change your
+										password</h6>
+									<form class="form-signin" action="/Test/user" method="post">
+										<input type="password" name="old_password" id="oldPassword"
+											class="form-control" placeholder="Current Password" required
+											style="margin-top: 20px;"> <input type="password"
+											name="newPassword1" id="newPassword1" class="form-control"
+											placeholder="New Password" required style="margin-top: 20px;">
+										<input type="password" name="newPassword2" id="newPassword2"
+											class="form-control" placeholder="Retype New Password"
+											required style="margin-top: 20px;">
+										<input type="hidden" name="action" value="changePassword">
+										<button class="btn btn-md btn-primary btn-block" type="submit"
+											style="margin-top: 20px;">Save</button>
+										<button class="btn btn-md btn-primary btn-block" type="reset"
+											style="margin-top: 20px;">Reset</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card" style="margin-top: 20px; /* width: 20rem */">
+								<div class="card-body">
+									<h4 class="card-title">Account</h4>
+									<h6 class="card-subtitle mb-2 text-muted">Delete your account. All your work and data will be permanently lost. This action is irreversible.</h6>
+									<form class="form-signin" action="/Test/user" method="post">
+										<input type="password" name="password" id="Password"
+											class="form-control" placeholder="Current Password" required
+											style="margin-top: 20px;">
+										<input type="hidden" name="action" value="deleteAccount">
+										<button class="btn btn-md btn-primary btn-block" type="submit"
+											style="margin-top: 20px;">Delete</button>
+										<button class="btn btn-md btn-primary btn-block" type="reset"
+											style="margin-top: 20px;">Reset</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div>
-			
-			<footer id="myFooter">
-			<hr>
+				<footer id="myFooter">
+					<hr>
 					<div class="container">
 						<ul>
 							<li><a href="#">About Us</a></li>

@@ -40,14 +40,14 @@ public class HomeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter(CommonConstants.LOGIN_ACTION);
-		try {
-			if (action != null) {
-				if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNIN)) {
-					String email = request.getParameter(CommonConstants.EMAIL);
-					String password = request.getParameter(CommonConstants.PASSWORD);
-					User user = new User(email, password);
-					UserManager validator = new UserManager();
-					User dbUser = null;
+		if (action != null) {
+			if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNIN)) {
+				String email = request.getParameter(CommonConstants.EMAIL);
+				String password = request.getParameter(CommonConstants.PASSWORD);
+				User user = new User(email, password);
+				UserManager validator = new UserManager();
+				User dbUser = null;
+				try {
 					dbUser = (User) validator.validate(user);
 					if (dbUser != null) {
 						ProcessContextPool.get().setUser(dbUser);
@@ -63,18 +63,22 @@ public class HomeController extends HttpServlet {
 								.getRequestDispatcher("/");
 						dispatcher.forward(request, response);
 					}
-				} else if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNUP)) {
-					String email = request.getParameter(CommonConstants.EMAIL);
-					String password = request.getParameter(CommonConstants.PASSWORD);
-					String name = request.getParameter(CommonConstants.NAME);
-					User user = new User(email, password);
-					user.setName(name);
-					UserManager userManager = new UserManager();
-					Role role = new Role();
-					role.setId(UserRole.Admin.toString());
-					List<Role> roles = new ArrayList<>();
-					roles.add(role);
-					user.setRoles(roles);
+				} catch (BaseException e) {
+					e.printStackTrace();
+				}
+			} else if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNUP)) {
+				String email = request.getParameter(CommonConstants.EMAIL);
+				String password = request.getParameter(CommonConstants.PASSWORD);
+				String name = request.getParameter(CommonConstants.NAME);
+				User user = new User(email, password);
+				user.setName(name);
+				UserManager userManager = new UserManager();
+				Role role = new Role();
+				role.setId(UserRole.Admin.toString());
+				List<Role> roles = new ArrayList<>();
+				roles.add(role);
+				user.setRoles(roles);
+				try {
 					userManager.createUser(user);
 					EmailManager emailManager = new EmailManager();
 					emailManager.sendSignUpEmail(email);
@@ -83,12 +87,16 @@ public class HomeController extends HttpServlet {
 					request.setAttribute(CommonConstants.NAME, user.getName());
 					MainController mainController = new MainController();
 					mainController.doPost(request, response);
-				} else {
-					// TODO: handle error case
+				} catch (BaseException e) {
+					request.setAttribute(CommonConstants.IS_SIGNUP_FAILED, true);
+					RequestDispatcher dispatcher = request
+							.getRequestDispatcher("/");
+					dispatcher.forward(request, response);
 				}
+
+			} else {
+				// TODO: handle error case
 			}
-		} catch (BaseException e) {
-			e.printStackTrace();
 		}
 	}
 }

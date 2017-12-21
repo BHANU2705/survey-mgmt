@@ -15,4 +15,5 @@ public final class CommonConstants {
 	public static final String SELF = "Self";
 	public static final String UTC = "UTC";
 	public static final String IS_LOGIN_FAILED = "isLoginFailed";
+	public static final String IS_SIGNUP_FAILED = "isSignUpFailed";
 }

@@ -219,7 +219,7 @@ sup {
 }
 
 a {
-  color: #007bff;
+  color: #000000;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
@@ -2308,8 +2308,8 @@ fieldset[disabled] a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #23242387;
+  border-color: #f0f3f7;
 }
 
 .btn-primary:hover {
@@ -3566,7 +3566,7 @@ tbody.collapse.show {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #007bff;
+  background-color: #01ab21;
 }
 
 .nav-fill .nav-item {
@@ -5689,11 +5689,11 @@ a.bg-success:focus, a.bg-success:hover {
 }
 
 .bg-info {
-  background-color: #17a2b8 !important;
+  background-color: #01ab21 !important;
 }
 
 a.bg-info:focus, a.bg-info:hover {
-  background-color: #117a8b !important;
+  background-color: #01ab21 !important;
 }
 
 .bg-warning {

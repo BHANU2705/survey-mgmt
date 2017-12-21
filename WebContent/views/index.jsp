@@ -18,6 +18,14 @@
 		if (isLoginFailed) {
 			$("#loginFailure").show();
 		}
+
+		var isSignUpFailed = <%= request.getAttribute("isSignUpFailed") %>;
+		$("#signUpFailure").hide();
+		if (isSignUpFailed) {
+			$('#loginbox').hide();
+			$('#signupbox').show();
+			$("#signUpFailure").show();
+		}
 	});
 	</script>
 </head>
@@ -54,6 +62,12 @@
 	    <div id="signupbox" style="display:none;">
 	    	<form class="form-signin" action="/Test/home" method="post">
 				<h2 class="form-signin-heading">Please Sign Up</h2>
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" id="signUpFailure" style="display: none;">
+				  Unable to sign up - Missing mandatory data!
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    				<span aria-hidden="true">&times;</span>
+ 				  </button>
+				</div>
 				<input type="email" name="email" id="signUpEmail" class="form-control" placeholder="Email address" required autofocus>
 				<input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
 				<input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
