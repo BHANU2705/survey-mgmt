@@ -32,7 +32,7 @@ public class ProcessContextFilter implements Filter {
 	    response.setHeader("Pragma", "no-cache");
 	    response.setDateHeader("Expires", 0);
 	    HttpSession session = request.getSession();
-	    if (session == null || request.getAttribute("name") == null) {
+	    if (session == null || session.getAttribute("name") == null) {
 	    	RequestDispatcher rd=request.getRequestDispatcher("/");
 	        rd.forward(request, response);
 		} else {

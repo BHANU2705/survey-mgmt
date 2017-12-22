@@ -2,7 +2,7 @@ package com.bps.util;
 
 public final class CommonConstants {
 	private CommonConstants() { }
-	public static final String LOGIN_ACTION = "action";
+	public static final String ACTION = "action";
 	public static final String LOGIN_ACTION_SIGNUP = "signup";
 	public static final String LOGIN_ACTION_SIGNIN = "signin";
 	public static final String URL_HOME_CONTROLLER = "/home";

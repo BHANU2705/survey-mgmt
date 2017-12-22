@@ -14,7 +14,7 @@ import com.bps.service.core.ProcessContext;
 import com.bps.service.core.ProcessContextPool;
 import com.bps.util.CommonConstants;
 
-@WebFilter(filterName = "BootLoaderFilter", servletNames = { CommonConstants.HOME })
+@WebFilter(filterName = "BootLoaderFilter", servletNames = { CommonConstants.HOME, "UserController" })
 public class BootLoaderFilter implements Filter {
 
     public BootLoaderFilter() {
@@ -25,8 +25,10 @@ public class BootLoaderFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		ProcessContext processContext = new ProcessContext();
-		ProcessContextPool.set(processContext);
+		if (ProcessContextPool.get() == null) {
+			ProcessContext processContext = new ProcessContext();
+			ProcessContextPool.set(processContext);
+		}
 		chain.doFilter(request, response);
 	}
 

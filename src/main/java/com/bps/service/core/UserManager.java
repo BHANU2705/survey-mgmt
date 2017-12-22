@@ -59,4 +59,21 @@ public class UserManager implements IValidator {
 		}
 		return null;
 	}
+	
+	public User updateUser(User user) throws BaseException {
+		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
+			if(userDAO.update(user)) {
+				return user;
+			}
+		}
+		return null;
+	}
+	public User deleteUser(User user) throws BaseException {
+		if(user != null) {
+			if(userDAO.delete(user)) {
+				return user;
+			}
+		}
+		return null;
+	}
 }

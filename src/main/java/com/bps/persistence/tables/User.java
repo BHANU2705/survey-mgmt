@@ -32,7 +32,7 @@ public class User implements IBaseEntity {
 	@Column(length = 5)
 	private String countryCode;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "EMAIL") }, inverseJoinColumns = { @JoinColumn(name = "ID") })
 	private List<Role> roles = new ArrayList<Role>();
 	

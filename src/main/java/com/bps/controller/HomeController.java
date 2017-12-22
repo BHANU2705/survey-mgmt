@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.User;
@@ -30,16 +31,13 @@ public class HomeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		/*RequestDispatcher dispatcher = request
-				.getRequestDispatcher(CommonConstants.URL_HOME_CONTROLLER);
-		dispatcher.forward(request, response);*/
 		response.sendRedirect("/Test/");
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getParameter(CommonConstants.LOGIN_ACTION);
+		String action = request.getParameter(CommonConstants.ACTION);
 		if (action != null) {
 			if (action.equalsIgnoreCase(CommonConstants.LOGIN_ACTION_SIGNIN)) {
 				String email = request.getParameter(CommonConstants.EMAIL);
@@ -55,7 +53,9 @@ public class HomeController extends HttpServlet {
 								.getRequestDispatcher(CommonConstants.URL_MAIN_CONTROLLER);
 						request.setAttribute(CommonConstants.EMAIL, email);
 						request.setAttribute(CommonConstants.NAME, dbUser.getName());
-						ProcessContextPool.get().setUser(dbUser);
+						HttpSession session = request.getSession();
+						session.setAttribute(CommonConstants.EMAIL, email);
+						session.setAttribute(CommonConstants.NAME, dbUser.getName());
 						dispatcher.forward(request, response);
 					} else { // User validation failed
 						request.setAttribute(CommonConstants.IS_LOGIN_FAILED, true);

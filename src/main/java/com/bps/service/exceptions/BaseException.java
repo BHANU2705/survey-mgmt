@@ -16,6 +16,11 @@ public class BaseException extends Exception {
 		this.errorTitle = ErrorMapper.getErrorDetails(errorCode)[0];
 		this.errorMessage = ErrorMapper.getErrorDetails(errorCode)[1];
 	}
+	
+	public BaseException(int httpResponseCode, String errorCode, Exception coreException) {
+		this(httpResponseCode, errorCode);
+		this.setCoreException(coreException);
+	}
 
 	public int getHttpResponseCode() {
 		return httpResponseCode;
