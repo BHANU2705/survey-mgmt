@@ -156,9 +156,19 @@ function handleProfileTab(caller, isChangeFlow) {
 	}
 };
 
-function onError(x) {
-	console.log("on error");
-	alert("on error");
+function validatePasswordChange() {
+	var p1 = document.forms["pwdChangeForm"]["newPassword1"].value;
+	var p2 = document.forms["pwdChangeForm"]["newPassword2"].value;
+	if (p1 && p1) {
+		if(p1 != p2) {
+			var initialMsg = $("#lbl_pwdChangeFailed").text();
+			$("#lbl_pwdChangeFailed").text(initialMsg + ": New passwords do not match !");
+			$("#pwdChangeSuccess").hide();
+			$("#pwdChangeFailed").show();
+			return false;
+		}
+	}
+	return true;
 };
 
 var ctx1 = $("#myChart1");

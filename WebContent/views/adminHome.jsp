@@ -93,6 +93,8 @@
 				$("#pwdChangeSuccess").show();
 				$("#pwdChangeFailed").hide();
 			} else {
+				var initialMsg = $("#lbl_pwdChangeFailed").text();
+				$("#lbl_pwdChangeFailed").text(initialMsg + " - <%= request.getAttribute("msg") %>");
 				$("#pwdChangeSuccess").hide();
 				$("#pwdChangeFailed").show();
 			}
@@ -476,7 +478,7 @@
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>
 									</div>
-									<div class="alert alert-success alert-dismissible fade show" role="alert" id="nameChangeFailed" style="display: none;">
+									<div class="alert alert-danger alert-dismissible fade show" role="alert" id="nameChangeFailed" style="display: none;">
 									  Name change failed - Try Again !
 									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					    				<span aria-hidden="true">&times;</span>
@@ -506,13 +508,13 @@
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>
 									</div>
-									<div class="alert alert-success alert-dismissible fade show" role="alert" id="pwdChangeFailed" style="display: none;">
-									  Password change failed - Try Again !
+									<div class="alert alert-danger alert-dismissible fade show" role="alert" id="pwdChangeFailed" style="display: none;">
+									  <label id=lbl_pwdChangeFailed style="height: fit-content;">Password change failed</label>
 									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>
 									</div>
-									<form class="form-signin" action="/Test/user" method="post">
+									<form name = "pwdChangeForm" class="form-signin" action="/Test/user" method="post" onsubmit="return validatePasswordChange()">
 										<input type="password" name="old_password" id="oldPassword"
 											class="form-control" placeholder="Current Password" required
 											style="margin-top: 20px;"> <input type="password"

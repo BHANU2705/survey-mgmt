@@ -46,7 +46,7 @@ public class UserManager implements IValidator {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public IBaseEntity validate(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;

@@ -51,15 +51,16 @@ public class UserController extends HttpServlet {
 				if ("changePassword".equalsIgnoreCase(action)) {
 					String newPassword1 = request.getParameter("newPassword1");
 					String newPassword2 = request.getParameter("newPassword2");
-					if (newPassword1 != null && !newPassword1.isEmpty() && newPassword2 != null && !newPassword2.isEmpty() && newPassword1.equals(newPassword2)) {
+					if (newPassword1 != null && !newPassword1.isEmpty() && newPassword2 != null && !newPassword2.isEmpty() && newPassword1.equals(newPassword2)
+							&& user.getPassword().equals(newPassword1)) {
 						user.setPassword(newPassword1);
 						userManager.updateUser(user);
 						request.setAttribute(CommonConstants.IS_PASSWORD_CHANGE_SUCCESSFUL, true);
-						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					} else {
 						request.setAttribute(CommonConstants.IS_PASSWORD_CHANGE_SUCCESSFUL, false);
-						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
+						request.setAttribute("msg", "Incorrect current password!");
 					}
+					CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 				} else if ("changeName".equalsIgnoreCase(action)) {
 					String name = request.getParameter("name");
 					if (name != null && !name.isEmpty()) {
@@ -67,11 +68,10 @@ public class UserController extends HttpServlet {
 						userManager.updateUser(user);
 						request.setAttribute(CommonConstants.IS_NAME_CHANGE_SUCCESSFUL, true);
 						session.setAttribute("name", name);
-						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					} else {
 						request.setAttribute(CommonConstants.IS_NAME_CHANGE_SUCCESSFUL, false);
-						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					}
+					CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 				} else if ("deleteAccount".equalsIgnoreCase(action)) {
 
 				}
