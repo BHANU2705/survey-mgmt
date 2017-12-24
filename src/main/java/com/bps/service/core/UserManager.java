@@ -62,6 +62,7 @@ public class UserManager implements IValidator {
 	
 	public User updateUser(User user) throws BaseException {
 		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
+			user.setLifeCycle(CommonUtility.getLifeCycle(Operation.UPDATE, CommonConstants.SELF));
 			if(userDAO.update(user)) {
 				return user;
 			}
