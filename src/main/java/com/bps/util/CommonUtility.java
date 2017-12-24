@@ -1,8 +1,14 @@
 package com.bps.util;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.bps.persistence.tables.LifeCycle;
 
@@ -28,10 +34,24 @@ public class CommonUtility {
 		return lifeCycle;
 	}
 
-	/*private static String getCurrentTime() {
-		Calendar s = Calendar.getInstance(TimeZone.getTimeZone(CommonConstants.UTC), Locale.ENGLISH);
-		DateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss z");
-		df.setTimeZone(TimeZone.getTimeZone("UTC"));
-		return df.format(s.getTime());
-	}*/
+	public static void navigateToPage(String page, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+		dispatcher.forward(request, response);
+	}
+
+	public static String getPageURL(CommonConstants.Page page) {
+		String url = null;
+		switch (page) {
+			case Login:
+				url = CommonConstants.URL_HOME_CONTROLLER;
+				break;
+			case Main:
+				url = CommonConstants.URL_MAIN_CONTROLLER;
+				break;
+			default:
+				break;
+		}
+		return url;
+	}
 }

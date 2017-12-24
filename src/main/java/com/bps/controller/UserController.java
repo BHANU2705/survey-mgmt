@@ -15,6 +15,7 @@ import com.bps.service.core.ProcessContextPool;
 import com.bps.service.core.UserManager;
 import com.bps.service.exceptions.BaseException;
 import com.bps.util.CommonConstants;
+import com.bps.util.CommonUtility;
 
 @WebServlet(urlPatterns = "/user", name = "UserController")
 public class UserController extends HttpServlet {
@@ -48,23 +49,32 @@ public class UserController extends HttpServlet {
 				}
 				String action = request.getParameter(CommonConstants.ACTION);
 				if ("changePassword".equalsIgnoreCase(action)) {
-					String newPassword = request.getParameter("newPassword1");
-					if (newPassword != null && !newPassword.isEmpty()) {
-						user.setPassword(newPassword);
+					String newPassword1 = request.getParameter("newPassword1");
+					String newPassword2 = request.getParameter("newPassword2");
+					if (newPassword1 != null && !newPassword1.isEmpty() && newPassword2 != null && !newPassword2.isEmpty() && newPassword1.equals(newPassword2)) {
+						user.setPassword(newPassword1);
+						userManager.updateUser(user);
+						request.setAttribute(CommonConstants.IS_PASSWORD_CHANGE_SUCCESSFUL, true);
+						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					} else {
-						// TODO: Handle error case
+						request.setAttribute(CommonConstants.IS_PASSWORD_CHANGE_SUCCESSFUL, false);
+						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					}
 				} else if ("changeName".equalsIgnoreCase(action)) {
 					String name = request.getParameter("name");
 					if (name != null && !name.isEmpty()) {
 						user.setName(name);
+						userManager.updateUser(user);
+						request.setAttribute(CommonConstants.IS_NAME_CHANGE_SUCCESSFUL, true);
+						session.setAttribute("name", name);
+						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					} else {
-						// TODO: Handle error case
+						request.setAttribute(CommonConstants.IS_NAME_CHANGE_SUCCESSFUL, false);
+						CommonUtility.navigateToPage("/views/adminHome.jsp", request, response);
 					}
 				} else if ("deleteAccount".equalsIgnoreCase(action)) {
 
 				}
-				userManager.updateUser(user);
 			} else {
 				// TODO: Handle error case
 			}

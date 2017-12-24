@@ -119,9 +119,11 @@ function handleMyProfile() {
 	$("#myProfile").show();
 	$("#div_general").show();
 	$("#div_account").hide();
+	$("#a_profile_general").addClass("active");
+	$("#a_profile_account").removeClass("active");
 };
 
-function handleProfileTab(caller) {
+function handleProfileTab(caller, isChangeFlow) {
 	if (caller) {
 		$("#li_home").removeClass("active");
 		$("#li_user").addClass("active");
@@ -134,6 +136,10 @@ function handleProfileTab(caller) {
 		$("#a_profile_general").addClass("active");
 		$("#div_general").show();
 		$("#div_account").hide();
+		if (!isChangeFlow) {
+			$("#nameChangeSuccess").hide();
+			$("#nameChangeFailed").hide();
+		}
 		if (caller === 'general') {
 			$("#div_general").show();
 			$("#div_account").hide();
@@ -146,6 +152,11 @@ function handleProfileTab(caller) {
 			$("#a_profile_general").removeClass("active");
 		}
 	}
+};
+
+function onError(x) {
+	console.log("on error");
+	alert("on error");
 };
 
 var ctx1 = $("#myChart1");

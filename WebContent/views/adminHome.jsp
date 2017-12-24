@@ -10,7 +10,8 @@
 
 <title>Admin Home</title>
 
-<script src="../Test/js/vendor/jquery-slim.min.js"></script>
+<!-- <script src="../Test/js/vendor/jquery-slim.min.js"></script> -->
+<script src="../Test/js/vendor/jquery-3.2.1.js"></script>
 <script src="../Test/js/vendor/popper.min.js"></script>
 <script src="../Test/js/bootstrap.min.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
@@ -54,11 +55,47 @@
 		$(document).on('click', '#a_profile_account', function(e) {
 			e.preventDefault();
 		});
-		var userName = "<%= request.getAttribute("name") %>";
+		var userName = "<%= session.getAttribute("name") %>";
 		if (userName) {
 			$("#a_user_dropdown").text(userName);
 		} else {
 			$("#a_user_dropdown").text("User");
+		}
+		
+		$("#nameChangeSuccess").hide();
+		$("#nameChangeFailed").hide();
+		var isNameChangeSuccessful = <%= request.getAttribute("isNameChangeSuccessful") %>;
+		if (isNameChangeSuccessful != null) {
+			document.getElementById("a_my_profile").click();
+			handleProfileTab('account', true);
+			if (isNameChangeSuccessful === true) {
+				$("#nameChangeSuccess").show();
+				$("#nameChangeFailed").hide();
+				<% request.removeAttribute("isNameChangeSuccessful"); %>;
+				var userName = "<%= session.getAttribute("name") %>";
+				if (userName) {
+					$("#a_user_dropdown").text(userName);
+				} else {
+					$("#a_user_dropdown").text("User");
+				}
+			} else {
+				$("#nameChangeSuccess").hide();
+				$("#nameChangeFailed").show();
+			}
+		}
+		$("#pwdChangeSuccess").hide();
+		$("#pwdChangeFailed").hide();
+		var isPwdChangeSuccessful = <%= request.getAttribute("isPasswordChangeSuccessful") %>;
+		if (isPwdChangeSuccessful != null) {
+			handleProfileTab("account");
+			$("a_my_profile").click();
+			if (isPwdChangeSuccessful === true) {
+				$("#pwdChangeSuccess").show();
+				$("#pwdChangeFailed").hide();
+			} else {
+				$("#pwdChangeSuccess").hide();
+				$("#pwdChangeFailed").show();
+			}
 		}
 	});
 </script>
@@ -433,7 +470,19 @@
 								<div class="card-body">
 									<h4 class="card-title">Name</h4>
 									<h6 class="card-subtitle mb-2 text-muted">Change your name</h6>
-									<form class="form-signin" action="/Test/user" method="post">
+									<div class="alert alert-success alert-dismissible fade show" role="alert" id="nameChangeSuccess" style="display: none;">
+									  Name changed successfully !
+									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    				<span aria-hidden="true">&times;</span>
+					 				  </button>
+									</div>
+									<div class="alert alert-success alert-dismissible fade show" role="alert" id="nameChangeFailed" style="display: none;">
+									  Name change failed - Try Again !
+									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    				<span aria-hidden="true">&times;</span>
+					 				  </button>
+									</div>
+									<form class="form-signin" action="/Test/user" method="post" onerror="onError()">
 										<input type="text" name="name" id="name" class="form-control"
 											placeholder="Name" required style="margin-top: 20px;">
 										<input type="hidden" name="action" value="changeName">
@@ -451,6 +500,18 @@
 									<h4 class="card-title">Password</h4>
 									<h6 class="card-subtitle mb-2 text-muted">Change your
 										password</h6>
+										<div class="alert alert-success alert-dismissible fade show" role="alert" id="pwdChangeSuccess" style="display: none;">
+									  Password changed successfully !
+									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    				<span aria-hidden="true">&times;</span>
+					 				  </button>
+									</div>
+									<div class="alert alert-success alert-dismissible fade show" role="alert" id="pwdChangeFailed" style="display: none;">
+									  Password change failed - Try Again !
+									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    				<span aria-hidden="true">&times;</span>
+					 				  </button>
+									</div>
 									<form class="form-signin" action="/Test/user" method="post">
 										<input type="password" name="old_password" id="oldPassword"
 											class="form-control" placeholder="Current Password" required
