@@ -171,6 +171,26 @@ function validatePasswordChange() {
 	return true;
 };
 
+function showConfirmationPopUp() {
+	var val = $("#del_pwd")[0].value;
+	if(val) {
+		$('#confirmationModal').modal({
+			  keyboard: false,
+			  show: true,
+			  focus: true
+			});
+	} else {
+		$("#accountDeletionError").show();
+	}
+		
+};
+
+function confirmationCheck(val) {
+	if(val) {
+		document.getElementById("accountDeletionForm").submit();
+	}
+};
+
 var ctx1 = $("#myChart1");
 var ctx2 = $("#myChart2");
 var myChart1 = new Chart(ctx1, {

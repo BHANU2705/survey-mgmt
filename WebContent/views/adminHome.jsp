@@ -537,12 +537,37 @@
 								<div class="card-body">
 									<h4 class="card-title">Account</h4>
 									<h6 class="card-subtitle mb-2 text-muted">Delete your account. All your work and data will be permanently lost. This action is irreversible.</h6>
-									<form class="form-signin" action="/Test/user" method="post">
-										<input type="password" name="password" id="Password"
+									<div id = "confirmationModal" class="modal" tabindex="-1" role="dialog">
+									  <div class="modal-dialog" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h5 class="modal-title">Delete your account</h5>
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									          <span aria-hidden="true">&times;</span>
+									        </button>
+									      </div>
+									      <div class="modal-body">
+									        <p>Are you sure to delete your account?</p>
+									      </div>
+									      <div class="modal-footer">
+									        <button id = "btn_yes" type="button" class="btn btn-primary" onclick="return confirmationCheck(true);">Yes, go ahead and delete</button>
+									        <button id = "btn_no" type="button" class="btn btn-secondary" data-dismiss="modal" onclick="return confirmationCheck(false);">No</button>
+									      </div>
+									    </div>
+									  </div>
+									</div>
+									<div class="alert alert-danger alert-dismissible fade show" role="alert" id="accountDeletionError" style="display: none;">
+									  Missing Current Password !
+									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    				<span aria-hidden="true">&times;</span>
+					 				  </button>
+									</div>
+									<form id = "accountDeletionForm" class="form-signin" action="/Test/user" method="post" novalidate>
+										<input type="password" name="del_pwd" id="del_pwd"
 											class="form-control" placeholder="Current Password" required
 											style="margin-top: 20px;">
 										<input type="hidden" name="action" value="deleteAccount">
-										<button class="btn btn-md btn-primary btn-block" type="submit"
+										<button class="btn btn-md btn-primary btn-block" type="button" onclick="showConfirmationPopUp()"
 											style="margin-top: 20px;">Delete</button>
 										<button class="btn btn-md btn-primary btn-block" type="reset"
 											style="margin-top: 20px;">Reset</button>
