@@ -139,6 +139,8 @@ function handleProfileTab(caller, isChangeFlow) {
 		if (!isChangeFlow) {
 			$("#nameChangeSuccess").hide();
 			$("#nameChangeFailed").hide();
+			$("#pwdChangeSuccess").hide();
+			$("#pwdChangeFailed").hide();
 		}
 		if (caller === 'general') {
 			$("#div_general").show();

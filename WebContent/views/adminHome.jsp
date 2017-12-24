@@ -87,8 +87,8 @@
 		$("#pwdChangeFailed").hide();
 		var isPwdChangeSuccessful = <%= request.getAttribute("isPasswordChangeSuccessful") %>;
 		if (isPwdChangeSuccessful != null) {
-			handleProfileTab("account");
-			$("a_my_profile").click();
+			document.getElementById("a_my_profile").click();
+			handleProfileTab('account', true);
 			if (isPwdChangeSuccessful === true) {
 				$("#pwdChangeSuccess").show();
 				$("#pwdChangeFailed").hide();
