@@ -29,4 +29,10 @@ public class EmailManager {
 		String body = "Welcome to Survey Management. You have been signed up as an Admin role.";
 		sendEmail(toEmail, subject, body);
 	}
+	
+	public void sendUserOffBoardingEmail(String toEmail, String userName) {
+		String subject = "Sorry to see you go | Survey Management";
+		String body = "Hey " + userName + ", what happened? Did we do anything unexpected? Sorry to see you go.";
+		sendEmail(toEmail, subject, body);
+	}
 }

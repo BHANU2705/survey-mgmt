@@ -21,4 +21,5 @@ public final class CommonConstants {
 	public static final String IS_SIGNUP_FAILED = "isSignUpFailed";
 	public static final String IS_PASSWORD_CHANGE_SUCCESSFUL = "isPasswordChangeSuccessful";
 	public static final String IS_NAME_CHANGE_SUCCESSFUL = "isNameChangeSuccessful";
+	public static final String IS_ACCOUNT_DELETION_SUCCESSFUL = "isAccountDeletionSuccessful";
 }

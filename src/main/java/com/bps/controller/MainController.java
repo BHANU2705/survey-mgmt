@@ -9,12 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.UserRole;
 import com.bps.service.core.ProcessContextPool;
 import com.bps.util.CommonConstants;
+import com.bps.util.CommonUtility;
 
 @WebServlet(urlPatterns = CommonConstants.URL_MAIN_CONTROLLER, name = "MainController")
 public class MainController extends HttpServlet {
@@ -25,12 +25,7 @@ public class MainController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.logout();
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		response.sendRedirect("/Test/");
+		CommonUtility.logout(request, response);
 	}
 
 	@Override

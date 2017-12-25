@@ -20,6 +20,7 @@ import com.bps.service.core.UserManager;
 import com.bps.service.core.email.EmailManager;
 import com.bps.service.exceptions.BaseException;
 import com.bps.util.CommonConstants;
+import com.bps.util.CommonUtility;
 
 @WebServlet(urlPatterns = CommonConstants.URL_HOME_CONTROLLER, name = CommonConstants.HOME)
 public class HomeController extends HttpServlet {
@@ -31,12 +32,7 @@ public class HomeController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.logout();
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		response.sendRedirect("/Test/");
+		CommonUtility.logout(request, response);
 	}
 
 	@Override
@@ -80,6 +76,7 @@ public class HomeController extends HttpServlet {
 				UserManager userManager = new UserManager();
 				Role role = new Role();
 				role.setId(UserRole.Admin.toString());
+				role.setName(UserRole.Admin.toString());
 				List<Role> roles = new ArrayList<>();
 				roles.add(role);
 				user.setRoles(roles);
@@ -88,8 +85,9 @@ public class HomeController extends HttpServlet {
 					EmailManager emailManager = new EmailManager();
 					emailManager.sendSignUpEmail(email);
 					ProcessContextPool.get().setUser(user);
-					request.setAttribute(CommonConstants.EMAIL, user.getEmail());
-					request.setAttribute(CommonConstants.NAME, user.getName());
+					HttpSession session = request.getSession(false);
+					session.setAttribute(CommonConstants.EMAIL, user.getEmail());
+					session.setAttribute(CommonConstants.NAME, user.getName());
 					MainController mainController = new MainController();
 					mainController.doPost(request, response);
 				} catch (BaseException e) {

@@ -99,6 +99,17 @@
 				$("#pwdChangeFailed").show();
 			}
 		}
+
+		$("#accountDeletionError").hide();
+		var isAccountDeletionSuccessful = <%= request.getAttribute("isAccountDeletionSuccessful") %>;
+		if (isAccountDeletionSuccessful != null) {
+			document.getElementById("a_my_profile").click();
+			handleProfileTab('account', true);
+			if (isAccountDeletionSuccessful === false) {
+				$("#lbl_accDeletionFailed").text("<%= request.getAttribute("msg") %>");
+				$("#accountDeletionError").show();
+			}
+		}
 	});
 </script>
 </head>
@@ -536,18 +547,18 @@
 							<div class="card" style="margin-top: 20px; /* width: 20rem */">
 								<div class="card-body">
 									<h4 class="card-title">Account</h4>
-									<h6 class="card-subtitle mb-2 text-muted">Delete your account. All your work and data will be permanently lost. This action is irreversible.</h6>
+									<h6 class="card-subtitle mb-2 text-muted">Delete your account. All your work and data will be permanently lost. This action is irreversible. You will be redirected to login page, if your account gets deleted successfully.</h6>
 									<div id = "confirmationModal" class="modal" tabindex="-1" role="dialog">
 									  <div class="modal-dialog" role="document">
 									    <div class="modal-content">
 									      <div class="modal-header">
-									        <h5 class="modal-title">Delete your account</h5>
+									        <h5 class="modal-title">Delete your account?</h5>
 									        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									          <span aria-hidden="true">&times;</span>
 									        </button>
 									      </div>
 									      <div class="modal-body">
-									        <p>Are you sure to delete your account?</p>
+									        <p>Are you sure to delete your account? <hr>This action is irreversible. You will be redirected to login page, if your account gets deleted successfully.</p>
 									      </div>
 									      <div class="modal-footer">
 									        <button id = "btn_yes" type="button" class="btn btn-primary" onclick="return confirmationCheck(true);">Yes, go ahead and delete</button>
@@ -557,7 +568,7 @@
 									  </div>
 									</div>
 									<div class="alert alert-danger alert-dismissible fade show" role="alert" id="accountDeletionError" style="display: none;">
-									  Missing Current Password !
+									  <label id=lbl_accDeletionFailed style="height: fit-content;">Missing Current Password</label>
 									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>

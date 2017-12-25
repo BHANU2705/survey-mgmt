@@ -1,5 +1,9 @@
 package com.bps.service.core;
 
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import javax.servlet.http.HttpServletResponse;
 
 import com.bps.dao.UserDAO;
@@ -26,7 +30,7 @@ public class UserManager implements IValidator {
 			BaseException e = new BaseException(HttpServletResponse.SC_BAD_REQUEST, ErrorCode.MISSING_MANDATORY_ITEMS);
 			throw e;
 		}
-		user.setLifeCycle(CommonUtility.getLifeCycle(Operation.CREATE, CommonConstants.SELF));
+		user.setLifeCycle(CommonUtility.getLifeCycle(Operation.CREATE, user.getEmail()));
 		userDAO.create(user);
 		return user;
 	}
@@ -60,11 +64,19 @@ public class UserManager implements IValidator {
 		return null;
 	}
 	
-	public User updateUser(User user) throws BaseException {
+	public User updateUser(User user, boolean isNameUpdate, boolean isPasswordUpdate) throws BaseException {
 		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
-			user.setLifeCycle(CommonUtility.getLifeCycle(Operation.UPDATE, CommonConstants.SELF));
-			if(userDAO.update(user)) {
-				return user;
+			User u = getUser(user);
+			if (isNameUpdate) {
+				u.setName(user.getName());
+			}
+			if (isPasswordUpdate) {
+				u.setPassword(user.getPassword());
+			}
+			u.getLifeCycle().setUpdatedOn(Calendar.getInstance(TimeZone.getTimeZone(CommonConstants.UTC), Locale.ENGLISH));
+			u.getLifeCycle().setUpdatedBy(user.getEmail());
+			if(userDAO.update(u)) {
+				return u;
 			}
 		}
 		return null;

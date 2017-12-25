@@ -42,7 +42,7 @@ public class UserDAO implements IBaseDAO {
 		User user = (User) entity;
 		Session session = SessionManager.getSession();
 		Transaction tx = session.beginTransaction();
-		session.delete(user.getEmail());
+		session.delete(user);
 		tx.commit();
 		SessionManager.closeSession(session);
 		return true;
