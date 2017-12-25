@@ -27,7 +27,11 @@ public class UserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		if (session != null) {
+			session.invalidate();
+		}
+		response.sendRedirect("/Test/");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

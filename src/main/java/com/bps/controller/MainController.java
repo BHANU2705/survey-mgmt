@@ -26,9 +26,8 @@ public class MainController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-	    if (session != null && session.getAttribute("name") != null) {
-	    	RequestDispatcher rd=request.getRequestDispatcher("/");
-	        rd.forward(request, response);
+		if (session != null) {
+			session.invalidate();
 		}
 		response.sendRedirect("/Test/");
 	}
