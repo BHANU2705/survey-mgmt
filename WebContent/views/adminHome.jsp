@@ -15,7 +15,8 @@
 <script src="../Test/js/vendor/popper.min.js"></script>
 <script src="../Test/js/bootstrap.min.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
-
+<script src="../Test/js/vendor/Chart.js"></script>
+<script src="../Test/js/survey.js"></script>
 
 <link href="../Test/css/bootstrap.css" rel="stylesheet">
 <link href="../Test/css/dashboard.css" rel="stylesheet">
@@ -308,42 +309,8 @@
 						href="">Existing</a></li>
 				</ul>
 				<div id="div_survey_new">
-					<div class="row">
-						<div class="col-lg-12">
-							<h1 class="page-header">Survey</h1>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="panel panel-default">
-								<div class="panel-heading">Enter Survey Details</div>
-								<div class="panel-body">
-									<div class="row">
-										<div class="col-lg-12">
-											<form role="form">
-												<div class="form-group">
-													<input class="form-control" placeholder="Survey Name">
-													<label>Survey Description</label>
-													<textarea class="form-control" rows="2"></textarea>
-													<label>Question Type</label> <select class="form-control">
-														<option>Check Box</option>
-														<option>Radio Button</option>
-														<option>Text</option>
-														<option>Location</option>
-														<option>Image</option>
-													</select>
-												</div>
-												<button type="submit" class="btn btn-default">Submit
-													Button</button>
-												<button type="reset" class="btn btn-default">Reset
-													Button</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<button id="addQuestion" onclick="addQuestionUsingCount()">Add Question</button>
+					<div id = qMain></div>
 				</div>
 			</div>
 			<div id="user" style="display: none;">This is the user page.</div>
@@ -513,7 +480,7 @@
 									<h4 class="card-title">Password</h4>
 									<h6 class="card-subtitle mb-2 text-muted">Change your
 										password</h6>
-										<div class="alert alert-success alert-dismissible fade show" role="alert" id="pwdChangeSuccess" style="display: none;">
+									<div class="alert alert-success alert-dismissible fade show" role="alert" id="pwdChangeSuccess" style="display: none;">
 									  Password changed successfully !
 									  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					    				<span aria-hidden="true">&times;</span>
