@@ -1,4 +1,6 @@
 var qCount = 0;
+var qSerialNumber = 0;
+
 function addQuestionUsingCount() {
 	qCount++;
 	addQuestionDiv(qCount);
@@ -6,10 +8,12 @@ function addQuestionUsingCount() {
 
 function addQuestionDiv(i) {
 	var superDiv = document.getElementById('qMain');
-	
 	var questionParent = document.createElement('div');
 	questionParent.id = 'div_accordion_q_' + i;
 	questionParent.role = "tablist";
+	
+	superDiv.appendChild(questionParent);
+	qSerialNumber++;
 	
 	var questionCard = document.createElement('div');
 	questionCard.className = "card";
@@ -23,28 +27,29 @@ function addQuestionDiv(i) {
 	h5.className = "mb-0";
 	
 	var collapseId = 'collapse_'+i;
+	var qText = document.createElement('input');
 	
 	var a = document.createElement('a');
+	a.id = "anchor_"+i;
 	a.setAttribute('data-toggle', 'collapse');
 	a.setAttribute('href', '#'+collapseId);
 	a.setAttribute('aria-expanded', 'true');
 	a.setAttribute('aria-controls', collapseId);
-	a.innerHTML = "Question# "+i;
+	a.innerHTML = "Question# "+ qSerialNumber;
 	
 	h5.appendChild(a);
 	
 	var closeButton = document.createElement('button');
 	closeButton.type= "button";
 	closeButton.className = "close";
-	/*closeButton.setAttribute("data-dismiss", "tablist");*/
 	closeButton.setAttribute("aria-label", "Close");
 	closeButton.style = "align:right";
 	closeButton.addEventListener("click", function(e) {
-		console.log(this);
-		console.log(i);
 		var qParentId = e.path[5].id;
 		var qMain = document.getElementById('qMain');
 		qMain.removeChild(document.getElementById(qParentId));
+		qSerialNumber--;
+		resetQuestionSerialNo();
 	});
 	
 	var span = document.createElement("span");
@@ -68,13 +73,24 @@ function addQuestionDiv(i) {
 	cardBody.className = "card-body";
 	collapse.appendChild(cardBody);
 	
-	var qText = document.createElement('input');
+	
 	qText.type="text";
 	qText.id="qText_" + i;
 	qText.name="qText_" + i;
 	qText.placeholder = "Enter Question";
 	cardBody.appendChild(qText);
 	questionCard.appendChild(collapse);
-	
-	superDiv.appendChild(questionParent);
+};
+
+function resetQuestionSerialNo() {
+	var qMain = document.getElementById('qMain');
+	for (var i = 0; i < qMain.children.length; i++) {
+		var child = qMain.children[i];
+		var id = child.id;
+		var cnt = id.charAt(id.length-1);
+		var anchor = document.getElementById('anchor_'+cnt);
+		if (anchor) {
+			anchor.innerHTML = "Question# "+ (i+1);
+		}
+	}
 }

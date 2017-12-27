@@ -16,7 +16,6 @@
 <script src="../Test/js/bootstrap.min.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
-<script src="../Test/js/survey.js"></script>
 
 <link href="../Test/css/bootstrap.css" rel="stylesheet">
 <link href="../Test/css/dashboard.css" rel="stylesheet">
@@ -574,5 +573,6 @@
 		</div>
 	</div>
 	<script src="../Test/js/adminHome.js"></script>
+	<script src="../Test/js/survey.js"></script>
 </body>
 </html>
