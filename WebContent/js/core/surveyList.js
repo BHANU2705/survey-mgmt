@@ -1,9 +1,13 @@
 function onLoadSurvey() {
+	var createSurveyPage = document.getElementById("createSurveyPage");
+	removeAllChild(createSurveyPage);
+	$("#createSurveyPage").hide();
 	$("#subscriptionInfo").show();
-	var surveyMain = document.getElementById("surveyMain");
-	removeAllChild(surveyMain);
+	var surveyAllPage = document.getElementById("surveyAllPage");
+	removeAllChild(surveyAllPage);
 	var card = getSurveyList();
-	surveyMain.appendChild(card);
+	surveyAllPage.appendChild(card);
+	$("#surveyAllPage").show();
 };
 
 function getSurveyList() {
@@ -29,6 +33,11 @@ function getSurveyList() {
 	btn.className = "btn btn-md btn-primary btn-create";
 	btn.innerHTML = "Create";
 	btn.style = "background-color: #03ab22;color: white;";
+	
+	btn.addEventListener("click", function() {
+		createSurvey();
+	});
+	
 	col2.appendChild(btn);
 	row.appendChild(col2);
 	pDiv.appendChild(row);

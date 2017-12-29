@@ -1,13 +1,35 @@
 var qCount = 0;
 var qSerialNumber = 0;
 
+function createSurvey() {
+	qCount = 0;
+	qSerialNumber = 0;
+	var surveyAllPage = document.getElementById("surveyAllPage");
+	removeAllChild(surveyAllPage);
+	$("#surveyAllPage").hide();
+	
+	var createSurveyPage = document.getElementById("createSurveyPage");
+	removeAllChild(createSurveyPage);
+	$("#createSurveyPage").show();
+	
+	var addQuestion = document.createElement('button');
+	addQuestion.type= "button";
+	addQuestion.innerText = "Add Question";
+	addQuestion.style = "align:right";
+	addQuestion.addEventListener("click", function() {
+		addQuestionUsingCount();
+	});
+	createSurveyPage.appendChild(addQuestion);
+	
+};
+
 function addQuestionUsingCount() {
 	qCount++;
 	addQuestionDiv(qCount);
 };
 
 function addQuestionDiv(i) {
-	var superDiv = document.getElementById('qMain');
+	var superDiv = document.getElementById('createSurveyPage');
 	var questionParent = document.createElement('div');
 	questionParent.id = 'div_accordion_q_' + i;
 	questionParent.role = "tablist";
@@ -49,8 +71,8 @@ function addQuestionDiv(i) {
 	closeButton.style = "align:right";
 	closeButton.addEventListener("click", function(e) {
 		var qParentId = e.path[5].id;
-		var qMain = document.getElementById('qMain');
-		qMain.removeChild(document.getElementById(qParentId));
+		var createSurveyPage = document.getElementById('createSurveyPage');
+		createSurveyPage.removeChild(document.getElementById(qParentId));
 		qSerialNumber--;
 		resetQuestionSerialNo();
 	});
@@ -58,7 +80,6 @@ function addQuestionDiv(i) {
 	var span = document.createElement("span");
 	span.setAttribute("aria-hidden", "true");
 	span.innerHTML = "&times;";
-	/*span.innerHTML = "Delete";*/
 	closeButton.appendChild(span);
 	h5.appendChild(closeButton);
 	
@@ -87,9 +108,9 @@ function addQuestionDiv(i) {
 };
 
 function resetQuestionSerialNo() {
-	var qMain = document.getElementById('qMain');
-	for (var i = 0; i < qMain.children.length; i++) {
-		var child = qMain.children[i];
+	var createSurveyPage = document.getElementById('createSurveyPage');
+	for (var i = 0; i < createSurveyPage.children.length; i++) {
+		var child = createSurveyPage.children[i];
 		var id = child.id;
 		var cnt = id.charAt(id.length-1);
 		var anchor = document.getElementById('anchor_'+cnt);

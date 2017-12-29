@@ -301,7 +301,8 @@
 					 	<span aria-hidden="true">&times;</span>
 					 </button>
 				</div>
-				<div id = surveyMain onload="getSurveyList()"></div>
+				<div id = "surveyAllPage" style="display: none;"></div>
+				<div id = "createSurveyPage" style="display: none;"></div>
 				<!-- <ul class="nav nav-tabs" id="survey_tab">
 					<li class="nav-item"><a id="a_survey_new"
 						onclick="handleSurveyTab('survey_new')" class="nav-link active"
