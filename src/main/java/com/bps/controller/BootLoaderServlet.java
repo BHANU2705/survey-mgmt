@@ -10,7 +10,7 @@ import com.bps.service.core.SessionFactoryManager;
 import com.bps.service.exceptions.BaseException;
 import com.bps.service.exceptions.ErrorMapper;
 
-@WebServlet(urlPatterns =  "/bls", loadOnStartup = 1)
+@WebServlet(urlPatterns =  "/bls" /*, loadOnStartup = 1*/)
 public final class BootLoaderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

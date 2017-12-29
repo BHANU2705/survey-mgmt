@@ -10,16 +10,15 @@
 
 <title>Admin Home</title>
 
-<!-- <script src="../Test/js/vendor/jquery-slim.min.js"></script> -->
 <script src="../Test/js/vendor/jquery-3.2.1.js"></script>
 <script src="../Test/js/vendor/popper.min.js"></script>
-<script src="../Test/js/bootstrap.min.js"></script>
+<script src="../Test/js/vendor/bootstrap.min.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
-<script src="../Test/js/vendor/Chart.js"></script>
+<script src="../Test/js/core/Util.js"></script>
 
 <link href="../Test/css/bootstrap.css" rel="stylesheet">
-<link href="../Test/css/dashboard.css" rel="stylesheet">
 <link href="../Test/css/carousel.css" rel="stylesheet">
+<link href="../Test/css/dashboard.css" rel="stylesheet">
 <link href="../Test/css/footer.css" rel="stylesheet">
 
 <script>
@@ -294,12 +293,16 @@
 				<!-- /.container -->
 			</div>
 			<div id="survey" style="display: none;">
-				<div class="alert alert-info">
+				<div id = "subscriptionInfo" class="alert alert-info">
 					<strong>Info!</strong> You should <a id="a_survey_subscription"
 						onclick="navigateToSubscription()" href="" class="alert-link">subscribe</a>
 					to a plan before creating a survey.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					 	<span aria-hidden="true">&times;</span>
+					 </button>
 				</div>
-				<ul class="nav nav-tabs" id="survey_tab">
+				<div id = surveyMain onload="getSurveyList()"></div>
+				<!-- <ul class="nav nav-tabs" id="survey_tab">
 					<li class="nav-item"><a id="a_survey_new"
 						onclick="handleSurveyTab('survey_new')" class="nav-link active"
 						href="">New</a></li>
@@ -310,7 +313,7 @@
 				<div id="div_survey_new">
 					<button id="addQuestion" onclick="addQuestionUsingCount()">Add Question</button>
 					<div id = qMain></div>
-				</div>
+				</div> -->
 			</div>
 			<div id="user" style="display: none;">This is the user page.</div>
 			<div id="analytics" style="display: none;">
@@ -572,7 +575,8 @@
 			</main>
 		</div>
 	</div>
-	<script src="../Test/js/adminHome.js"></script>
-	<script src="../Test/js/survey.js"></script>
+	<script src="../Test/js/core/adminHome.js"></script>
+	<script src="../Test/js/core/survey.js"></script>
+	<script src="../Test/js/core/surveyList.js"></script>
 </body>
 </html>

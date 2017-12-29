@@ -34,6 +34,9 @@ function handleLeftPane(caller) {
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
 			$("#li_user").removeClass("active");
+			
+			onLoadSurvey();
+			
 		} else if (caller === 'user') {
 			$("#overview").hide();
 			$("#survey").hide();

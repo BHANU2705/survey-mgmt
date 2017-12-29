@@ -43,6 +43,9 @@ function addQuestionDiv(i) {
 	closeButton.type= "button";
 	closeButton.className = "close";
 	closeButton.setAttribute("aria-label", "Close");
+	closeButton.setAttribute("data-toggle", "tooltip");
+	closeButton.setAttribute("data-placement", "top");
+	closeButton.setAttribute("title", "Delete");
 	closeButton.style = "align:right";
 	closeButton.addEventListener("click", function(e) {
 		var qParentId = e.path[5].id;
@@ -55,6 +58,7 @@ function addQuestionDiv(i) {
 	var span = document.createElement("span");
 	span.setAttribute("aria-hidden", "true");
 	span.innerHTML = "&times;";
+	/*span.innerHTML = "Delete";*/
 	closeButton.appendChild(span);
 	h5.appendChild(closeButton);
 	

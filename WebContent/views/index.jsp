@@ -6,11 +6,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link href="../Test/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/Test/css/signin.css" rel="stylesheet">
-	<script src="../Test/js/vendor/jquery-slim.min.js"></script>
-	<script src="../Test/js/vendor/popper.min.js"></script>
-	<script src="../Test/js/bootstrap.min.js"></script>
+
+	<script src="../Test/js/vendor/jquery-3.2.1.js"></script>
+
+	<link href="../Test/css/bootstrap.css" rel="stylesheet">
+	<link href="../Test/css/signin.css" rel="stylesheet">
+	
 	<script>
 	$(document).ready(function() {
 		var isLoginFailed = <%= request.getAttribute("isLoginFailed") %>;
@@ -84,6 +85,5 @@
            </div>
 	    </div>
     </div>
-	<script src="../Test/js/index.js"></script>
 </body>
 </html>
