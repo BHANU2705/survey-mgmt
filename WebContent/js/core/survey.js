@@ -1,12 +1,13 @@
 var qCount = 0;
 var qSerialNumber = 0;
+var dataModel = {};
 
 function showCreateSurveyPage() {
 	var surveyAllPage = document.getElementById("surveyAllPage");
 	removeAllChild(surveyAllPage);
 	$("#surveyAllPage").hide();
 	var createSurveyPage = document.getElementById("createSurveyPage");
-//	removeAllChild(createSurveyPage);
+	removeAllChild(createSurveyPage);
 	$("#createSurveyPage").show();
 	showCreateSurveyModal();
 };
@@ -25,6 +26,7 @@ function showCreateSurveyModal() {
 };
 
 function createSurvey() {
+	dataModel = {};
 	$('#myId').modal('toggle');
 	qCount = 0;
 	qSerialNumber = 0;
@@ -60,7 +62,7 @@ function createSurvey() {
 	col2.className = "col text-center";
 	col2.style = "padding-top: 9px;";
 	var h5 = document.createElement('h5');
-	h5.innerHTML = "Create Survey";
+	h5.id = "surveyTitle";
 	col2.appendChild(h5);
 	row.appendChild(col2);
 	
@@ -86,7 +88,12 @@ function createSurvey() {
 	
 	cardBody.appendChild(qMain);
 	card.appendChild(cardBody);
-	return true;
+	
+	if (document.getElementById("surveyName") && document.getElementById("surveyName").value) {
+		dataModel.surveyName = document.getElementById("surveyName").value;
+		h5.innerHTML = dataModel.surveyName;
+	}
+	
 };
 
 function addQuestionUsingCount() {
