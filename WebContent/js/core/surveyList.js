@@ -22,6 +22,7 @@ function getSurveyList() {
 	
 	var col1 = document.createElement('div');
 	col1.className = "col";
+	col1.style = "padding-top: 9px;";
 	var h5 = document.createElement('h5');
 	h5.innerHTML = "Surveys";
 	col1.appendChild(h5);

@@ -12,14 +12,63 @@ function createSurvey() {
 	removeAllChild(createSurveyPage);
 	$("#createSurveyPage").show();
 	
+	var card = document.createElement('div');
+	card.className = "card";
+	createSurveyPage.appendChild(card);
+
+	var pDiv = document.createElement('div');
+	pDiv.className = "card-header";
+	card.appendChild(pDiv);
+	
+	var row = document.createElement('div');
+	row.className = "row";
+	pDiv.appendChild(row);
+	
+	var col1 = document.createElement("div");
+	col1.className = "col text-left";
+	var btn = document.createElement('button');
+	btn.className = "btn btn-md btn-primary btn-create";
+	btn.innerHTML = "Back to Survey Listing";
+	btn.style = "background-color: #03ab22;color: white;";
+	
+	btn.addEventListener("click", function() {
+		onLoadSurvey();
+	});
+	
+	col1.appendChild(btn);
+	row.appendChild(col1);
+	
+	
+	var col2 = document.createElement('div');
+	col2.className = "col text-center";
+	col2.style = "padding-top: 9px;";
+	var h5 = document.createElement('h5');
+	h5.innerHTML = "Create Survey";
+	col2.appendChild(h5);
+	row.appendChild(col2);
+	
+	var col3 = document.createElement("div");
+	col3.className = "col text-right";
 	var addQuestion = document.createElement('button');
-	addQuestion.type= "button";
+	addQuestion.className = "btn btn-md btn-primary btn-create";
 	addQuestion.innerText = "Add Question";
-	addQuestion.style = "align:right";
+	addQuestion.style = "background-color: #03ab22;color: white;";
+	
 	addQuestion.addEventListener("click", function() {
 		addQuestionUsingCount();
 	});
-	createSurveyPage.appendChild(addQuestion);
+	
+	col3.appendChild(addQuestion);
+	row.appendChild(col3);
+	
+	var cardBody = document.createElement('div');
+	cardBody.className = "card-body";
+	
+	var qMain = document.createElement('div');
+	qMain.id = "qMain";
+	
+	cardBody.appendChild(qMain);
+	card.appendChild(cardBody);
 	
 };
 
@@ -29,7 +78,7 @@ function addQuestionUsingCount() {
 };
 
 function addQuestionDiv(i) {
-	var superDiv = document.getElementById('createSurveyPage');
+	var superDiv = document.getElementById('qMain');
 	var questionParent = document.createElement('div');
 	questionParent.id = 'div_accordion_q_' + i;
 	questionParent.role = "tablist";
@@ -71,7 +120,7 @@ function addQuestionDiv(i) {
 	closeButton.style = "align:right";
 	closeButton.addEventListener("click", function(e) {
 		var qParentId = e.path[5].id;
-		var createSurveyPage = document.getElementById('createSurveyPage');
+		var createSurveyPage = document.getElementById('qMain');
 		createSurveyPage.removeChild(document.getElementById(qParentId));
 		qSerialNumber--;
 		resetQuestionSerialNo();
@@ -108,7 +157,7 @@ function addQuestionDiv(i) {
 };
 
 function resetQuestionSerialNo() {
-	var createSurveyPage = document.getElementById('createSurveyPage');
+	var createSurveyPage = document.getElementById('qMain');
 	for (var i = 0; i < createSurveyPage.children.length; i++) {
 		var child = createSurveyPage.children[i];
 		var id = child.id;
