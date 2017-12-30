@@ -14,7 +14,7 @@
 <script src="../Test/js/vendor/popper.min.js"></script>
 <script src="../Test/js/vendor/bootstrap.min.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
-<script src="../Test/js/core/Util.js"></script>
+<script src="../Test/js/core/Utility.js"></script>
 
 <link href="../Test/css/bootstrap.css" rel="stylesheet">
 <link href="../Test/css/carousel.css" rel="stylesheet">
@@ -302,19 +302,7 @@
 					 </button>
 				</div>
 				<div id = "surveyAllPage" style="display: none;"></div>
-				<div id = "createSurveyPage" style="display: none;"></div>
-				<!-- <ul class="nav nav-tabs" id="survey_tab">
-					<li class="nav-item"><a id="a_survey_new"
-						onclick="handleSurveyTab('survey_new')" class="nav-link active"
-						href="">New</a></li>
-					<li class="nav-item"><a id="a_survey_existing"
-						onclick="handleSurveyTab('survey_existing')" class="nav-link"
-						href="">Existing</a></li>
-				</ul>
-				<div id="div_survey_new">
-					<button id="addQuestion" onclick="addQuestionUsingCount()">Add Question</button>
-					<div id = qMain></div>
-				</div> -->
+				<div id = "createSurveyPage"></div>
 			</div>
 			<div id="user" style="display: none;">This is the user page.</div>
 			<div id="analytics" style="display: none;">
@@ -577,7 +565,7 @@
 		</div>
 	</div>
 	<script src="../Test/js/core/adminHome.js"></script>
-	<script src="../Test/js/core/survey.js"></script>
 	<script src="../Test/js/core/surveyList.js"></script>
+	<script src="../Test/js/core/survey.js"></script>
 </body>
 </html>

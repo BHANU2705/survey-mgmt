@@ -36,7 +36,7 @@ function getSurveyList() {
 	btn.style = "background-color: #03ab22;color: white;";
 	
 	btn.addEventListener("click", function() {
-		createSurvey();
+		showCreateSurveyPage();
 	});
 	
 	col2.appendChild(btn);
@@ -86,7 +86,6 @@ function getSurveyList() {
 	
 	surveyTable.appendChild(tBody);
 	cardBody.appendChild(surveyTable);
-	
 	card.appendChild(cardBody);
 	
 	return card;
