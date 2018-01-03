@@ -214,6 +214,23 @@ function getQuestionSet(i) {
 	var select = document.createElement('select');
 	select.className = "custom-select";
 	select.id = "inputGroupSelect_" + i;
+	var x = select.id;
+	var that = this;
+	select.addEventListener("change", function(e) {
+		var e1 = document.getElementById(e.currentTarget.id);
+		var value = e1.options[e1.selectedIndex].value;
+		var text = e1.options[e1.selectedIndex].text;
+		console.log("change value: " + value);
+		console.log("change text: " + text);
+	});
+	select.addEventListener("focus", function(e) {
+		console.log("focus");
+		var e1 = document.getElementById(e.currentTarget.id);
+		var value = e1.options[e1.selectedIndex].value;
+		var text = e1.options[e1.selectedIndex].text;
+		console.log("value: " + value);
+		console.log("text: " + text);
+	}, {once: true});
 	
 	var option1 = getQTypeOption("Radio", "Radio Button", true);
 	var option2 = getQTypeOption("Dropdown", "Dropdown List", false);
@@ -241,6 +258,13 @@ function getQuestionSet(i) {
 	row1.appendChild(col2);
 	
 	parent.appendChild(row1);
+	
+	
+	var row2 = document.createElement('div');
+	row2.className = "row";
+//	row2.appendChild(getAnswerOptions());
+	parent.appendChild(row2);
+	
 	return parent;
 };
 
