@@ -122,7 +122,7 @@ function addQuestionDiv(i) {
 	h5.className = "mb-0";
 	
 	var collapseId = 'collapse_'+i;
-	var qText = document.createElement('input');
+//	var qText = document.createElement('input');
 	
 	var a = document.createElement('a');
 	a.id = "anchor_"+i;
@@ -171,13 +171,87 @@ function addQuestionDiv(i) {
 	cardBody.className = "card-body";
 	collapse.appendChild(cardBody);
 	
+	/*var qText = document.createElement('input');
+	qText.type="text";
+	qText.id="qText_" + i;
+	qText.name="qText_" + i;
+	qText.placeholder = "Enter Question";*/
+	cardBody.appendChild(getQuestionSet(i));
+	questionCard.appendChild(collapse);
+};
+
+function getQuestionSet(i) {
+	var parent = document.createElement('div');
 	
+	var row1 = document.createElement('div');
+	row1.className = "row";
+	
+	var col1 = document.createElement('div');
+	col1.className = "col-8";
+	var qText = document.createElement('textarea');
 	qText.type="text";
 	qText.id="qText_" + i;
 	qText.name="qText_" + i;
 	qText.placeholder = "Enter Question";
-	cardBody.appendChild(qText);
-	questionCard.appendChild(collapse);
+	qText.className = "form-control";
+	qText.rows = 1;
+	col1.appendChild(qText);
+	
+	var col2 = document.createElement('div');
+	col2.className = "col-4";
+	
+	var qType = document.createElement('div');
+	qType.className = "input-group mb-3";
+	
+	var inputGroupPrepend = document.createElement('div');
+	inputGroupPrepend.className = "input-group-prepend";
+	var inputGroupLabel = document.createElement('label');
+	inputGroupLabel.className = "input-group-text";
+	inputGroupLabel.setAttribute("for", "inputGroupSelect_" + i);
+	inputGroupLabel.innerText = "Question Type";
+	inputGroupPrepend.appendChild(inputGroupLabel);
+	
+	var select = document.createElement('select');
+	select.className = "custom-select";
+	select.id = "inputGroupSelect_" + i;
+	
+	var option1 = getQTypeOption("Radio", "Radio Button", true);
+	var option2 = getQTypeOption("Dropdown", "Dropdown List", false);
+	var option3 = getQTypeOption("TextField", "Text Field", false);
+	var option4 = getQTypeOption("CheckBox", "Check Box", false);
+	var option5 = getQTypeOption("Gender", "Gender", false);
+	var option6 = getQTypeOption("YesNo", "Yes/ No", false);
+	var option6 = getQTypeOption("Date", "Date", false);
+	var option7 = getQTypeOption("Image", "Image Upload", false);
+	var option7 = getQTypeOption("Geocode", "Geocode", false);
+	
+	select.appendChild(option1);
+	select.appendChild(option2);
+	select.appendChild(option3);
+	select.appendChild(option4);
+	select.appendChild(option5);
+	select.appendChild(option6);
+	select.appendChild(option7);
+
+	qType.appendChild(inputGroupPrepend);
+	qType.appendChild(select);
+	
+	col2.appendChild(qType);
+	row1.appendChild(col1);
+	row1.appendChild(col2);
+	
+	parent.appendChild(row1);
+	return parent;
+};
+
+function getQTypeOption(value, text, isSelected) {
+	var option = document.createElement('option');
+	option.value = value;
+	option.innerText = text;
+	if(isSelected) {
+		option.setAttribute("selected", true);
+	}
+	return option;
 };
 
 function resetQuestionSerialNo() {
