@@ -38,26 +38,26 @@ function createSurvey() {
 	var pDiv = document.createElement('div');
 	pDiv.className = "card-header";
 	card.appendChild(pDiv);
-	
+
 	var row = document.createElement('div');
 	row.className = "row";
 	pDiv.appendChild(row);
-	
+
 	var col1 = document.createElement("div");
 	col1.className = "col text-left";
 	var btn = document.createElement('button');
 	btn.className = "btn btn-md btn-primary btn-create";
 	btn.innerHTML = "Back to Survey Listing";
 	btn.style = "background-color: #03ab22;color: white;";
-	
+
 	btn.addEventListener("click", function() {
 		onLoadSurvey();
 	});
-	
+
 	col1.appendChild(btn);
 	row.appendChild(col1);
-	
-	
+
+
 	var col2 = document.createElement('div');
 	col2.className = "col text-center";
 	col2.style = "padding-top: 9px;";
@@ -65,35 +65,35 @@ function createSurvey() {
 	h5.id = "surveyTitle";
 	col2.appendChild(h5);
 	row.appendChild(col2);
-	
+
 	var col3 = document.createElement("div");
 	col3.className = "col text-right";
 	var addQuestion = document.createElement('button');
 	addQuestion.className = "btn btn-md btn-primary btn-create";
 	addQuestion.innerText = "Add Question";
 	addQuestion.style = "background-color: #03ab22;color: white;";
-	
+
 	addQuestion.addEventListener("click", function() {
 		addQuestionUsingCount();
 	});
-	
+
 	col3.appendChild(addQuestion);
 	row.appendChild(col3);
-	
+
 	var cardBody = document.createElement('div');
 	cardBody.className = "card-body";
-	
+
 	var qMain = document.createElement('div');
 	qMain.id = "qMain";
-	
+
 	cardBody.appendChild(qMain);
 	card.appendChild(cardBody);
-	
+
 	if (document.getElementById("surveyName") && document.getElementById("surveyName").value) {
 		dataModel.surveyName = document.getElementById("surveyName").value;
 		h5.innerHTML = dataModel.surveyName;
 	}
-	
+
 };
 
 function addQuestionUsingCount() {
@@ -106,24 +106,24 @@ function addQuestionDiv(i) {
 	var questionParent = document.createElement('div');
 	questionParent.id = 'div_accordion_q_' + i;
 	questionParent.role = "tablist";
-	
+
 	superDiv.appendChild(questionParent);
 	qSerialNumber++;
-	
+
 	var questionCard = document.createElement('div');
 	questionCard.className = "card";
-	
+
 	var cardHeader = document.createElement('div');
 	cardHeader.className = "card-header";
 	cardHeader.role = "tab";
 	cardHeader.id = "heading_" + i;
-	
+
 	var h5 = document.createElement('h5');
 	h5.className = "mb-0";
-	
+
 	var collapseId = 'collapse_'+i;
 //	var qText = document.createElement('input');
-	
+
 	var a = document.createElement('a');
 	a.id = "anchor_"+i;
 	a.setAttribute('data-toggle', 'collapse');
@@ -131,9 +131,9 @@ function addQuestionDiv(i) {
 	a.setAttribute('aria-expanded', 'true');
 	a.setAttribute('aria-controls', collapseId);
 	a.innerHTML = "Question# "+ qSerialNumber;
-	
+
 	h5.appendChild(a);
-	
+
 	var closeButton = document.createElement('button');
 	closeButton.type= "button";
 	closeButton.className = "close";
@@ -149,28 +149,28 @@ function addQuestionDiv(i) {
 		qSerialNumber--;
 		resetQuestionSerialNo();
 	});
-	
+
 	var span = document.createElement("span");
 	span.setAttribute("aria-hidden", "true");
 	span.innerHTML = "&times;";
 	closeButton.appendChild(span);
 	h5.appendChild(closeButton);
-	
+
 	cardHeader.appendChild(h5);
 	questionCard.appendChild(cardHeader);
 	questionParent.appendChild(questionCard);
-	
+
 	var collapse = document.createElement('div');
 	collapse.id = collapseId;
 	collapse.className = "collapse show";
 	collapse.role = "tabpanel";
 	collapse.setAttribute('aria-labelledby', cardHeader.id);
 	collapse.setAttribute('data-parent', '#'+questionParent.id);
-	
+
 	var cardBody = document.createElement('div');
 	cardBody.className = "card-body";
 	collapse.appendChild(cardBody);
-	
+
 	/*var qText = document.createElement('input');
 	qText.type="text";
 	qText.id="qText_" + i;
@@ -182,10 +182,11 @@ function addQuestionDiv(i) {
 
 function getQuestionSet(i) {
 	var parent = document.createElement('div');
-	
+
 	var row1 = document.createElement('div');
 	row1.className = "row";
-	
+	row1.id = "row1";
+
 	var col1 = document.createElement('div');
 	col1.className = "col-8";
 	var qText = document.createElement('textarea');
@@ -196,13 +197,13 @@ function getQuestionSet(i) {
 	qText.className = "form-control";
 	qText.rows = 1;
 	col1.appendChild(qText);
-	
+
 	var col2 = document.createElement('div');
 	col2.className = "col-4";
-	
+
 	var qType = document.createElement('div');
 	qType.className = "input-group mb-3";
-	
+
 	var inputGroupPrepend = document.createElement('div');
 	inputGroupPrepend.className = "input-group-prepend";
 	var inputGroupLabel = document.createElement('label');
@@ -210,7 +211,7 @@ function getQuestionSet(i) {
 	inputGroupLabel.setAttribute("for", "inputGroupSelect_" + i);
 	inputGroupLabel.innerText = "Question Type";
 	inputGroupPrepend.appendChild(inputGroupLabel);
-	
+
 	var select = document.createElement('select');
 	select.className = "custom-select";
 	select.id = "inputGroupSelect_" + i;
@@ -219,29 +220,24 @@ function getQuestionSet(i) {
 	select.addEventListener("change", function(e) {
 		var e1 = document.getElementById(e.currentTarget.id);
 		var value = e1.options[e1.selectedIndex].value;
-		var text = e1.options[e1.selectedIndex].text;
-		console.log("change value: " + value);
-		console.log("change text: " + text);
+		attachOptionsDiv(e, value);
 	});
 	select.addEventListener("focus", function(e) {
-		console.log("focus");
 		var e1 = document.getElementById(e.currentTarget.id);
 		var value = e1.options[e1.selectedIndex].value;
-		var text = e1.options[e1.selectedIndex].text;
-		console.log("value: " + value);
-		console.log("text: " + text);
+		attachOptionsDiv(e, value);
 	}, {once: true});
-	
+
 	var option1 = getQTypeOption("Radio", "Radio Button", true);
 	var option2 = getQTypeOption("Dropdown", "Dropdown List", false);
 	var option3 = getQTypeOption("TextField", "Text Field", false);
 	var option4 = getQTypeOption("CheckBox", "Check Box", false);
 	var option5 = getQTypeOption("Gender", "Gender", false);
 	var option6 = getQTypeOption("YesNo", "Yes/ No", false);
-	var option6 = getQTypeOption("Date", "Date", false);
-	var option7 = getQTypeOption("Image", "Image Upload", false);
-	var option7 = getQTypeOption("Geocode", "Geocode", false);
-	
+	var option7 = getQTypeOption("Date", "Date", false);
+	var option8 = getQTypeOption("Image", "Image Upload", false);
+	var option9 = getQTypeOption("Geocode", "Geocode", false);
+
 	select.appendChild(option1);
 	select.appendChild(option2);
 	select.appendChild(option3);
@@ -249,23 +245,116 @@ function getQuestionSet(i) {
 	select.appendChild(option5);
 	select.appendChild(option6);
 	select.appendChild(option7);
+	select.appendChild(option8);
+	select.appendChild(option9);
 
 	qType.appendChild(inputGroupPrepend);
 	qType.appendChild(select);
-	
+
 	col2.appendChild(qType);
 	row1.appendChild(col1);
 	row1.appendChild(col2);
-	
+
 	parent.appendChild(row1);
-	
-	
+
 	var row2 = document.createElement('div');
 	row2.className = "row";
-//	row2.appendChild(getAnswerOptions());
+	row2.id = "add here";
 	parent.appendChild(row2);
-	
+
 	return parent;
+};
+
+function attachOptionsDiv(e, optionType) {
+	var container = e.path[4].childNodes[1];
+	removeAllChild(container);
+	var optionDiv = null;
+	switch (optionType) {
+	case "Radio":
+		optionDiv = getRadioOptionDiv();
+		break;
+	case "Dropdown":
+		optionDiv = getDropdownOptionDiv();
+		break;
+	case "TextField":
+		optionDiv = getTextFieldOptionDiv();
+		break;
+	case "CheckBox":
+		optionDiv = getCheckBoxOptionDiv();
+		break;
+	case "Gender":
+		optionDiv = getGenderOptionDiv();
+		break;
+	case "YesNo":
+		optionDiv = getYesNoOptionDiv();
+		break;
+	case "Date":
+		optionDiv = getDateOptionDiv();
+		break;
+	case "Image":
+		optionDiv = getImageOptionDiv();
+		break;
+	case "Geocode":
+		optionDiv = getGeocodeOptionDiv();
+		break;
+	default:
+		break;
+	}
+	container.appendChild(optionDiv);
+};
+
+function getRadioOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "Radio";
+	return divParent;
+};
+
+function getDropdownOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "DropDown";
+	return divParent;
+};
+
+function getTextFieldOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "TextField";
+	return divParent;
+};
+
+function getCheckBoxOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "CheckBox";
+	return divParent;
+};
+
+function getGenderOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "Gender";
+	return divParent;
+};
+
+function getYesNoOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "Yes/ No";
+	return divParent;
+};
+
+function getDateOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "Date";
+	return divParent;
+};
+
+function getImageOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "Image";
+	return divParent;
+};
+
+function getGeocodeOptionDiv() {
+	var divParent = document.createElement("div");
+	divParent.innerText = "GeoCode";
+	return divParent;
 };
 
 function getQTypeOption(value, text, isSelected) {
@@ -297,22 +386,22 @@ function getModel(id) {
 	parent.className = "modal";
 	parent.setAttribute("tabindex", -1);
 	parent.setAttribute("role", "dialog");
-	
+
 	var modalDialog = document.createElement('div');
 	modalDialog.className = "modal-dialog";
 	modalDialog.setAttribute("role", "document");
-	
+
 	var modalContent = document.createElement('div');
 	modalContent.className = "modal-content";
-	
+
 	var modalHeader = document.createElement('div');
 	modalHeader.className = "modal-header";
-	
+
 	var h5 = document.createElement('h5');
 	h5.id = "modalTitle";
 	h5.className = "modal-title";
 	h5.innerText = "Survey Name";
-	
+
 	var closeBtn = document.createElement('button');
 	closeBtn.type = "button";
 	closeBtn.className = "close";
@@ -321,20 +410,20 @@ function getModel(id) {
 	closeBtn.addEventListener("click", function() {
 		onLoadSurvey();
 	});
-	
+
 	var span = document.createElement('span');
 	span.setAttribute("aria-hidden", "true");
 	span.innerHTML = "&times;";
 	closeBtn.appendChild(span);
-	
+
 	modalHeader.appendChild(h5);
 	modalHeader.appendChild(closeBtn);
-	
+
 	var modalBody = document.createElement('div');
 	modalBody.className = "modal-body";
-	
+
 	modalBody.appendChild(getInfoAlert("<strong>Error!</strong> Missing Survey Name"));
-	
+
 	var surveyName = document.createElement('input');
 	surveyName.type = "text";
 	surveyName.id = "surveyName";
@@ -345,7 +434,7 @@ function getModel(id) {
 
 	var modalFooter = document.createElement('div');
 	modalFooter.className = "modal-footer";
-	
+
 	var proceed = document.createElement('button');
 	proceed.type = "button";
 	proceed.className = "btn btn-primary";
@@ -356,12 +445,12 @@ function getModel(id) {
 		} else {
 			$("#warningAlert").show();
 		}
-		
+
 	});
 	proceed.innerText = "Proceed";
 	proceed.enabled = false;
 	modalFooter.appendChild(proceed);
-	
+
 	var cancel = document.createElement('button');
 	cancel.type = "button";
 	cancel.className = "btn btn-secondary";
@@ -371,14 +460,14 @@ function getModel(id) {
 	cancel.innerText = "Cancel";
 	cancel.setAttribute("data-dismiss", "modal");
 	modalFooter.appendChild(cancel);
-	
+
 	modalContent.appendChild(modalHeader);
 	modalContent.appendChild(modalBody);
 	modalContent.appendChild(modalFooter);
-	
+
 	modalDialog.appendChild(modalContent);
 	parent.appendChild(modalDialog);
-	
+
 	return parent;
 };
 
@@ -388,23 +477,23 @@ function getInfoAlert(text) {
 	parent.className = "alert alert-danger alert-dismissible fade show";
 	parent.setAttribute("role", "alert");
 	parent.style="display: none;"
-	
-	var p = document.createElement('span');
+
+		var p = document.createElement('span');
 	p.innerHTML = text;
-	
+
 	var closeButton = document.createElement('button');
 	closeButton.type= "button";
 	closeButton.className = "close";
 	closeButton.setAttribute("aria-label", "Close");
 	closeButton.setAttribute("data-dismiss", "alert");
-	
+
 	var span = document.createElement("span");
 	span.setAttribute("aria-hidden", "true");
 	span.innerHTML = "&times;";
 	closeButton.appendChild(span);
-	
+
 	parent.appendChild(p);
 	parent.appendChild(closeButton);
-	
+
 	return parent;
 };
