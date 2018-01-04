@@ -56,9 +56,9 @@ function getSurveyList() {
 	var thead = document.createElement("thead");
 	var thead_tr = document.createElement("tr");
 	var thead_th1 = document.createElement("th");
-	thead_th1.innerText = "Name";
+	thead_th1.innerText = "Survey Name";
 	var thead_th2 = document.createElement("th");
-	thead_th2.innerText = "Position";
+	thead_th2.innerText = "Other Details";
 	var thead_th3 = document.createElement("th");
 	thead_th3.innerText = "#";
 	thead_tr.appendChild(thead_th3);
@@ -69,14 +69,19 @@ function getSurveyList() {
 	
 	var tBody = document.createElement("tbody");
 	
-	for (var i = 0; i < 20; i++) {
+	for (var i = 1; i <= 20; i++) {
 		var tbody_tr1 = document.createElement("tr");
 		var tbody_tr1_td0 = document.createElement("td");
-		tbody_tr1_td0.innerText = i+1;
+		tbody_tr1_td0.innerText = i;
 		var tbody_tr1_td1 = document.createElement("td");
-		tbody_tr1_td1.innerText = "Tiger Nixon";
+		var a = document.createElement('a');
+		a.className = "nav-link active";
+		a.style = "color: #01ab21;";
+		a.href = "#";
+		a.innerText = " Survey# " + i;
+		tbody_tr1_td1.appendChild(a);
 		var tbody_tr1_td2 = document.createElement("td");
-		tbody_tr1_td2.innerText = "System Architect";
+		tbody_tr1_td2.innerText = "Details# " + i;
 		tbody_tr1.appendChild(tbody_tr1_td0);
 		tbody_tr1.appendChild(tbody_tr1_td1);
 		tbody_tr1.appendChild(tbody_tr1_td2);

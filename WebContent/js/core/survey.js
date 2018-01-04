@@ -94,6 +94,19 @@ function createSurvey() {
 		h5.innerHTML = dataModel.surveyName;
 	}
 
+	var cardFooter =  document.createElement('div');
+	cardFooter.className = "card-footer text-right";
+	var saveSurvey = document.createElement('button');
+	saveSurvey.className = "btn btn-md btn-primary btn-create";
+	saveSurvey.innerText = "Save Survey";
+	saveSurvey.style = "background-color: #03ab22;color: white;";
+	saveSurvey.addEventListener("click", function() {
+		if(qMain && qMain.childElementCount <= 0) {
+			alert("Warning: No question added to the survey. So, nothing to save. Kindly add atleast one question to the survey.");
+		}
+	});
+	cardFooter.appendChild(saveSurvey);
+	card.appendChild(cardFooter);
 };
 
 function addQuestionUsingCount() {
@@ -122,7 +135,6 @@ function addQuestionDiv(i) {
 	h5.className = "mb-0";
 
 	var collapseId = 'collapse_'+i;
-//	var qText = document.createElement('input');
 
 	var a = document.createElement('a');
 	a.id = "anchor_"+i;
@@ -171,11 +183,6 @@ function addQuestionDiv(i) {
 	cardBody.className = "card-body";
 	collapse.appendChild(cardBody);
 
-	/*var qText = document.createElement('input');
-	qText.type="text";
-	qText.id="qText_" + i;
-	qText.name="qText_" + i;
-	qText.placeholder = "Enter Question";*/
 	cardBody.appendChild(getQuestionSet(i));
 	questionCard.appendChild(collapse);
 };
@@ -220,15 +227,18 @@ function getQuestionSet(i) {
 	select.addEventListener("change", function(e) {
 		var e1 = document.getElementById(e.currentTarget.id);
 		var value = e1.options[e1.selectedIndex].value;
-		attachOptionsDiv(e, value);
+		var i = parseInt(e1.id.charAt(e1.id.length-1));
+		attachOptionsDiv(e, value, i);
 	});
 	select.addEventListener("focus", function(e) {
 		var e1 = document.getElementById(e.currentTarget.id);
 		var value = e1.options[e1.selectedIndex].value;
-		attachOptionsDiv(e, value);
+		var i = parseInt(e1.id.charAt(e1.id.length-1));
+		attachOptionsDiv(e, value, i);
 	}, {once: true});
 
-	var option1 = getQTypeOption("Radio", "Radio Button", true);
+	var option0 = getQTypeOption("Choose", "Choose...", true);
+	var option1 = getQTypeOption("Radio", "Radio Button", false);
 	var option2 = getQTypeOption("Dropdown", "Dropdown List", false);
 	var option3 = getQTypeOption("TextField", "Text Field", false);
 	var option4 = getQTypeOption("CheckBox", "Check Box", false);
@@ -238,6 +248,7 @@ function getQuestionSet(i) {
 	var option8 = getQTypeOption("Image", "Image Upload", false);
 	var option9 = getQTypeOption("Geocode", "Geocode", false);
 
+	select.appendChild(option0);
 	select.appendChild(option1);
 	select.appendChild(option2);
 	select.appendChild(option3);
@@ -259,102 +270,106 @@ function getQuestionSet(i) {
 
 	var row2 = document.createElement('div');
 	row2.className = "row";
-	row2.id = "add here";
+	var row2Col1 = document.createElement('div');
+	row2Col1.className = "col";
+	row2Col1.id = "row2Col1_" + i;
+	
+	row2.appendChild(row2Col1);
 	parent.appendChild(row2);
 
 	return parent;
 };
 
-function attachOptionsDiv(e, optionType) {
-	var container = e.path[4].childNodes[1];
+function attachOptionsDiv(e, optionType, questionIndex) {
+	var container = e.path[4].childNodes[1].childNodes[0];
 	removeAllChild(container);
 	var optionDiv = null;
 	switch (optionType) {
 	case "Radio":
-		optionDiv = getRadioOptionDiv();
+		optionDiv = getRadioOptionDiv(questionIndex);
 		break;
 	case "Dropdown":
-		optionDiv = getDropdownOptionDiv();
+		optionDiv = getDropdownOptionDiv(questionIndex);
 		break;
 	case "TextField":
-		optionDiv = getTextFieldOptionDiv();
+		optionDiv = getTextFieldOptionDiv(questionIndex);
 		break;
 	case "CheckBox":
-		optionDiv = getCheckBoxOptionDiv();
+		optionDiv = getCheckBoxOptionDiv(questionIndex);
 		break;
 	case "Gender":
-		optionDiv = getGenderOptionDiv();
+		optionDiv = getGenderOptionDiv(questionIndex);
 		break;
 	case "YesNo":
-		optionDiv = getYesNoOptionDiv();
+		optionDiv = getYesNoOptionDiv(questionIndex);
 		break;
 	case "Date":
-		optionDiv = getDateOptionDiv();
+		optionDiv = getDateOptionDiv(questionIndex);
 		break;
 	case "Image":
-		optionDiv = getImageOptionDiv();
+		optionDiv = getImageOptionDiv(questionIndex);
 		break;
 	case "Geocode":
-		optionDiv = getGeocodeOptionDiv();
+		optionDiv = getGeocodeOptionDiv(questionIndex);
 		break;
 	default:
 		break;
 	}
-	container.appendChild(optionDiv);
+	if (optionDiv) {
+		container.appendChild(optionDiv);
+	}
 };
 
-function getRadioOptionDiv() {
+function getFiveOptionsDiv(questionIndex) {
 	var divParent = document.createElement("div");
-	divParent.innerText = "Radio";
+	divParent.id = "div_option_parent_q_" + questionIndex;
+	for (var i = 1; i < 6; i++) {
+		var qText = document.createElement("input");
+		qText.type="text";
+		qText.id="q_" + questionIndex + "_option_" + i;
+		qText.name = qText.id;
+		qText.placeholder = "Enter an answer choice";
+		qText.className = "form-control";
+		qText.style = "margin-bottom: 8px; margin-top: 5px;";
+		divParent.appendChild(qText);
+	}
 	return divParent;
 };
 
-function getDropdownOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "DropDown";
-	return divParent;
+function getRadioOptionDiv(questionIndex) {
+	return getFiveOptionsDiv(questionIndex);
 };
 
-function getTextFieldOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "TextField";
-	return divParent;
+function getDropdownOptionDiv(questionIndex) {
+	return getFiveOptionsDiv(questionIndex);
 };
 
-function getCheckBoxOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "CheckBox";
-	return divParent;
+function getTextFieldOptionDiv(questionIndex) {
+	return null;
 };
 
-function getGenderOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "Gender";
-	return divParent;
+function getCheckBoxOptionDiv(questionIndex) {
+	return getFiveOptionsDiv(questionIndex);
 };
 
-function getYesNoOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "Yes/ No";
-	return divParent;
+function getGenderOptionDiv(questionIndex) {
+	return null;
 };
 
-function getDateOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "Date";
-	return divParent;
+function getYesNoOptionDiv(questionIndex) {
+	return null;
 };
 
-function getImageOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "Image";
-	return divParent;
+function getDateOptionDiv(questionIndex) {
+	return null;
 };
 
-function getGeocodeOptionDiv() {
-	var divParent = document.createElement("div");
-	divParent.innerText = "GeoCode";
-	return divParent;
+function getImageOptionDiv(questionIndex) {
+	return null;
+};
+
+function getGeocodeOptionDiv(questionIndex) {
+	return null;
 };
 
 function getQTypeOption(value, text, isSelected) {
