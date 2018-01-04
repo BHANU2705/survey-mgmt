@@ -1,0 +1,10 @@
+Required Color: #01ab21
+
+.bg-info > background-color
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link background-color
+
+.btn-primary
+	color: #fff;
+    background-color: #23242387;
+    border-color: #f0f3f7;
