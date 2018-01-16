@@ -56,35 +56,54 @@ function getSurveyList() {
 	var thead = document.createElement("thead");
 	var thead_tr = document.createElement("tr");
 	var thead_th1 = document.createElement("th");
-	thead_th1.innerText = "Survey Name";
+	thead_th1.innerText = "#";
 	var thead_th2 = document.createElement("th");
-	thead_th2.innerText = "Other Details";
+	thead_th2.innerText = "Survey Name";
 	var thead_th3 = document.createElement("th");
-	thead_th3.innerText = "#";
-	thead_tr.appendChild(thead_th3);
+	thead_th3.innerText = "Status";
+	var thead_th4 = document.createElement("th");
+	thead_th4.innerText = "Created On";
+	var thead_th5 = document.createElement("th");
+	thead_th5.innerText = "Responses #";
+	
 	thead_tr.appendChild(thead_th1);
 	thead_tr.appendChild(thead_th2);
+	thead_tr.appendChild(thead_th3);
+	thead_tr.appendChild(thead_th4);
+	thead_tr.appendChild(thead_th5);
 	thead.appendChild(thead_tr);
 	surveyTable.appendChild(thead);
-	
+	var status = [];
+	status.push("Live");
+	status.push("Draft");
 	var tBody = document.createElement("tbody");
-	
-	for (var i = 1; i <= 20; i++) {
+	for (var i = 1; i <= 10; i++) {
 		var tbody_tr1 = document.createElement("tr");
-		var tbody_tr1_td0 = document.createElement("td");
-		tbody_tr1_td0.innerText = i;
 		var tbody_tr1_td1 = document.createElement("td");
+		tbody_tr1_td1.innerText = i;
+
+		var tbody_tr1_td2 = document.createElement("td");
 		var a = document.createElement('a');
 		a.className = "nav-link active";
 		a.style = "color: #01ab21;";
 		a.href = "#";
 		a.innerText = " Survey# " + i;
-		tbody_tr1_td1.appendChild(a);
-		var tbody_tr1_td2 = document.createElement("td");
-		tbody_tr1_td2.innerText = "Details# " + i;
-		tbody_tr1.appendChild(tbody_tr1_td0);
+		tbody_tr1_td2.appendChild(a);
+		
+		var tbody_tr1_td3 = document.createElement("td");
+		tbody_tr1_td3.innerText = status[i%2];
+		
+		var tbody_tr1_td4 = document.createElement("td");
+		tbody_tr1_td4.innerText = Date();
+		
+		var tbody_tr1_td5 = document.createElement("td");
+		tbody_tr1_td5.innerText = Math.floor(Math.random() * 101);
+		
 		tbody_tr1.appendChild(tbody_tr1_td1);
 		tbody_tr1.appendChild(tbody_tr1_td2);
+		tbody_tr1.appendChild(tbody_tr1_td3);
+		tbody_tr1.appendChild(tbody_tr1_td4);
+		tbody_tr1.appendChild(tbody_tr1_td5);
 		tBody.appendChild(tbody_tr1);
 	}
 	

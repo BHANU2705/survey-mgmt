@@ -512,3 +512,34 @@ function getInfoAlert(text) {
 
 	return parent;
 };
+
+function getSurveyData(surveyId) {
+	var survey = {};
+	survey.id = "survey_1";
+	survey.name = "Survey Name";
+	survey.createdOn = Date();
+	survey.createdBy = "Bhanu";
+	survey.questions = [];
+	for(var i = 0; i < 3; i++) {
+		survey.questions[i] = {};
+		survey.questions[i].id = "question_" + (i+1);
+		survey.questions[i].text = "This is question# " + (i+1);
+		survey.questions[i].type = "Radio";
+		survey.questions[i].surveyId = survey.id;
+		survey.questions[i].options = [];
+		for(var j = 0; j < 5; j++) {
+			survey.questions[i].options[j] = {};
+			survey.questions[i].options[j].optionId = "option_" + (i+1) + "_" + (j+1);
+			survey.questions[i].options[j].optionText = "This is option# " + (j+1) + " for question# " + (i+1);
+		}
+	}
+	return survey;
+};
+
+function readSurvey(data) {
+	
+};
+
+function editSurvey(data) {
+	
+};
