@@ -1,5 +1,6 @@
 package com.bps.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
@@ -12,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bps.persistence.tables.LifeCycle;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 public class CommonUtility {
 
@@ -65,5 +70,36 @@ public class CommonUtility {
 	        session.invalidate();
 		}
         response.sendRedirect("/Test/");
+	}
+	
+	public static JsonElement getJSONData(BufferedReader reader) {
+	    try {
+	    	String line = null;
+	    	StringBuilder jsonBuff = new StringBuilder();
+			while ((line = reader.readLine()) != null) {
+				jsonBuff.append(line);
+			}
+			String data = jsonBuff.toString();
+			if (isValidJson(data)) {
+				JsonParser parser = new JsonParser();
+				return parser.parse(data);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    return null;
+	}
+	
+	public static boolean isValidJson(String str) {
+		if (str != null && !str.isEmpty()) {
+			final Gson gson = new Gson();
+			try {
+				gson.fromJson(str, Object.class);
+				return true;
+			} catch (JsonSyntaxException e) {
+				return false;
+			}
+		}
+		return false;
 	}
 }

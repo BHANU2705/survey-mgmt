@@ -14,13 +14,12 @@ public class SessionManager {
 			if(ProcessContextPool.get().getSessionFactory() == null) {
 				ProcessContextPool.get().setSessionFactory(SessionFactoryManager.getSessionFactory());
 			}
-			return ProcessContextPool.get().getSessionFactory().openSession();
 		} else {
 			ProcessContext processContext = new ProcessContext();
 			processContext.setSessionFactory(SessionFactoryManager.getSessionFactory());
 			ProcessContextPool.set(processContext);
 		}
-		return null;
+		return ProcessContextPool.get().getSessionFactory().openSession();
 	}
 	public static void closeSession(Session session) {
 		if (session != null && session.isOpen()) {
