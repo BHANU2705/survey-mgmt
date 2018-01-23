@@ -101,13 +101,83 @@ function createSurvey() {
 	saveSurvey.innerText = "Save Survey";
 	saveSurvey.style = "background-color: #03ab22;color: white;";
 	saveSurvey.addEventListener("click", function() {
-		if(qMain && qMain.childElementCount <= 0) {
+		onSave();
+		/*if(qMain && qMain.childElementCount <= 0) {
 			alert("Warning: No question added to the survey. So, nothing to save. Kindly add atleast one question to the survey.");
-		}
+		} else {
+			onSave();
+		}*/
 	});
 	cardFooter.appendChild(saveSurvey);
 	card.appendChild(cardFooter);
 };
+
+function onSave() {
+	$.blockUI({ message: 'Working...' });
+	var data = getData();
+	var payload =  JSON.stringify(data);
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/survey";
+	if (!httpRequest) {
+		alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+	}
+	httpRequest.open('POST', url);
+	httpRequest.setRequestHeader('Content-Type', 'application/json');
+	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+	httpRequest.onload = function () {
+		$.unblockUI();
+		//var users = JSON.parse(httpRequest.responseText);
+		if (httpRequest.readyState == 4 && httpRequest.status == "201") {
+			alert('success');
+			//console.table(users);
+		} else {
+			//console.error(users);
+		}
+	}
+	//httpRequest.onreadystatechange = onSaveResponse(httpRequest);
+	httpRequest.send(payload);
+};
+
+function getData() {
+	var survey = {};
+	survey.name = 'Sample Survey';
+
+	var questions = [];
+	var q1 = {};
+	q1.text = 'What is your name?';
+	q1.type = 'Radio';
+	q1.options = [];
+	
+	var t = {};
+	t.text = "Ram1";
+	q1.options.push(t);
+	q1.options.push(t);
+	q1.options.push(t);
+	q1.options.push(t);
+	q1.options.push(t);
+	
+	var q2 = {};
+	q2.text = 'Specify your gender?';
+	q2.type = 'Gender';
+	questions.push(q1);
+	questions.push(q2);
+
+	survey.questions = questions;
+	return survey;
+};
+
+function onSaveResponse(httpRequest) {
+	alert(httpRequest.status);
+	if (httpRequest.readyState === XMLHttpRequest.DONE) {
+		if (httpRequest.status === 201) {
+			alert('Hurray');
+			alert(httpRequest.responseText);
+		} else {
+			alert('There was a problem with the request.');
+		}
+	}
+}
 
 function addQuestionUsingCount() {
 	qCount++;
@@ -273,7 +343,7 @@ function getQuestionSet(i) {
 	var row2Col1 = document.createElement('div');
 	row2Col1.className = "col";
 	row2Col1.id = "row2Col1_" + i;
-	
+
 	row2.appendChild(row2Col1);
 	parent.appendChild(row2);
 
@@ -537,9 +607,9 @@ function getSurveyData(surveyId) {
 };
 
 function readSurvey(data) {
-	
+
 };
 
 function editSurvey(data) {
-	
+
 };
