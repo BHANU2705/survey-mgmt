@@ -1,8 +1,5 @@
 package com.bps.persistence.tables;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,32 +8,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.bps.util.QuestionType;
-
 @Entity
-public class Question implements IBaseEntity {
+public class QuestionOption implements IBaseEntity {
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
-	
+
 	@Column(nullable = false)
 	private String text;
-	
-	@Column(nullable = false)
-	private QuestionType type;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "surveyId")
-	private Survey survey;
-	
-	@OneToMany(mappedBy = "question",
-			cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<QuestionOption> options = new ArrayList<QuestionOption>();
+	@JoinColumn(name = "questionId")
+	private Question question;
 
 	public String getId() {
 		return id;
@@ -54,20 +41,12 @@ public class Question implements IBaseEntity {
 		this.text = text;
 	}
 
-	public QuestionType getType() {
-		return type;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setType(QuestionType type) {
-		this.type = type;
-	}
-
-	public Survey getSurvey() {
-		return survey;
-	}
-
-	public void setSurvey(Survey survey) {
-		this.survey = survey;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	@Override
@@ -86,10 +65,10 @@ public class Question implements IBaseEntity {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Question)) {
+		if (!(obj instanceof QuestionOption)) {
 			return false;
 		}
-		Question other = (Question) obj;
+		QuestionOption other = (QuestionOption) obj;
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -98,26 +77,5 @@ public class Question implements IBaseEntity {
 			return false;
 		}
 		return true;
-	}
-	
-	public void addOption(QuestionOption option) {
-		if (options == null) {
-			options = new ArrayList<QuestionOption>();
-		}
-		options.add(option);
-		option.setQuestion(this);
-	}
-	
-	public void removeOption(QuestionOption option) {
-		options.remove(option);
-		option.setQuestion(null);
-	}
-
-	public List<QuestionOption> getOptions() {
-		return options;
-	}
-
-	public void setOptions(List<QuestionOption> options) {
-		this.options = options;
 	}
 }

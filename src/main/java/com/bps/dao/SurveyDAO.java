@@ -17,12 +17,16 @@ public class SurveyDAO implements IBaseDAO {
 
 	@Override
 	public IBaseEntity create(IBaseEntity entity) throws BaseException {
+		long startTime = System.currentTimeMillis();
 		Survey survey = (Survey) entity;
 		Session session = SessionManager.getSession();
 		Transaction tx = session.beginTransaction();
 		session.saveOrUpdate(survey);
 		tx.commit();
 		SessionManager.closeSession(session);
+		long endTime = System.currentTimeMillis();
+		long d = endTime - startTime;
+		System.out.println("DB Time: " + d);
 		return survey;
 	}
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bps.persistence.tables.Question;
+import com.bps.persistence.tables.QuestionOption;
 import com.bps.persistence.tables.Survey;
 import com.bps.service.core.SurveyManager;
 import com.bps.service.exceptions.BaseException;
@@ -26,6 +27,7 @@ public class SurveyController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		long startTime = System.currentTimeMillis();
 		if (request.getContentType().equalsIgnoreCase("application/json")) {
 			JsonElement payload = CommonUtility.getJSONData(request.getReader());
 			Gson gson = new Gson();
@@ -34,6 +36,13 @@ public class SurveyController extends HttpServlet {
 			survey.setQuestions(null);
 			for (Question question : questions) {
 				survey.addQuestion(question);
+				if (question.getOptions() != null && !question.getOptions().isEmpty()) {
+					List<QuestionOption> options = question.getOptions();
+					question.setOptions(null);
+					for (QuestionOption option: options) {
+						question.addOption(option);
+					}
+				}
 			}
 			SurveyManager manager = new SurveyManager();
 			try {
@@ -44,6 +53,9 @@ public class SurveyController extends HttpServlet {
 			}
 		}
 		response.setStatus(HttpServletResponse.SC_CREATED);
+		long endTime = System.currentTimeMillis();
+		long d = endTime - startTime;
+		System.out.println("Controller Time: " + d);
 	}
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -3,12 +3,12 @@ package com.bps.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class CommonUtilityTest {
+public class CommonUtilityTest {
 	
 	@Test
-	void testIsValidJson() {
+	public void testIsValidJson() {
 		String valid1 = "{\"name\": \"Bhanu\"}";
 		String valid2 = "bhanu";
 		String invalid1 = "";

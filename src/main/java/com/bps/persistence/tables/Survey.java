@@ -16,8 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Survey implements IBaseEntity {
 	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "uuid")
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
 	
 	@Column
