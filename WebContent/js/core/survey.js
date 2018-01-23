@@ -141,27 +141,36 @@ function onSave() {
 
 function getData() {
 	var survey = {};
-	survey.name = 'Sample Survey';
-
+	var surveyNameElement = document.getElementById('surveyName');
+	if(surveyNameElement && surveyNameElement.value) {
+		survey.name = surveyNameElement.value;
+	}
 	var questions = [];
-	var q1 = {};
-	q1.text = 'What is your name?';
-	q1.type = 'Radio';
-	q1.options = [];
-	
-	var t = {};
-	t.text = "Ram1";
-	q1.options.push(t);
-	q1.options.push(t);
-	q1.options.push(t);
-	q1.options.push(t);
-	q1.options.push(t);
-	
-	var q2 = {};
-	q2.text = 'Specify your gender?';
-	q2.type = 'Gender';
-	questions.push(q1);
-	questions.push(q2);
+	for (var i = 1; i <= qCount; i++) {
+		var element = document.getElementById('qText_'+i);
+		if(element && element.value) {
+			var question = {};
+			question.text = element.value;
+			question.options = [];
+			var qType = document.getElementById('inputGroupSelect_'+i);
+			if(qType && qType.value) {
+				var type = qType.value;
+				question.type = type;
+				if(type === 'Radio' || type === 'Dropdown' || type === 'CheckBox') {
+					var opt = null;
+					for(var cnt = 1; cnt <=5; cnt++) {
+						opt = document.getElementById('q_'+i+'_option_'+cnt);
+						if(opt && opt.value){
+							var t = {};
+							t.text = opt.value;
+							question.options.push(t);
+						}
+					}
+				}
+			}
+			questions.push(question);
+		}
+	}
 
 	survey.questions = questions;
 	return survey;
