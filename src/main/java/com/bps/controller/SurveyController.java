@@ -14,11 +14,12 @@ import com.bps.persistence.tables.QuestionOption;
 import com.bps.persistence.tables.Survey;
 import com.bps.service.core.SurveyManager;
 import com.bps.service.exceptions.BaseException;
+import com.bps.util.CommonConstants;
 import com.bps.util.CommonUtility;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
-@WebServlet("/survey")
+@WebServlet(urlPatterns = CommonConstants.URL_SURVEY_CONTROLLER, name = "SurveyController")
 public class SurveyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

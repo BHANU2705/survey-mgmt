@@ -10,6 +10,7 @@ public final class CommonConstants {
 	public static final String LOGIN_ACTION_SIGNIN = "signin";
 	public static final String URL_HOME_CONTROLLER = "/home";
 	public static final String URL_MAIN_CONTROLLER = "/main";
+	public static final String URL_SURVEY_CONTROLLER = "/survey";
 	public static final String NAME = "name";
 	public static final String EMAIL = "email";
 	public static final String PASSWORD = "password";
