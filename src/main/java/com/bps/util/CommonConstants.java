@@ -23,4 +23,7 @@ public final class CommonConstants {
 	public static final String IS_PASSWORD_CHANGE_SUCCESSFUL = "isPasswordChangeSuccessful";
 	public static final String IS_NAME_CHANGE_SUCCESSFUL = "isNameChangeSuccessful";
 	public static final String IS_ACCOUNT_DELETION_SUCCESSFUL = "isAccountDeletionSuccessful";
+	public static final String ID = "id";
+	public static final String CONTENT_TYPE = "Content-Type";
+	public static final String APPLICATION_JSON  = "application/json";
 }

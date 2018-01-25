@@ -34,7 +34,7 @@ public class Question implements IBaseEntity {
 	@JoinColumn(name = "surveyId")
 	private Survey survey;
 	
-	@OneToMany(mappedBy = "question",
+	@OneToMany(mappedBy = "question", fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<QuestionOption> options = new ArrayList<QuestionOption>();
 

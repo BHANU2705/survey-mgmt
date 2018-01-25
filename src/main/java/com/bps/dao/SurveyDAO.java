@@ -1,17 +1,21 @@
 package com.bps.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import com.bps.persistence.tables.IBaseEntity;
+import com.bps.persistence.tables.LifeCycle;
+import com.bps.persistence.tables.Question;
 import com.bps.persistence.tables.Survey;
 import com.bps.service.exceptions.BaseException;
+import com.bps.util.SurveyStatus;
 
 public class SurveyDAO implements IBaseDAO {
 
@@ -54,15 +58,29 @@ public class SurveyDAO implements IBaseDAO {
 
 	@Override
 	public IBaseEntity[] read() throws BaseException {
-		List<Survey> surveys = new ArrayList<Survey>();
+		List<Survey> surveys = new ArrayList<>();
 		Session session = SessionManager.getSession();
 		session.setDefaultReadOnly(true);
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<Survey> criteria = builder.createQuery(Survey.class);
-	    criteria.from(Survey.class);
-	    surveys = session.createQuery(criteria).getResultList();
-	    SessionManager.closeSession(session);
-		return (Survey[]) surveys.toArray();
+		String queryString = "SELECT s.id, s.name, s.status, s.lifeCycle FROM Survey s";
+		Query<?> query = session.createQuery(queryString);
+		query.setReadOnly(true);
+		List<?> data = query.getResultList();
+		Iterator<?> it = data.iterator();
+		while (it.hasNext()) {
+			Object[] list = (Object[]) it.next();
+			String id = (String) list[0];
+			String name = (String) list[1];
+			SurveyStatus status = (SurveyStatus) list[2];
+			LifeCycle lifeCycle = (LifeCycle) list[3];
+			Survey survey = new Survey();
+			survey.setId(id);
+			survey.setName(name);
+			survey.setStatus(status);
+			survey.setLifeCycle(lifeCycle);
+			surveys.add(survey);
+		}
+		SessionManager.closeSession(session);
+		return surveys.toArray(new Survey[surveys.size()]);
 	}
 
 	@Override
@@ -73,6 +91,20 @@ public class SurveyDAO implements IBaseDAO {
 			session.setDefaultReadOnly(true);
 			Survey dbSurvey = session.get(Survey.class, survey.getId());
 			SessionManager.closeSession(session);
+			if (dbSurvey.getQuestions() != null && !dbSurvey.getQuestions().isEmpty()) {
+				List<Question> dbQuestions = dbSurvey.getQuestions();
+				dbSurvey.setQuestions(null);
+				List<Question> questionSet = new ArrayList<>();
+				Set<String> set = new HashSet<>();
+				for (Question question : dbQuestions) {
+					if (question != null) {
+						if(set.add(question.getId())) {
+							questionSet.add(question);
+						}
+					}
+				}
+				dbSurvey.setQuestions(questionSet);
+			}
 			return dbSurvey;
 		}
 		return null;

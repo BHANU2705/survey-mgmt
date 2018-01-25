@@ -1,7 +1,9 @@
 package com.bps.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,13 +20,39 @@ import com.bps.util.CommonConstants;
 import com.bps.util.CommonUtility;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 @WebServlet(urlPatterns = CommonConstants.URL_SURVEY_CONTROLLER, name = "SurveyController")
 public class SurveyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		Map<String, String[]> map = request.getParameterMap();
+		SurveyManager surveyManager = new SurveyManager();
+		String[] surveyIds = null;
+		String surveyString = null;
+		Gson gson = CommonUtility.buildGson();
+		Type listType = new TypeToken<List<Survey>>() {}.getType();
+		try {
+			if (map != null && !map.isEmpty()) {
+				if (map.containsKey(CommonConstants.ID)) {
+					surveyIds = map.get(CommonConstants.ID);
+					Survey survey = surveyManager.readSurvey(surveyIds[0]);
+					surveyString = gson.toJson(survey, Survey.class);
+				}
+			} else {
+				List<Survey> surveys = surveyManager.readSurveys();
+				surveyString = gson.toJson(surveys, listType);
+			}
+			response.addHeader(CommonConstants.CONTENT_TYPE, CommonConstants.APPLICATION_JSON+";charset=UTF-8");
+			response.getWriter().append(surveyString);
+		} catch (BaseException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}  catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

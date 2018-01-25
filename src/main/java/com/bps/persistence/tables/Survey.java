@@ -7,11 +7,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.bps.util.SurveyStatus;
 
 @Entity
 public class Survey implements IBaseEntity {
@@ -20,13 +23,16 @@ public class Survey implements IBaseEntity {
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
 	
-	@Column
+	@Column(nullable = false)
 	private String name;
 
+	@Column
+	private SurveyStatus status;
+	
 	@Embedded
 	private LifeCycle lifeCycle;
 	
-	@OneToMany(mappedBy = "survey",
+	@OneToMany(mappedBy = "survey", fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL, orphanRemoval = true)
 	List<Question> questions = new ArrayList<Question>();
 
@@ -73,5 +79,13 @@ public class Survey implements IBaseEntity {
 	
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	public SurveyStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(SurveyStatus status) {
+		this.status = status;
 	}
 }

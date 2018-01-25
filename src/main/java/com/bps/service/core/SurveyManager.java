@@ -1,6 +1,8 @@
 package com.bps.service.core;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -44,7 +46,8 @@ public class SurveyManager {
 		return (Survey) surveyDAO.read(survey);
 	}
 	
-	public Survey[] readSurvey() throws BaseException {
-		return (Survey[]) surveyDAO.read();
+	public List<Survey> readSurveys() throws BaseException {
+		Survey[] entities = (Survey[]) surveyDAO.read();
+		return Arrays.asList(entities);
 	}
 }
