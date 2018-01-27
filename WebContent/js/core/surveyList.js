@@ -2,7 +2,7 @@ function onLoadSurvey() {
 	var createSurveyPage = document.getElementById("createSurveyPage");
 	removeAllChild(createSurveyPage);
 	$("#createSurveyPage").hide();
-	$("#subscriptionInfo").show();
+	$("#subscriptionInfo").hide();
 	var surveyAllPage = document.getElementById("surveyAllPage");
 	removeAllChild(surveyAllPage);
 	var card = getSurveyList();
@@ -102,6 +102,8 @@ function setData(surveyTable, httpRequest) {
         	var data = JSON.parse(response);
         	var tBody = document.createElement("tbody");
         	for (var i = 0; i < data.length; i++) {
+        		var surveyId = data[i].id;
+        		var sName = data[i].name;
 				var row = document.createElement("tr");
 
 				var index = document.createElement("td");
@@ -173,7 +175,9 @@ function setData(surveyTable, httpRequest) {
 				dropDownMenuDiv.appendChild(dropdownItem1);
 				
 				var dropdownItem2 = document.createElement("a");
-				dropdownItem2.href = "#";
+				dropdownItem2.addEventListener("click", function() {
+					deleteSurvey(surveyId, sName);
+				});
 				dropdownItem2.className = "dropdown-item";
 				
 				var deleteIcon = document.createElement("i");
@@ -201,4 +205,20 @@ function setData(surveyTable, httpRequest) {
 
 function getResonseCount(surveyId) {
 	return Math.floor(Math.random() * 101);
+};
+
+function deleteSurvey(surveyId, surveyName) {
+	$.blockUI({ message: 'Deleting the Survey: ' +  surveyName});
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/survey?id="+surveyId;
+	httpRequest.open('DELETE', url);
+	httpRequest.onload = function () {
+		$.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "204") {
+			onLoadSurvey();
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(null);
 };

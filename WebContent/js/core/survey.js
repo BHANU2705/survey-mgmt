@@ -112,27 +112,33 @@ function createSurvey() {
 };
 
 function onSave() {
-	$.blockUI({ message: 'Working...' });
+	$.blockUI({ message: 'Saving the survey...' });
 	var data = getData();
-	var payload =  JSON.stringify(data);
-	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/survey";
-	if (!httpRequest) {
-		alert('Giving up :( Cannot create an XMLHTTP instance');
-		return false;
-	}
-	httpRequest.open('POST', url);
-	httpRequest.setRequestHeader('Content-Type', 'application/json');
-	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
-	httpRequest.onload = function () {
+	if(data == null) {
+		alert('Please choose the question type properly.');
 		$.unblockUI();
-		if (httpRequest.readyState == 4 && httpRequest.status == "201") {
-			alert('success');
-		} else {
-			// error scenario
+	} else {
+		var payload =  JSON.stringify(data);
+		var httpRequest = new XMLHttpRequest();
+		var url = "/Test/survey";
+		if (!httpRequest) {
+			alert('Giving up :( Cannot create an XMLHTTP instance');
+			return false;
 		}
+		httpRequest.open('POST', url);
+		httpRequest.setRequestHeader('Content-Type', 'application/json');
+		httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+		httpRequest.onload = function () {
+			$.unblockUI();
+			if (httpRequest.readyState == 4 && httpRequest.status == "201") {
+				alert('success');
+				onLoadSurvey();
+			} else {
+				// error scenario
+			}
+		}
+		httpRequest.send(payload);
 	}
-	httpRequest.send(payload);
 };
 
 function getData() {
@@ -152,6 +158,9 @@ function getData() {
 			var qType = document.getElementById('inputGroupSelect_'+i);
 			if(qType && qType.value) {
 				var type = qType.value;
+				if (type === 'Choose') {
+					return null;
+				}
 				question.type = type;
 				if(type === 'Radio' || type === 'Dropdown' || type === 'CheckBox') {
 					var opt = null;

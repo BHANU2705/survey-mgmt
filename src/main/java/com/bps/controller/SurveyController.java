@@ -57,34 +57,38 @@ public class SurveyController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		long startTime = System.currentTimeMillis();
-		if (request.getContentType().equalsIgnoreCase("application/json")) {
-			JsonElement payload = CommonUtility.getJSONData(request.getReader());
-			Gson gson = new Gson();
-			Survey survey = gson.fromJson(payload, Survey.class);
-			List<Question> questions = survey.getQuestions();
-			survey.setQuestions(null);
-			for (Question question : questions) {
-				survey.addQuestion(question);
-				if (question.getOptions() != null && !question.getOptions().isEmpty()) {
-					List<QuestionOption> options = question.getOptions();
-					question.setOptions(null);
-					for (QuestionOption option: options) {
-						question.addOption(option);
+		try {
+			if (request.getContentType().equalsIgnoreCase("application/json")) {
+				JsonElement payload = CommonUtility.getJSONData(request.getReader());
+				Gson gson = new Gson();
+				Survey survey = gson.fromJson(payload, Survey.class);
+				List<Question> questions = survey.getQuestions();
+				survey.setQuestions(null);
+				for (Question question : questions) {
+					survey.addQuestion(question);
+					if (question.getOptions() != null && !question.getOptions().isEmpty()) {
+						List<QuestionOption> options = question.getOptions();
+						question.setOptions(null);
+						for (QuestionOption option: options) {
+							question.addOption(option);
+						}
 					}
 				}
+				SurveyManager manager = new SurveyManager();
+				try {
+					manager.createSurvey(survey);
+				} catch (BaseException e) {
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					e.printStackTrace();
+				}
 			}
-			SurveyManager manager = new SurveyManager();
-			try {
-				manager.createSurvey(survey);
-			} catch (BaseException e) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				e.printStackTrace();
-			}
+			response.setStatus(HttpServletResponse.SC_CREATED);
+			long endTime = System.currentTimeMillis();
+			long d = endTime - startTime;
+			System.out.println("Controller Time: " + d);
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
-		response.setStatus(HttpServletResponse.SC_CREATED);
-		long endTime = System.currentTimeMillis();
-		long d = endTime - startTime;
-		System.out.println("Controller Time: " + d);
 	}
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
