@@ -26,7 +26,7 @@ public class Survey implements IBaseEntity {
 	@Column(nullable = false)
 	private String name;
 
-	@Column
+	@Column(nullable = false)
 	private SurveyStatus status;
 	
 	@Embedded

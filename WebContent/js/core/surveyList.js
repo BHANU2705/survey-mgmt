@@ -73,10 +73,22 @@ function getSurveyList() {
 	thead_tr.appendChild(thead_th5);
 	thead.appendChild(thead_tr);
 	surveyTable.appendChild(thead);
-	var status = [];
+	
+	$.blockUI({ message: 'Fetching Survey List...' });
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/survey";
+	httpRequest.open('GET', url);
+	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+	var that = this;
+	httpRequest.onreadystatechange = function() {
+		setData(surveyTable, httpRequest);
+	};
+	httpRequest.send(null);
+//	var tBody = document.createElement("tbody");
+	/*var status = [];
 	status.push("Live");
 	status.push("Draft");
-	var tBody = document.createElement("tbody");
+	
 	for (var i = 1; i <= 10; i++) {
 		var tbody_tr1 = document.createElement("tr");
 		var tbody_tr1_td1 = document.createElement("td");
@@ -105,13 +117,60 @@ function getSurveyList() {
 		tbody_tr1.appendChild(tbody_tr1_td4);
 		tbody_tr1.appendChild(tbody_tr1_td5);
 		tBody.appendChild(tbody_tr1);
-	}
+	}*/
 	
 	
-	surveyTable.appendChild(tBody);
+//	surveyTable.appendChild(tBody);
 	cardBody.appendChild(surveyTable);
 	card.appendChild(cardBody);
 	
 	return card;
 };
 
+function setData(surveyTable, httpRequest) {
+	if (httpRequest.readyState === 4) {
+    	$.unblockUI();
+        if (httpRequest.status === 200) {
+        	var response = httpRequest.responseText;
+        	var data = JSON.parse(response);
+        	var tBody = document.createElement("tbody");
+        	for (var i = 0; i < data.length; i++) {
+				var row = document.createElement("tr");
+
+				var index = document.createElement("td");
+				index.innerText = (i+1);
+				
+				var surveyName = document.createElement("td");
+				var a = document.createElement('a');
+				a.className = "nav-link active";
+				a.style = "color: #01ab21;";
+				a.href = "#";
+				a.innerText = data[i].name;
+				surveyName.appendChild(a);
+
+				var status = document.createElement("td");
+				status.innerText = data[i].status;
+
+				var createdOn = document.createElement("td");
+				var d = data[i].lifeCycle.updatedOn;
+				var date = new Date(d.year, d.month, d.dayOfMonth, d.hourOfDay, d.minute, d.second, 0);
+				createdOn.innerText = date;
+
+				var responseCount = document.createElement("td");
+				responseCount.innerText = getResonseCount(data[i].id);
+				
+				row.appendChild(index);
+				row.appendChild(surveyName);
+				row.appendChild(status);
+				row.appendChild(createdOn);
+				row.appendChild(responseCount);
+				tBody.appendChild(row);
+			}
+        	surveyTable.appendChild(tBody);
+        }
+    }
+};
+
+function getResonseCount(surveyId) {
+	return Math.floor(Math.random() * 101);
+};

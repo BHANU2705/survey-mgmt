@@ -101,12 +101,11 @@ function createSurvey() {
 	saveSurvey.innerText = "Save Survey";
 	saveSurvey.style = "background-color: #03ab22;color: white;";
 	saveSurvey.addEventListener("click", function() {
-		onSave();
-		/*if(qMain && qMain.childElementCount <= 0) {
+		if(qMain && qMain.childElementCount <= 0) {
 			alert("Warning: No question added to the survey. So, nothing to save. Kindly add atleast one question to the survey.");
 		} else {
 			onSave();
-		}*/
+		}
 	});
 	cardFooter.appendChild(saveSurvey);
 	card.appendChild(cardFooter);
@@ -127,15 +126,12 @@ function onSave() {
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 	httpRequest.onload = function () {
 		$.unblockUI();
-		//var users = JSON.parse(httpRequest.responseText);
 		if (httpRequest.readyState == 4 && httpRequest.status == "201") {
 			alert('success');
-			//console.table(users);
 		} else {
-			//console.error(users);
+			// error scenario
 		}
 	}
-	//httpRequest.onreadystatechange = onSaveResponse(httpRequest);
 	httpRequest.send(payload);
 };
 
@@ -145,6 +141,7 @@ function getData() {
 	if(surveyNameElement && surveyNameElement.value) {
 		survey.name = surveyNameElement.value;
 	}
+	survey.status = "Draft";
 	var questions = [];
 	for (var i = 1; i <= qCount; i++) {
 		var element = document.getElementById('qText_'+i);
@@ -175,18 +172,6 @@ function getData() {
 	survey.questions = questions;
 	return survey;
 };
-
-function onSaveResponse(httpRequest) {
-	alert(httpRequest.status);
-	if (httpRequest.readyState === XMLHttpRequest.DONE) {
-		if (httpRequest.status === 201) {
-			alert('Hurray');
-			alert(httpRequest.responseText);
-		} else {
-			alert('There was a problem with the request.');
-		}
-	}
-}
 
 function addQuestionUsingCount() {
 	qCount++;
