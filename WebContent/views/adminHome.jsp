@@ -15,6 +15,7 @@
 <script src="../Test/js/vendor/bootstrap.min.js"></script>
 <script src="../Test/js/vendor/Chart.js"></script>
 <script src="../Test/js/vendor/jquery.blockUI.js"></script>
+<script defer src="../Test/js/vendor/fontawesome-all.min.js"></script>
 <script src="../Test/js/core/Utility.js"></script>
 
 <link href="../Test/css/bootstrap.css" rel="stylesheet">

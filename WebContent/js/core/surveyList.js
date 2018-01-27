@@ -66,11 +66,15 @@ function getSurveyList() {
 	var thead_th5 = document.createElement("th");
 	thead_th5.innerText = "Responses #";
 	
+	var thead_th6 = document.createElement("th");
+	thead_th6.innerText = "Actions";
+	
 	thead_tr.appendChild(thead_th1);
 	thead_tr.appendChild(thead_th2);
 	thead_tr.appendChild(thead_th3);
 	thead_tr.appendChild(thead_th4);
 	thead_tr.appendChild(thead_th5);
+	thead_tr.appendChild(thead_th6);
 	thead.appendChild(thead_tr);
 	surveyTable.appendChild(thead);
 	
@@ -84,43 +88,6 @@ function getSurveyList() {
 		setData(surveyTable, httpRequest);
 	};
 	httpRequest.send(null);
-//	var tBody = document.createElement("tbody");
-	/*var status = [];
-	status.push("Live");
-	status.push("Draft");
-	
-	for (var i = 1; i <= 10; i++) {
-		var tbody_tr1 = document.createElement("tr");
-		var tbody_tr1_td1 = document.createElement("td");
-		tbody_tr1_td1.innerText = i;
-
-		var tbody_tr1_td2 = document.createElement("td");
-		var a = document.createElement('a');
-		a.className = "nav-link active";
-		a.style = "color: #01ab21;";
-		a.href = "#";
-		a.innerText = " Survey# " + i;
-		tbody_tr1_td2.appendChild(a);
-		
-		var tbody_tr1_td3 = document.createElement("td");
-		tbody_tr1_td3.innerText = status[i%2];
-		
-		var tbody_tr1_td4 = document.createElement("td");
-		tbody_tr1_td4.innerText = Date();
-		
-		var tbody_tr1_td5 = document.createElement("td");
-		tbody_tr1_td5.innerText = Math.floor(Math.random() * 101);
-		
-		tbody_tr1.appendChild(tbody_tr1_td1);
-		tbody_tr1.appendChild(tbody_tr1_td2);
-		tbody_tr1.appendChild(tbody_tr1_td3);
-		tbody_tr1.appendChild(tbody_tr1_td4);
-		tbody_tr1.appendChild(tbody_tr1_td5);
-		tBody.appendChild(tbody_tr1);
-	}*/
-	
-	
-//	surveyTable.appendChild(tBody);
 	cardBody.appendChild(surveyTable);
 	card.appendChild(cardBody);
 	
@@ -159,11 +126,72 @@ function setData(surveyTable, httpRequest) {
 				var responseCount = document.createElement("td");
 				responseCount.innerText = getResonseCount(data[i].id);
 				
+				var pDiv = document.createElement("div");
+				pDiv.className = "dropdown show";
+				pDiv.style = "margin-left: 30px;margin-top: 15px;";
+				pDiv.setAttribute("data-toggle", "tooltip");
+				pDiv.setAttribute("data-placement", "left");
+				pDiv.title = "Actions";
+				
+				var pDivA = document.createElement("a");
+				pDivA.className = "btn btn-sm btn-secondary btn-create dropdown-toggle";
+				pDivA.toolTip = "Actions";
+				pDivA.style = "background-color: rgb(126, 145, 130);color: white;";
+				pDivA.href = "#";
+				pDivA.role = "button";
+				var testId = "dropdownMenuLink_" + data[i].id;
+				pDivA.id = testId;
+				pDivA.setAttribute("data-toggle", "dropdown");
+				pDivA.setAttribute("aria-haspopup", "true");
+				pDivA.setAttribute("aria-expanded", "false");
+				
+				var pIcon = document.createElement("i");
+				pIcon.className = "fas fa-edit";
+				
+				pDivA.appendChild(pIcon);
+				pDiv.appendChild(pDivA);
+				
+				var dropDownMenuId = "dropDownMenuId_" + data[i].id;
+				var dropDownMenuDiv = document.createElement("div");
+				dropDownMenuDiv.id = dropDownMenuId;
+				dropDownMenuDiv.className = "dropdown-menu";
+				dropDownMenuDiv.setAttribute("aria-labelledby", testId);
+				dropDownMenuDiv.style = "min-width: auto";
+			    
+				
+				var dropdownItem1 = document.createElement("a");
+				dropdownItem1.className = "dropdown-item";
+				dropdownItem1.href = "#";
+				
+				var assignUsersIcon = document.createElement("i");
+				assignUsersIcon.className = "fas fa-user-plus";
+				
+				dropdownItem1.appendChild(assignUsersIcon);
+				dropdownItem1.setAttribute("data-toggle", "tooltip");
+				dropdownItem1.setAttribute("data-placement", "left");
+				dropdownItem1.title = "Assign Users";
+				dropDownMenuDiv.appendChild(dropdownItem1);
+				
+				var dropdownItem2 = document.createElement("a");
+				dropdownItem2.href = "#";
+				dropdownItem2.className = "dropdown-item";
+				
+				var deleteIcon = document.createElement("i");
+				deleteIcon.className = "fas fa-trash-alt";
+				
+				dropdownItem2.appendChild(deleteIcon);
+				dropdownItem2.setAttribute("data-toggle", "tooltip");
+				dropdownItem2.setAttribute("data-placement", "left");
+				dropdownItem2.title = "Delete Survey";
+				dropDownMenuDiv.appendChild(dropdownItem2);
+				pDiv.appendChild(dropDownMenuDiv);
+				
 				row.appendChild(index);
 				row.appendChild(surveyName);
 				row.appendChild(status);
 				row.appendChild(createdOn);
 				row.appendChild(responseCount);
+				row.appendChild(pDiv);
 				tBody.appendChild(row);
 			}
         	surveyTable.appendChild(tBody);
