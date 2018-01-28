@@ -112,8 +112,10 @@ function setData(surveyTable, httpRequest) {
 				var surveyName = document.createElement("td");
 				var a = document.createElement('a');
 				a.className = "nav-link active";
-				a.style = "color: #01ab21;";
-				a.href = "#";
+				a.style = "color: #01ab21;cursor: pointer;";
+				a.addEventListener("click", function() {
+					readSpecificSurvey(surveyId);
+				});
 				a.innerText = data[i].name;
 				surveyName.appendChild(a);
 
@@ -172,6 +174,7 @@ function setData(surveyTable, httpRequest) {
 				dropdownItem1.setAttribute("data-toggle", "tooltip");
 				dropdownItem1.setAttribute("data-placement", "left");
 				dropdownItem1.title = "Assign Users";
+				dropdownItem1.style = "cursor: pointer";
 				dropDownMenuDiv.appendChild(dropdownItem1);
 				
 				var dropdownItem2 = document.createElement("a");
@@ -187,6 +190,7 @@ function setData(surveyTable, httpRequest) {
 				dropdownItem2.setAttribute("data-toggle", "tooltip");
 				dropdownItem2.setAttribute("data-placement", "left");
 				dropdownItem2.title = "Delete Survey";
+				dropdownItem2.style = "cursor: pointer";
 				dropDownMenuDiv.appendChild(dropdownItem2);
 				pDiv.appendChild(dropDownMenuDiv);
 				
@@ -216,6 +220,21 @@ function deleteSurvey(surveyId, surveyName) {
 		$.unblockUI();
 		if (httpRequest.readyState == 4 && httpRequest.status == "204") {
 			onLoadSurvey();
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(null);
+};
+
+function readSpecificSurvey(surveyId) {
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/survey?id="+surveyId;
+	httpRequest.open('GET', url);
+	httpRequest.onload = function () {
+//		$.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			console.log(httpRequest.responseText);
 		} else {
 			// error scenario
 		}

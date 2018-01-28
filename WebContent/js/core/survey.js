@@ -1,6 +1,5 @@
 var qCount = 0;
 var qSerialNumber = 0;
-var dataModel = {};
 
 function showCreateSurveyPage() {
 	var surveyAllPage = document.getElementById("surveyAllPage");
@@ -26,7 +25,6 @@ function showCreateSurveyModal() {
 };
 
 function createSurvey() {
-	dataModel = {};
 	$('#myId').modal('toggle');
 	qCount = 0;
 	qSerialNumber = 0;
@@ -90,8 +88,7 @@ function createSurvey() {
 	card.appendChild(cardBody);
 
 	if (document.getElementById("surveyName") && document.getElementById("surveyName").value) {
-		dataModel.surveyName = document.getElementById("surveyName").value;
-		h5.innerHTML = dataModel.surveyName;
+		h5.innerHTML = document.getElementById("surveyName").value;
 	}
 
 	var cardFooter =  document.createElement('div');
