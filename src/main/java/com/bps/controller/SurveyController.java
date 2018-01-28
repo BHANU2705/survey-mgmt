@@ -76,9 +76,10 @@ public class SurveyController extends HttpServlet {
 						}
 					}
 				}
-				SurveyManager manager = new SurveyManager();
+				String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+				SurveyManager surveyManager = new SurveyManager(email);
 				try {
-					manager.createSurvey(survey);
+					surveyManager.createSurvey(survey);
 				} catch (BaseException e) {
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					e.printStackTrace();

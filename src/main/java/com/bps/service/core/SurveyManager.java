@@ -22,6 +22,7 @@ public class SurveyManager {
 	public SurveyManager(String email) {
 		surveyDAO = new SurveyDAO();
 		surveyDAO.setUserEmail(email);
+		setUserEmail(email);
 	}
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
