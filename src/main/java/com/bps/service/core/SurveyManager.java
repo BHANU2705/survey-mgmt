@@ -18,10 +18,15 @@ public class SurveyManager {
 	private String userEmail;
 	public SurveyManager() {
 		surveyDAO = new SurveyDAO();
-		/*userEmail = ProcessContextPool.get().getUser().getEmail();*/
-		userEmail = "Bhanu";
 	}
-	
+	public SurveyManager(String email) {
+		surveyDAO = new SurveyDAO();
+		surveyDAO.setUserEmail(email);
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
 	public Survey createSurvey(Survey survey) throws BaseException {
 		survey.setLifeCycle(CommonUtility.getLifeCycle(Operation.CREATE, userEmail));
 		surveyDAO.create(survey);

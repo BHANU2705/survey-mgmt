@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bps.service.core.ProcessContextPool;
+import com.bps.util.CommonConstants;
 
 @WebFilter(filterName = "ProcessContextFilter", servletNames = {"MainController", "SurveyController"})
 public class ProcessContextFilter implements Filter {
@@ -32,7 +33,7 @@ public class ProcessContextFilter implements Filter {
 	    response.setHeader("Pragma", "no-cache");
 	    response.setDateHeader("Expires", 0);
 	    HttpSession session = request.getSession();
-	    if (session == null || session.getAttribute("name") == null) {
+	    if (session == null || session.getAttribute(CommonConstants.NAME) == null) {
 	    	RequestDispatcher rd=request.getRequestDispatcher("/");
 	        rd.forward(request, response);
 		} else {

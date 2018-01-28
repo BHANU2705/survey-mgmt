@@ -28,7 +28,6 @@ public class SurveyController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String, String[]> map = request.getParameterMap();
-		SurveyManager surveyManager = new SurveyManager();
 		String[] surveyIds = null;
 		String surveyString = null;
 		Gson gson = CommonUtility.buildGson();
@@ -37,10 +36,13 @@ public class SurveyController extends HttpServlet {
 			if (map != null && !map.isEmpty()) {
 				if (map.containsKey(CommonConstants.ID)) {
 					surveyIds = map.get(CommonConstants.ID);
+					SurveyManager surveyManager = new SurveyManager();
 					Survey survey = surveyManager.readSurvey(surveyIds[0]);
 					surveyString = gson.toJson(survey, Survey.class);
 				}
 			} else {
+				String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+				SurveyManager surveyManager = new SurveyManager(email);
 				List<Survey> surveys = surveyManager.readSurveys();
 				surveyString = gson.toJson(surveys, listType);
 			}

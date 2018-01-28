@@ -68,7 +68,7 @@ public class UserController extends HttpServlet {
 						user.setName(name);
 						userManager.updateUser(user, true, false);
 						request.setAttribute(CommonConstants.IS_NAME_CHANGE_SUCCESSFUL, true);
-						session.setAttribute("name", name);
+						session.setAttribute(CommonConstants.NAME, name);
 					} else {
 						request.setAttribute(CommonConstants.IS_NAME_CHANGE_SUCCESSFUL, false);
 					}

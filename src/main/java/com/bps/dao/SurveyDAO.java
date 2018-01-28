@@ -18,6 +18,10 @@ import com.bps.service.exceptions.BaseException;
 import com.bps.util.SurveyStatus;
 
 public class SurveyDAO implements IBaseDAO {
+	private String userEmail = null;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 
 	@Override
 	public IBaseEntity create(IBaseEntity entity) throws BaseException {
@@ -61,7 +65,7 @@ public class SurveyDAO implements IBaseDAO {
 		List<Survey> surveys = new ArrayList<>();
 		Session session = SessionManager.getSession();
 		session.setDefaultReadOnly(true);
-		String queryString = "SELECT s.id, s.name, s.status, s.lifeCycle FROM Survey s";
+		String queryString = "SELECT s.id, s.name, s.status, s.lifeCycle FROM Survey s WHERE s.lifeCycle.createdBy = '" + userEmail +"'";
 		Query<?> query = session.createQuery(queryString);
 		query.setReadOnly(true);
 		List<?> data = query.getResultList();

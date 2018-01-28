@@ -62,7 +62,7 @@ function getSurveyList() {
 	var thead_th3 = document.createElement("th");
 	thead_th3.innerText = "Status";
 	var thead_th4 = document.createElement("th");
-	thead_th4.innerText = "Created On";
+	thead_th4.innerText = "Last Updated On";
 	var thead_th5 = document.createElement("th");
 	thead_th5.innerText = "Responses #";
 	
