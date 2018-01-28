@@ -108,5 +108,4 @@ public class SurveyController extends HttpServlet {
 		}
 		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 	}
-
 }
