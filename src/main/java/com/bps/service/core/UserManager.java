@@ -23,14 +23,15 @@ public class UserManager implements IValidator {
 		userDAO = new UserDAO();
 	}
 	
-	public User createUser(User user) throws BaseException {
+	public User createUser(User user, String createdByEmail) throws BaseException {
 		if (user == null || user.getEmail() == null || user.getEmail().isEmpty()
 				|| user.getPassword() == null || user.getPassword().isEmpty()
 				|| user.getName() == null || user.getName().isEmpty()) {
 			BaseException e = new BaseException(HttpServletResponse.SC_BAD_REQUEST, ErrorCode.MISSING_MANDATORY_ITEMS);
 			throw e;
 		}
-		user.setLifeCycle(CommonUtility.getLifeCycle(Operation.CREATE, user.getEmail()));
+		String creatorEmail = (createdByEmail == null) ? user.getEmail() : createdByEmail;
+		user.setLifeCycle(CommonUtility.getLifeCycle(Operation.CREATE, creatorEmail));
 		userDAO.create(user);
 		return user;
 	}

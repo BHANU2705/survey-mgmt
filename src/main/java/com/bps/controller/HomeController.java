@@ -81,7 +81,7 @@ public class HomeController extends HttpServlet {
 				roles.add(role);
 				user.setRoles(roles);
 				try {
-					userManager.createUser(user);
+					userManager.createUser(user, null);
 					EmailManager emailManager = new EmailManager();
 					emailManager.sendSignUpEmail(email);
 					ProcessContextPool.get().setUser(user);
@@ -96,7 +96,6 @@ public class HomeController extends HttpServlet {
 							.getRequestDispatcher("/");
 					dispatcher.forward(request, response);
 				}
-
 			} else {
 				// TODO: handle error case
 			}

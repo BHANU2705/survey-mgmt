@@ -35,4 +35,10 @@ public class EmailManager {
 		String body = "Hey " + userName + ", what happened? Did we do anything unexpected? Sorry to see you go.";
 		sendEmail(toEmail, subject, body);
 	}
+	
+	public void sendClientUserCreationEmail(String toEmail, String name, String password, String admin) {
+		String subject = "Welcome | Survey Management";
+		String body = "Welcome to Survey Management. You have been onboarded by " + admin  + " as a Client User.\n\t Your credentials are as follows:\n\t\t Name: " + name + "\n\t\t Email: " + toEmail + "\n\t\t Password: " + password;
+		sendEmail(toEmail, subject, body);
+	}
 }

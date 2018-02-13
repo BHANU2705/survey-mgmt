@@ -54,6 +54,8 @@ function handleLeftPane(caller) {
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
 			$("#li_user").removeClass("active");
+			
+			loadAdminUserPage();
 		} else if (caller === 'analytics') {
 			$("#overview").hide();
 			$("#survey").hide();

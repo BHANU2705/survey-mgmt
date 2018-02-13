@@ -306,7 +306,7 @@
 				<div id = "surveyAllPage" style="display: none;"></div>
 				<div id = "createSurveyPage"></div>
 			</div>
-			<div id="user" style="display: none;">This is the user page.</div>
+			<div id="user" style="display: none;"></div>
 			<div id="analytics" style="display: none;">
 				<div class="row">
 					<div class="col-lg-12">
@@ -569,5 +569,6 @@
 	<script src="../Test/js/core/adminHome.js"></script>
 	<script src="../Test/js/core/surveyList.js"></script>
 	<script src="../Test/js/core/survey.js"></script>
+	<script src="../Test/js/core/adminUser.js"></script>
 </body>
 </html>
