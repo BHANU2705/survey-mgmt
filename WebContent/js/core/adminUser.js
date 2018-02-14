@@ -68,15 +68,24 @@ function getUserList() {
 	thead.appendChild(thead_tr);
 	userTable.appendChild(thead);
 	
-//	$.blockUI({ message: 'Fetching User List...' });
+	$.blockUI({ message: 'Fetching User List...' });
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/user";
+	if (!httpRequest) {
+		alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+	}
+	var url = "/Test/cuser";
 	httpRequest.open('GET', url);
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
-	var that = this;
-	httpRequest.onreadystatechange = function() {
-//		setData(userTable, httpRequest);
-	};
+	httpRequest.onload = function () {
+		$.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			console.log("success")
+//			setUserData(userTable, httpRequest);
+		} else {
+			// error scenario
+		}
+	}
 	httpRequest.send(null);
 	cardBody.appendChild(userTable);
 	card.appendChild(cardBody);
@@ -135,24 +144,68 @@ function getCreateUserPage() {
 	cardFooter.className = "card-footer text-right";
 	var saveUser = document.createElement('button');
 	saveUser.className = "btn btn-md btn-primary btn-create";
-	saveUser.innerText = "Save User";
+	saveUser.innerText = "Create User";
 	saveUser.style = "background-color: #03ab22;color: white;";
 	saveUser.addEventListener("click", function() {
 		onSaveUser();
 	});
 	cardFooter.appendChild(saveUser);
-//	card.appendChild(cardFooter);
+	
+	var resetUser = document.createElement('button');
+	resetUser.className = "btn btn-md btn-primary btn-create";
+	resetUser.innerText = "Reset";
+	resetUser.style = "background-color: #03ab22;color: white; margin-left: 10px;";
+	resetUser.addEventListener("click", function() {
+		onResetUser();
+	});
+	cardFooter.appendChild(resetUser);
+	
+	card.appendChild(cardFooter);
 	return card;
+};
+
+function onSaveUser() {
+	$.blockUI({ message: 'Creating the user...' });
+	var name = document.getElementById('createUser_Name').value;
+	var email = document.getElementById('createUser_Email').value;
+	var cuser = {};
+	cuser.name = name;
+	cuser.email = email;
+	var payload =  JSON.stringify(cuser);
+	
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/cuser";
+	if (!httpRequest) {
+		alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+	}
+	httpRequest.open('POST', url);
+//	httpRequest.setRequestHeader("Cookie", getJSessionCookie());
+	httpRequest.setRequestHeader('Content-Type', 'application/json');
+	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+	httpRequest.onload = function () {
+		$.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "201") {
+			alert('success');
+			loadAdminUserPage();
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(payload);
+};
+
+function onResetUser() {
+	var name = document.getElementById('createUser_Name');
+	name.value = null;
+	var email = document.getElementById('createUser_Email');
+	email.value = null;
 };
 
 function getCreateUserFormCard() {
 	var cardBody = document.createElement('div');
 	cardBody.className = "card-body";
 	cardBody.style = "width: fit-content;";
-	
-	var form = document.createElement('form');
-	form.action = "/Test/cuser";
-	form.method = "post";
 	
 	var nameDiv = document.createElement('div');
 	nameDiv.className = "form-group";
@@ -164,12 +217,12 @@ function getCreateUserFormCard() {
 	
 	var nameInput = document.createElement('input');
 	nameInput.type = "text";
-	nameInput.name = "name";
-	nameInput.id = "name";
+	nameInput.name = "createUser_Name";
+	nameInput.id = "createUser_Name";
 	nameInput.className = "form-control";
 	nameInput.setAttribute("placeholder", "Enter name");
 	nameDiv.appendChild(nameInput);
-	form.appendChild(nameDiv);
+	cardBody.appendChild(nameDiv);
 	
 	var emailDiv = document.createElement('div');
 	emailDiv.className = "form-group";
@@ -182,8 +235,8 @@ function getCreateUserFormCard() {
 	var emailInput = document.createElement('input');
 	emailInput.setAttribute("type", "email");
 	emailInput.className = "form-control";
-	emailInput.id = "email";
-	emailInput.name = "email";
+	emailInput.id = "createUser_Email";
+	emailInput.name = "createUser_Email";
 	emailInput.setAttribute("aria-describedby", "emailHelp");
 	emailInput.setAttribute("placeholder", "Enter email");
 	emailDiv.appendChild(emailInput);
@@ -193,46 +246,21 @@ function getCreateUserFormCard() {
 	emailSmall.id = "emailHelp";
 	emailSmall.innerText = "We'll never share the email with anyone else.";
 	emailDiv.appendChild(emailSmall);
-	form.appendChild(emailDiv);
+	cardBody.appendChild(emailDiv);
 	
 	var note = document.createElement('medium');
 	note.className = "form-text text-muted";
 	note.id = "emailHelp";
 	note.innerText = "Note: User's credentials will be automatically sent to his email id (mentioned above).";
 	note.style = "margin-bottom: 20px;";
-	form.appendChild(note);
+	cardBody.appendChild(note);
 	
 	var hiddenAction = document.createElement('input');
 	hiddenAction.type = "hidden";
 	hiddenAction.name = "action";
 	hiddenAction.value = "createClientUser";
-	form.appendChild(hiddenAction);
+	cardBody.appendChild(hiddenAction);
 	
-	var btnDiv = document.createElement('div');
-	btnDiv.className = "row";
-	
-	var btnCol1 = document.createElement('div');
-	btnCol1.className = "col";
-	var submit = document.createElement('button');
-	submit.className = "btn btn-md btn-primary btn-block";
-	submit.type = "submit";
-	submit.innerText = "Submit";
-	btnCol1.appendChild(submit);
-	btnDiv.appendChild(btnCol1);
-	
-	var btnCol2 = document.createElement('div');
-	btnCol2.className = "col";
-	var reset = document.createElement('button');
-	reset.className = "btn btn-md btn-primary btn-block";
-	reset.type = "reset";
-	reset.innerText = "Reset";
-	
-	btnCol2.appendChild(reset);
-	btnDiv.appendChild(btnCol2);
-	
-	form.appendChild(btnDiv);
-
-	cardBody.appendChild(form);
 	return cardBody;
 };
 

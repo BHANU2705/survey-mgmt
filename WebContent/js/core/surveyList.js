@@ -83,9 +83,8 @@ function getSurveyList() {
 	var url = "/Test/survey";
 	httpRequest.open('GET', url);
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
-	var that = this;
 	httpRequest.onreadystatechange = function() {
-		setData(surveyTable, httpRequest);
+		setSurveyData(surveyTable, httpRequest);
 	};
 	httpRequest.send(null);
 	cardBody.appendChild(surveyTable);
@@ -94,7 +93,7 @@ function getSurveyList() {
 	return card;
 };
 
-function setData(surveyTable, httpRequest) {
+function setSurveyData(surveyTable, httpRequest) {
 	if (httpRequest.readyState === 4) {
     	$.unblockUI();
         if (httpRequest.status === 200) {
