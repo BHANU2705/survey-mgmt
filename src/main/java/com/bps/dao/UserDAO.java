@@ -1,18 +1,17 @@
 package com.bps.dao;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.bps.persistence.tables.IBaseEntity;
-import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.User;
 import com.bps.service.exceptions.BaseException;
 
@@ -82,26 +81,15 @@ public class UserDAO implements IBaseDAO {
 	}
 	
 	public User[] getMyClientUsers() throws BaseException {
-		List<User> users = new ArrayList<User>();
 		Session session = SessionManager.getSession();
 		session.setDefaultReadOnly(true);
-		String queryString = "SELECT u.name, u.email, u.roles FROM User u WHERE u.lifeCycle.createdBy = '" + userEmail +"'";
-		Query<?> query = session.createQuery(queryString);
-		query.setReadOnly(true);
-		List<?> data = query.getResultList();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<User> query = builder.createQuery(User.class);
+		Root<User> root = query.from(User.class);
+		query.select(root).where(builder.and(builder.equal(root.get("lifeCycle").get("createdBy"), userEmail), builder.notEqual(root.get("lifeCycle").get("createdBy"), root.get("email"))));
+        Query<User> q=session.createQuery(query);
+        List<User> users = q.getResultList();
 		SessionManager.closeSession(session);
-		Iterator<?> it = data.iterator();
-		while (it.hasNext()) {
-			Object[] list = (Object[]) it.next();
-			String name = (String) list[0];
-			String email = (String) list[1];
-			List<Role> roles = (List<Role>) list[2];
-			User user = new User();
-			user.setName(name);
-			user.setEmail(email);
-			user.setRoles(roles);
-			users.add(user);
-		}
 		return users.toArray(new User[users.size()]);
 	}
 }

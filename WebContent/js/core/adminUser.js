@@ -78,10 +78,8 @@ function getUserList() {
 	httpRequest.open('GET', url);
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 	httpRequest.onload = function () {
-		$.unblockUI();
 		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
-			console.log("success")
-//			setUserData(userTable, httpRequest);
+			setUserData(userTable, httpRequest);
 		} else {
 			// error scenario
 		}
@@ -91,6 +89,129 @@ function getUserList() {
 	card.appendChild(cardBody);
 	
 	return card;
+};
+
+function setUserData(userTable, httpRequest) {
+	if (httpRequest.readyState === 4) {
+		$.unblockUI();
+        if (httpRequest.status === 200) {
+        	var response = httpRequest.responseText;
+        	var data = JSON.parse(response);
+        	var tBody = document.createElement("tbody");
+        	for (var i = 0; i < data.length; i++) {
+				var row = document.createElement("tr");
+				var index = document.createElement("td");
+				index.innerText = (i+1);
+				
+				var userNameTd = document.createElement("td");
+				var a = document.createElement('a');
+				a.className = "nav-link active";
+				a.style = "color: #01ab21;cursor: pointer;";
+				a.addEventListener("click", function() {
+					readSpecificUser(email);
+				});
+				a.innerText = data[i].name;
+				userNameTd.appendChild(a);
+
+				var emailTd = document.createElement("td");
+				emailTd.innerText = data[i].email;
+
+				var attachedSurveyCountTd = document.createElement("td");
+				attachedSurveyCountTd.innerText = Math.floor(Math.random() * 101);
+
+				var pDiv = document.createElement("div");
+				pDiv.className = "dropdown show";
+				pDiv.style = "margin-left: 30px;margin-top: 15px;";
+				pDiv.setAttribute("data-toggle", "tooltip");
+				pDiv.setAttribute("data-placement", "left");
+				pDiv.title = "Actions";
+				
+				var pDivA = document.createElement("a");
+				pDivA.className = "btn btn-sm btn-secondary btn-create dropdown-toggle";
+				pDivA.toolTip = "Actions";
+				pDivA.style = "background-color: rgb(126, 145, 130);color: white;";
+				pDivA.href = "#";
+				pDivA.role = "button";
+				var testId = "dropdownMenuLink_" + data[i].id;
+				pDivA.id = testId;
+				pDivA.setAttribute("data-toggle", "dropdown");
+				pDivA.setAttribute("aria-haspopup", "true");
+				pDivA.setAttribute("aria-expanded", "false");
+				
+				var pIcon = document.createElement("i");
+				pIcon.className = "fas fa-edit";
+				
+				pDivA.appendChild(pIcon);
+				pDiv.appendChild(pDivA);
+				
+				var dropDownMenuId = "dropDownMenuId_" + data[i].id;
+				var dropDownMenuDiv = document.createElement("div");
+				dropDownMenuDiv.id = dropDownMenuId;
+				dropDownMenuDiv.className = "dropdown-menu";
+				dropDownMenuDiv.setAttribute("aria-labelledby", testId);
+				dropDownMenuDiv.style = "min-width: auto";
+			    
+				
+				var dropdownItem1 = document.createElement("a");
+				dropdownItem1.className = "dropdown-item";
+				dropdownItem1.href = "#";
+				
+				var assignSurveyIcon = document.createElement("i");
+				assignSurveyIcon.className = "fas fa-chart-line";
+				
+				dropdownItem1.appendChild(assignSurveyIcon);
+				dropdownItem1.setAttribute("data-toggle", "tooltip");
+				dropdownItem1.setAttribute("data-placement", "left");
+				dropdownItem1.title = "Assign Survey";
+				dropdownItem1.style = "cursor: pointer";
+				dropDownMenuDiv.appendChild(dropdownItem1);
+				
+				var clientUserEmail = data[i].email;
+        		var clientUserName = data[i].name;
+				var dropdownItem2 = document.createElement("a");
+				dropdownItem2.addEventListener("click", function() {
+					deleteUser(clientUserEmail, clientUserName);
+				});
+				dropdownItem2.className = "dropdown-item";
+				
+				var deleteIcon = document.createElement("i");
+				deleteIcon.className = "fas fa-trash-alt";
+				
+				dropdownItem2.appendChild(deleteIcon);
+				dropdownItem2.setAttribute("data-toggle", "tooltip");
+				dropdownItem2.setAttribute("data-placement", "left");
+				dropdownItem2.title = "Delete User";
+				dropdownItem2.style = "cursor: pointer";
+				dropDownMenuDiv.appendChild(dropdownItem2);
+				pDiv.appendChild(dropDownMenuDiv);
+				
+				row.appendChild(index);
+				row.appendChild(userNameTd);
+				row.appendChild(emailTd);
+				row.appendChild(attachedSurveyCountTd);
+				row.appendChild(pDiv);
+				tBody.appendChild(row);
+			}
+        	userTable.appendChild(tBody);
+        }
+	}
+};
+
+function deleteUser(email, userName) {
+	var msg = "Deleting the User: " + userName + " (" + email + ")";
+	$.blockUI({ message: msg});
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/cuser?email="+email;
+	httpRequest.open('DELETE', url);
+	httpRequest.onload = function () {
+		$.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "204") {
+			loadAdminUserPage();
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(null);
 };
 
 function showCreateUserPage() {

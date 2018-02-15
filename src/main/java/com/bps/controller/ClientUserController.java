@@ -62,6 +62,15 @@ public class ClientUserController extends HttpServlet {
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String email = request.getParameter("email");
+		UserManager manager = new UserManager();
+		try {
+			User user =  manager.getUser(email);
+			manager.deleteUser(user);
+		} catch (BaseException e) {
+			e.printStackTrace();
+		}
+		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 	}
 
 	private void createClientUser(HttpServletRequest request, HttpServletResponse response) {
