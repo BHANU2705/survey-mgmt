@@ -69,6 +69,7 @@ public class SurveyDAO implements IBaseDAO {
 		Query<?> query = session.createQuery(queryString);
 		query.setReadOnly(true);
 		List<?> data = query.getResultList();
+		SessionManager.closeSession(session);
 		Iterator<?> it = data.iterator();
 		while (it.hasNext()) {
 			Object[] list = (Object[]) it.next();
@@ -83,7 +84,6 @@ public class SurveyDAO implements IBaseDAO {
 			survey.setLifeCycle(lifeCycle);
 			surveys.add(survey);
 		}
-		SessionManager.closeSession(session);
 		return surveys.toArray(new Survey[surveys.size()]);
 	}
 

@@ -518,7 +518,7 @@
 									        </button>
 									      </div>
 									      <div class="modal-body">
-									        <p>Are you sure to delete your account? <hr>This action is irreversible. You will be redirected to login page, if your account gets deleted successfully.</p>
+									        <p>Are you sure to delete your account?</p><hr><p>This action is irreversible. You will be redirected to login page, if your account gets deleted successfully.</p>
 									      </div>
 									      <div class="modal-footer">
 									        <button id = "btn_yes" type="button" class="btn btn-primary" onclick="return confirmationCheck(true);">Yes, go ahead and delete</button>

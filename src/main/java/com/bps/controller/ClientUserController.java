@@ -1,6 +1,7 @@
 package com.bps.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import com.bps.util.CommonConstants;
 import com.bps.util.CommonUtility;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 @WebServlet(urlPatterns = CommonConstants.URL_CUSER_CONTROLLER, name = "CUserController")
 public class ClientUserController extends HttpServlet {
@@ -30,9 +32,23 @@ public class ClientUserController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String str = "\name\":\"Bhanu\"";
-		response.addHeader(CommonConstants.CONTENT_TYPE, CommonConstants.APPLICATION_JSON+";charset=UTF-8");
-		response.getWriter().append(str);
+		String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+		UserManager userManager = new UserManager(email);
+		List<User> users = null;
+		try {
+			users = userManager.getMyClientUsers();
+			Gson gson = CommonUtility.buildGson();
+			Type listType = new TypeToken<List<User>>() {}.getType();
+			String usersString = gson.toJson(users, listType);
+			response.addHeader(CommonConstants.CONTENT_TYPE, CommonConstants.APPLICATION_JSON+";charset=UTF-8");
+			response.getWriter().append(usersString);
+		} catch (BaseException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

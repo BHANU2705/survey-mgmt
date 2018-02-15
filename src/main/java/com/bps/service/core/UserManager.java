@@ -1,6 +1,8 @@
 package com.bps.service.core;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -18,11 +20,20 @@ import com.bps.util.Operation;
 
 public class UserManager implements IValidator {
 	private UserDAO userDAO;
+	private String userEmail;
 	
 	public UserManager() {
 		userDAO = new UserDAO();
 	}
 	
+	public UserManager(String email) {
+		userDAO = new UserDAO();
+		userDAO.setUserEmail(email);
+		setUserEmail(email);
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	public User createUser(User user, String createdByEmail) throws BaseException {
 		if (user == null || user.getEmail() == null || user.getEmail().isEmpty()
 				|| user.getPassword() == null || user.getPassword().isEmpty()
@@ -75,7 +86,8 @@ public class UserManager implements IValidator {
 				u.setPassword(user.getPassword());
 			}
 			u.getLifeCycle().setUpdatedOn(Calendar.getInstance(TimeZone.getTimeZone(CommonConstants.UTC), Locale.ENGLISH));
-			u.getLifeCycle().setUpdatedBy(user.getEmail());
+			String updatorEmail = (userEmail == null) ? user.getEmail() : userEmail;
+			u.getLifeCycle().setUpdatedBy(updatorEmail);
 			if(userDAO.update(u)) {
 				return u;
 			}
@@ -89,5 +101,10 @@ public class UserManager implements IValidator {
 			}
 		}
 		return null;
+	}
+	
+	public List<User> getMyClientUsers() throws BaseException {
+		User[] entities = (User[]) userDAO.getMyClientUsers();
+		return Arrays.asList(entities);
 	}
 }
