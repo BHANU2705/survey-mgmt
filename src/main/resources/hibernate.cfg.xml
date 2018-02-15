@@ -19,5 +19,6 @@
 		<mapping class="com.bps.persistence.tables.Survey" />
 		<mapping class="com.bps.persistence.tables.Question" />
 		<mapping class="com.bps.persistence.tables.QuestionOption" />
+		<mapping class="com.bps.persistence.tables.SurveyClientUser"/>
 	</session-factory>
 </hibernate-configuration>
