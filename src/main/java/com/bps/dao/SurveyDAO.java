@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -17,12 +19,7 @@ import com.bps.persistence.tables.Survey;
 import com.bps.service.exceptions.BaseException;
 import com.bps.util.SurveyStatus;
 
-public class SurveyDAO implements IBaseDAO {
-	private String userEmail = null;
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
+public class SurveyDAO extends DAO implements IBaseDAO {
 	@Override
 	public IBaseEntity create(IBaseEntity entity) throws BaseException {
 		long startTime = System.currentTimeMillis();
@@ -65,7 +62,7 @@ public class SurveyDAO implements IBaseDAO {
 		List<Survey> surveys = new ArrayList<>();
 		Session session = SessionManager.getSession();
 		session.setDefaultReadOnly(true);
-		String queryString = "SELECT s.id, s.name, s.status, s.lifeCycle FROM Survey s WHERE s.lifeCycle.createdBy = '" + userEmail +"'";
+		String queryString = "SELECT s.id, s.name, s.status, s.lifeCycle FROM Survey s WHERE s.lifeCycle.createdBy = '" + super.getUserEmail() +"'";
 		Query<?> query = session.createQuery(queryString);
 		query.setReadOnly(true);
 		List<?> data = query.getResultList();
@@ -112,5 +109,25 @@ public class SurveyDAO implements IBaseDAO {
 			return dbSurvey;
 		}
 		return null;
+	}
+	
+	public boolean isSurveyExists(String surveyId) throws BaseException {
+		boolean isExist = false;
+		Session session = SessionManager.getSession();
+		session.setDefaultReadOnly(true);
+		String queryString = "SELECT s.id FROM Survey s WHERE s.id = '" + surveyId +"'";
+		Query<?> query = session.createQuery(queryString);
+		query.setReadOnly(true);
+		try {
+			Object x = query.getSingleResult();
+			if(x != null) {
+				isExist = true;
+			}
+		} catch (NoResultException e) {
+			isExist = false;
+		} finally {
+			SessionManager.closeSession(session);
+		}
+		return isExist;
 	}
 }

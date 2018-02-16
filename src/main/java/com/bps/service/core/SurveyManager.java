@@ -56,4 +56,8 @@ public class SurveyManager {
 		Survey[] entities = (Survey[]) surveyDAO.read();
 		return Arrays.asList(entities);
 	}
+	
+	public boolean isSurveyExist(String surveyId) throws BaseException {
+		return surveyDAO.isSurveyExists(surveyId);
+	}
 }

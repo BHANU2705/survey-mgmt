@@ -58,7 +58,11 @@ public class UserManager implements IValidator {
 	
 	public User getUser(User user) throws BaseException {
 		if(user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
-			return userDAO.read(user);
+			User dbUser = userDAO.read(user);
+			if (dbUser != null) {
+				dbUser.setPassword(null);
+			}
+			return dbUser;
 		}
 		return null;
 	}

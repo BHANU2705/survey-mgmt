@@ -58,7 +58,6 @@ public class SurveyController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		long startTime = System.currentTimeMillis();
 		try {
 			if (request.getContentType().equalsIgnoreCase("application/json")) {
 				JsonElement payload = CommonUtility.getJSONData(request.getReader());
@@ -84,11 +83,8 @@ public class SurveyController extends HttpServlet {
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					e.printStackTrace();
 				}
+				response.setStatus(HttpServletResponse.SC_CREATED);
 			}
-			response.setStatus(HttpServletResponse.SC_CREATED);
-			long endTime = System.currentTimeMillis();
-			long d = endTime - startTime;
-			System.out.println("Controller Time: " + d);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}

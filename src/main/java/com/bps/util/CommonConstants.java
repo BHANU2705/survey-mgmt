@@ -28,4 +28,6 @@ public final class CommonConstants {
 	public static final String ID = "id";
 	public static final String CONTENT_TYPE = "Content-Type";
 	public static final String APPLICATION_JSON  = "application/json";
+	public static final String SURVEY_ID = "surveyId";
+	public static final String CLIENT_USER_EMAIL = "clientUserEmail";
 }

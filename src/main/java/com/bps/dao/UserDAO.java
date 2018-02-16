@@ -15,12 +15,8 @@ import com.bps.persistence.tables.IBaseEntity;
 import com.bps.persistence.tables.User;
 import com.bps.service.exceptions.BaseException;
 
-public class UserDAO implements IBaseDAO {
+public class UserDAO extends DAO implements IBaseDAO {
 
-	private String userEmail = null;
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
 	@Override
 	public User create(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
@@ -86,7 +82,7 @@ public class UserDAO implements IBaseDAO {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<User> query = builder.createQuery(User.class);
 		Root<User> root = query.from(User.class);
-		query.select(root).where(builder.and(builder.equal(root.get("lifeCycle").get("createdBy"), userEmail), builder.notEqual(root.get("lifeCycle").get("createdBy"), root.get("email"))));
+		query.select(root).where(builder.and(builder.equal(root.get("lifeCycle").get("createdBy"), super.getUserEmail()), builder.notEqual(root.get("lifeCycle").get("createdBy"), root.get("email"))));
         Query<User> q=session.createQuery(query);
         List<User> users = q.getResultList();
 		SessionManager.closeSession(session);

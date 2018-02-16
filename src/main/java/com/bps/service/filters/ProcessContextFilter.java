@@ -17,7 +17,8 @@ import javax.servlet.http.HttpSession;
 import com.bps.service.core.ProcessContextPool;
 import com.bps.util.CommonConstants;
 
-@WebFilter(filterName = "ProcessContextFilter", servletNames = {"MainController", "SurveyController", "CUserController", "SurveyClientUserController"})
+@WebFilter(filterName = "ProcessContextFilter",
+	servletNames = {"MainController", "SurveyController", "CUserController", "SurveyClientUserLinkController"})
 public class ProcessContextFilter implements Filter {
 
 	@Override
