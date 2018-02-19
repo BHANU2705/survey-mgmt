@@ -18,6 +18,7 @@ import com.bps.service.core.UserManager;
 import com.bps.service.exceptions.BaseException;
 import com.bps.util.CommonConstants;
 import com.bps.util.CommonUtility;
+import com.bps.util.SurveyUserUtility;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
@@ -25,46 +26,76 @@ import com.google.gson.reflect.TypeToken;
 @WebServlet(urlPatterns = CommonConstants.URL_SURVEY_CLIENTUSER_CONTROLLER, name = "SurveyClientUserLinkController")
 public class SurveyClientUserLinkController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Map<String, String[]> map = request.getParameterMap();
-		String linkString = null;
+		String responseString = null;
 		Gson gson = CommonUtility.buildGson();
 		Type listType = new TypeToken<List<SurveyClientUserLink>>() {}.getType();
+		Type utilityListType = new TypeToken<List<SurveyUserUtility>>() {}.getType();
+		String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+		SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager(email);
 		try {
 			if (map != null && !map.isEmpty()) {
-				SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager();
-				if (map.containsKey(CommonConstants.SURVEY_ID) && map.containsKey(CommonConstants.CLIENT_USER_EMAIL)) {
-					String surveyId = map.get(CommonConstants.SURVEY_ID)[0];
-					String clientUserEmail = map.get(CommonConstants.CLIENT_USER_EMAIL)[0];
+				String surveyId = null;
+				String clientUserEmail = null;
+				if (map.containsKey(CommonConstants.SURVEY_ID)) {
+					surveyId = map.get(CommonConstants.SURVEY_ID)[0];
+				}
+				if (map.containsKey(CommonConstants.CLIENT_USER_EMAIL)) {
+					clientUserEmail = map.get(CommonConstants.CLIENT_USER_EMAIL)[0];
+				}
+				if (map.containsKey(CommonConstants.QUERY_TYPE)) {
+					String qType = map.get(CommonConstants.QUERY_TYPE)[0];
+					if (CommonConstants.GET_MY_UNASSIGNED_SURVEYS.equalsIgnoreCase(qType)) {
+						if (clientUserEmail != null && !clientUserEmail.isEmpty()) {
+							List<SurveyUserUtility> utilities = manager.getMyUnassignedSurveys(clientUserEmail);
+							responseString = gson.toJson(utilities, utilityListType);
+						} else {
+							response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+							response.getWriter().append("Missing Client User Email.");
+						}
+					} else if (CommonConstants.GET_MY_UNASSIGNED_USERS.equalsIgnoreCase(qType)) {
+						if (surveyId != null && !surveyId.isEmpty()) {
+							List<SurveyUserUtility> utilities = manager.getMyUnassignedUsers(surveyId);
+							responseString = gson.toJson(utilities, utilityListType);
+						} else {
+							response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+							response.getWriter().append("Missing Survey Id.");
+						}
+					}
+				} else {
 					SurveyClientUserLink link = manager.readLink(surveyId, clientUserEmail);
-					linkString = gson.toJson(link, SurveyClientUserLink.class);
+					responseString = gson.toJson(link, SurveyClientUserLink.class);
 				}
 			} else {
-				SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager();
 				List<SurveyClientUserLink> links = manager.readLinks();
-				linkString = gson.toJson(links, listType);
+				responseString = gson.toJson(links, listType);
 			}
-			response.addHeader(CommonConstants.CONTENT_TYPE, CommonConstants.APPLICATION_JSON+";charset=UTF-8");
-			response.getWriter().append(linkString);
+			response.addHeader(CommonConstants.CONTENT_TYPE, CommonConstants.APPLICATION_JSON + ";charset=UTF-8");
+			response.getWriter().append(responseString);
 		} catch (BaseException e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
-		}  catch (Exception e) {
+		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			if (request.getContentType().equalsIgnoreCase("application/json")) {
 				JsonElement payload = CommonUtility.getJSONData(request.getReader());
 				Gson gson = new Gson();
-				Type listType = new TypeToken<List<SurveyClientUserLink>>() {}.getType();
+				Type listType = new TypeToken<List<SurveyClientUserLink>>() {
+				}.getType();
 				List<SurveyClientUserLink> links = gson.fromJson(payload, listType);
 				if (validateLinks(links)) {
-					SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager();
+					String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+					SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager(email);
 					try {
 						manager.createLinks(links);
 					} catch (BaseException e) {
@@ -88,7 +119,8 @@ public class SurveyClientUserLinkController extends HttpServlet {
 			SurveyManager surveyManager = new SurveyManager();
 			UserManager userManager = new UserManager();
 			for (SurveyClientUserLink link : links) {
-				if(userManager.getUser(link.getClientUserEmail()) == null || !surveyManager.isSurveyExist(link.getSurveyId())) {
+				if (userManager.getUser(link.getClientUserEmail()) == null
+						|| !surveyManager.isSurveyExist(link.getSurveyId())) {
 					isValid = false;
 					break;
 				}
@@ -97,7 +129,8 @@ public class SurveyClientUserLinkController extends HttpServlet {
 		return isValid;
 	}
 
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Map<String, String[]> map = request.getParameterMap();
 		if (map != null && !map.isEmpty()) {
 			if (map.containsKey(CommonConstants.SURVEY_ID) && map.containsKey(CommonConstants.CLIENT_USER_EMAIL)) {
@@ -106,7 +139,8 @@ public class SurveyClientUserLinkController extends HttpServlet {
 				SurveyClientUserLink link = new SurveyClientUserLink();
 				link.setClientUserEmail(clientUserEmail);
 				link.setSurveyId(surveyId);
-				SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager();
+				String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+				SurveyClientUserLinkManager manager = new SurveyClientUserLinkManager(email);
 				try {
 					manager.deleteLink(link);
 				} catch (BaseException e) {

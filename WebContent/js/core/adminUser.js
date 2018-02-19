@@ -151,10 +151,10 @@ function setUserData(userTable, httpRequest) {
 				dropDownMenuDiv.setAttribute("aria-labelledby", testId);
 				dropDownMenuDiv.style = "min-width: auto";
 			    
-				
 				var dropdownItem1 = document.createElement("a");
 				dropdownItem1.className = "dropdown-item";
 				dropdownItem1.href = "#";
+				dropdownItem1.id = "assign_survey_#@_" + data[i].email;
 				
 				var assignSurveyIcon = document.createElement("i");
 				assignSurveyIcon.className = "fas fa-chart-line";
@@ -164,13 +164,31 @@ function setUserData(userTable, httpRequest) {
 				dropdownItem1.setAttribute("data-placement", "left");
 				dropdownItem1.title = "Assign Survey";
 				dropdownItem1.style = "cursor: pointer";
+				dropdownItem1.addEventListener("click", function(evt) {
+					var targetId = evt.currentTarget.id;
+					var cuEmail = targetId.split("_#@_")[1].trim();
+					
+					var modal = getModelUtility("assignSurveyModal", "Assign Survey", "Save", "Cancel", 
+							assignSurveyToUser, cancelModelAssignSurvey, assignSurveyToUserModalBody(cuEmail),
+							validateModalData, "Erroneous Data");
+					var parent = document.getElementById('user');
+					parent.appendChild(modal);
+					$('#assignSurveyModal').modal({
+						keyboard: false,
+						show: true,
+						focus: true,
+						backdrop: "static"
+					});
+				});
 				dropDownMenuDiv.appendChild(dropdownItem1);
 				
-				var clientUserEmail = data[i].email;
-        		var clientUserName = data[i].name;
 				var dropdownItem2 = document.createElement("a");
-				dropdownItem2.addEventListener("click", function() {
-					deleteUser(clientUserEmail, clientUserName);
+				dropdownItem2.id = "delete_user_#@_" + data[i].email + ":" + data[i].name;
+				dropdownItem2.addEventListener("click", function(evt) {
+					var targetId = evt.currentTarget.id.trim();
+					var email = targetId.split("_#@_")[1].split(":")[0].trim();
+					var name = targetId.split("_#@_")[1].split(":")[1].trim();
+					deleteUser(email, name);
 				});
 				dropdownItem2.className = "dropdown-item";
 				
@@ -195,6 +213,113 @@ function setUserData(userTable, httpRequest) {
         	userTable.appendChild(tBody);
         }
 	}
+};
+
+function cancelModelAssignSurvey() {
+	console.log("Cancel model for Assign Survey to User");
+};
+
+function assignSurveyToUserModalBody(clientUserEmail) {
+	var body = document.createElement("div");
+	body.id = "assignSurveyToClientUser" + clientUserEmail;
+	
+	var mutedText = document.createElement("h6");
+	mutedText.className = "card-subtitle mb-2 text-muted";
+	mutedText.innerText = "Following is the list of unassigned surveys to this client user.";
+	body.appendChild(mutedText);
+	var httpRequest = new XMLHttpRequest();
+	if (!httpRequest) {
+		alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+	}
+	var url = "/Test/su?clientUserEmail=" + clientUserEmail + "&qType=getMyUnassignedSurveys";
+	httpRequest.open('GET', url);
+	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+	httpRequest.onload = function () {
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			var response = httpRequest.responseText;
+        	var data = JSON.parse(response);
+        	for (var i = 0; i < data.length; i++) {
+        		var checkBoxId = "checkBox_#_" + data[i].surveyId;
+        		var text = data[i].surveyName;
+        		body.appendChild(getCheckBox(data[i].surveyId, text, clientUserEmail));
+			}
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(null);
+	return body;
+};
+
+function assignSurveyToUser() {
+	var jsonPayload = [];
+	var surveys = document.getElementsByClassName("unassignedSurveys");
+	for (var i = 0; i < surveys.length; i++) {
+		var survey = surveys[i];
+		if (survey.children[0].checked) {
+			var data = survey.children[2].value;
+			var d = data.split("_#_");
+			var surveyId = d[0].split(":")[1].trim();
+			var clientUserEmail = d[1].split(":")[1].trim();
+			var eachSurvey = {};
+			eachSurvey.surveyId = surveyId;
+			eachSurvey.clientUserEmail = clientUserEmail;
+			jsonPayload.push(eachSurvey);
+		}
+	}
+	var payload =  JSON.stringify(jsonPayload);
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/su";
+	if (!httpRequest) {
+		alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+	}
+	httpRequest.open('POST', url);
+	httpRequest.setRequestHeader('Content-Type', 'application/json');
+	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+	httpRequest.onload = function () {
+		if (httpRequest.readyState == 4 && httpRequest.status == "201") {
+			alert('Surveys linked to user successfully.');
+			$('#assignSurveyModal').modal('toggle');
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(payload);
+//	$('#assignSurveyModal').modal('toggle');
+};
+
+function getCheckBox(id, text, clientUserEmail) {
+	var parent = document.createElement("div");
+	parent.className = "form-check unassignedSurveys";
+	var customId = "checkBox_#_"+ id;
+	
+	var input = document.createElement("input");
+	input.className = "form-check-input";
+	input.type = "checkbox";
+	input.id = customId
+
+	var label = document.createElement("label");
+	label.className = "form-check-label";
+	label.setAttribute("for", customId);
+	label.innerText = text;
+	
+	var d = document.createElement("input");
+	d.className = "form-check-input";
+	d.type = "hidden";
+	d.value = "id:" + id + "_#_" + "clientUserEmail:" + clientUserEmail;
+
+	parent.appendChild(input);
+	parent.appendChild(label);
+	parent.appendChild(d);
+
+	return parent;
+}
+
+function validateModalData() {
+	console.log("validate modal data");
+	return true;
 };
 
 function deleteUser(email, userName) {
@@ -301,7 +426,6 @@ function onSaveUser() {
 		return false;
 	}
 	httpRequest.open('POST', url);
-//	httpRequest.setRequestHeader("Cookie", getJSessionCookie());
 	httpRequest.setRequestHeader('Content-Type', 'application/json');
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 	httpRequest.onload = function () {

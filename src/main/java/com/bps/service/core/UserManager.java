@@ -70,7 +70,7 @@ public class UserManager implements IValidator {
 	@Override
 	public IBaseEntity validate(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
-		User dbUser = this.getUser(user);
+		User dbUser = userDAO.read(user);
 		if (dbUser != null) {
 			if (dbUser.equals(user)) {
 				dbUser.setPassword(null);

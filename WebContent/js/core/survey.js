@@ -563,7 +563,7 @@ function getInfoAlert(text) {
 	parent.setAttribute("role", "alert");
 	parent.style="display: none;"
 
-		var p = document.createElement('span');
+	var p = document.createElement('span');
 	p.innerHTML = text;
 
 	var closeButton = document.createElement('button');

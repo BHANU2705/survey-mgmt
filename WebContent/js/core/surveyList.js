@@ -101,8 +101,6 @@ function setSurveyData(surveyTable, httpRequest) {
         	var data = JSON.parse(response);
         	var tBody = document.createElement("tbody");
         	for (var i = 0; i < data.length; i++) {
-        		var surveyId = data[i].id;
-        		var sName = data[i].name;
 				var row = document.createElement("tr");
 
 				var index = document.createElement("td");
@@ -113,7 +111,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				a.className = "nav-link active";
 				a.style = "color: #01ab21;cursor: pointer;";
 				a.addEventListener("click", function() {
-					readSpecificSurvey(surveyId);
+					readSpecificSurvey(data[i].id);
 				});
 				a.innerText = data[i].name;
 				surveyName.appendChild(a);
@@ -122,7 +120,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				status.innerText = data[i].status;
 
 				var createdOn = document.createElement("td");
-				var d = data[i].lifeCycle.updatedOn;
+				var d = data[i].lifeCycle.createdOn;
 				var date = new Date(d.year, d.month, d.dayOfMonth, d.hourOfDay, d.minute, d.second, 0);
 				createdOn.innerText = date;
 
@@ -150,6 +148,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				
 				var pIcon = document.createElement("i");
 				pIcon.className = "fas fa-edit";
+				pIcon.id = "edit_icon_"+1;
 				
 				pDivA.appendChild(pIcon);
 				pDiv.appendChild(pDivA);
@@ -165,6 +164,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				var dropdownItem1 = document.createElement("a");
 				dropdownItem1.className = "dropdown-item";
 				dropdownItem1.href = "#";
+				dropdownItem1.id = "assign_user_" + data[i].id;
 				
 				var assignUsersIcon = document.createElement("i");
 				assignUsersIcon.className = "fas fa-user-plus";
@@ -177,8 +177,12 @@ function setSurveyData(surveyTable, httpRequest) {
 				dropDownMenuDiv.appendChild(dropdownItem1);
 				
 				var dropdownItem2 = document.createElement("a");
-				dropdownItem2.addEventListener("click", function() {
-					deleteSurvey(surveyId, sName);
+				dropdownItem2.id = "delete_survey_#@_" + data[i].id + ":" + data[i].name;
+				dropdownItem2.addEventListener("click", function(evt) {
+					var targetId = evt.currentTarget.id.trim();
+					var id = targetId.split("_#@_")[1].split(":")[0].trim();
+					var name = targetId.split("_#@_")[1].split(":")[1].trim();
+					deleteSurvey(id, name);
 				});
 				dropdownItem2.className = "dropdown-item";
 				

@@ -30,4 +30,7 @@ public final class CommonConstants {
 	public static final String APPLICATION_JSON  = "application/json";
 	public static final String SURVEY_ID = "surveyId";
 	public static final String CLIENT_USER_EMAIL = "clientUserEmail";
+	public static final String QUERY_TYPE = "qType";
+	public static final String GET_MY_UNASSIGNED_SURVEYS = "getMyUnassignedSurveys";
+	public static final String GET_MY_UNASSIGNED_USERS = "getMyUnassignedUsers";
 }
