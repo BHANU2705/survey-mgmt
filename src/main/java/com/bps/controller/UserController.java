@@ -76,7 +76,7 @@ public class UserController extends HttpServlet {
 				} else if ("deleteAccount".equalsIgnoreCase(action)) {
 					String password = request.getParameter("del_pwd");
 					if (user.getPassword().equals(password)) {
-						userManager.deleteUser(user);
+						userManager.deleteUser(email);
 						EmailManager emailManager = new EmailManager();
 						emailManager.sendUserOffBoardingEmail(user.getEmail(), user.getName());
 						CommonUtility.logout(request, response);

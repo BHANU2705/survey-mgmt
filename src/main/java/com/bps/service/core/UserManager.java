@@ -98,8 +98,10 @@ public class UserManager implements IValidator {
 		}
 		return null;
 	}
-	public User deleteUser(User user) throws BaseException {
-		if(user != null) {
+	public User deleteUser(String email) throws BaseException {
+		if(email != null) {
+			User user = new User();
+			user.setEmail(email);
 			if(userDAO.delete(user)) {
 				return user;
 			}

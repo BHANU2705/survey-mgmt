@@ -46,8 +46,13 @@ public class UserDAO extends DAO implements IBaseDAO {
 	public boolean delete(IBaseEntity entity) throws BaseException {
 		User user = (User) entity;
 		Session session = SessionManager.getSession();
+		User dbUser = session.get(User.class, user.getEmail());
+		Query<?> deleteSurveyQuery = session.createQuery("DELETE FROM Survey WHERE lifeCycle.createdBy = '" + user.getEmail() + "'");
+		Query<?> deleteLinkQuery = session.createQuery("DELETE FROM SurveyClientUserLink WHERE clientUserEmail = '" + user.getEmail() + "'");
 		Transaction tx = session.beginTransaction();
-		session.delete(user);
+		session.delete(dbUser);
+		deleteSurveyQuery.executeUpdate();
+		deleteLinkQuery.executeUpdate();
 		tx.commit();
 		SessionManager.closeSession(session);
 		return true;
