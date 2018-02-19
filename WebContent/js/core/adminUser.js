@@ -117,7 +117,7 @@ function setUserData(userTable, httpRequest) {
 				emailTd.innerText = data[i].email;
 
 				var attachedSurveyCountTd = document.createElement("td");
-				attachedSurveyCountTd.innerText = Math.floor(Math.random() * 101);
+				attachedSurveyCountTd.innerText = data[i].assignedSurveyCount;
 
 				var pDiv = document.createElement("div");
 				pDiv.className = "dropdown show";

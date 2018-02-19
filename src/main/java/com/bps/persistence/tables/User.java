@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class User implements IBaseEntity {
@@ -38,8 +39,12 @@ public class User implements IBaseEntity {
 	
 	@Embedded
 	private LifeCycle lifeCycle;
+	
+	@Transient
+	private Integer assignedSurveyCount = 0;
 
 	public User() {
+		assignedSurveyCount = 0;
 	}
 	
 	public User(String email, String password) {
@@ -140,6 +145,14 @@ public class User implements IBaseEntity {
 			return false;
 		}
 		return true;
+	}
+
+	public Integer getAssignedSurveyCount() {
+		return assignedSurveyCount;
+	}
+
+	public void setAssignedSurveyCount(Integer assignedSurveyCount) {
+		this.assignedSurveyCount = assignedSurveyCount;
 	}
 
 }

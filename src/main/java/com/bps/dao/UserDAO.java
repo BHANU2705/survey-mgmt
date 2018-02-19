@@ -1,7 +1,10 @@
 package com.bps.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -85,7 +88,30 @@ public class UserDAO extends DAO implements IBaseDAO {
 		query.select(root).where(builder.and(builder.equal(root.get("lifeCycle").get("createdBy"), super.getUserEmail()), builder.notEqual(root.get("lifeCycle").get("createdBy"), root.get("email"))));
         Query<User> q=session.createQuery(query);
         List<User> users = q.getResultList();
+		setAssignedSurveyCount(session, users);
 		SessionManager.closeSession(session);
 		return users.toArray(new User[users.size()]);
+	}
+
+	private void setAssignedSurveyCount(Session session, List<User> users) {
+		String queryString = "SELECT clientUserEmail, count(*) FROM SurveyClientUserLink group by clientUserEmail";
+		Query<?> q1 = session.createQuery(queryString);
+		q1.setReadOnly(true);
+		List<?> data = q1.getResultList();
+		Iterator<?> it = data.iterator();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		while (it.hasNext()) {
+			Object[] list = (Object[]) it.next();
+			String clientUserEmail = (String) list[0];
+			Long assignedSurveyCount = (Long) list[1];
+			map.put(clientUserEmail, assignedSurveyCount.intValue());
+		}
+		if (data != null && users != null && !data.isEmpty() && !users.isEmpty()) {
+			for (User user : users) {
+				if (map.containsKey(user.getEmail())) {
+					user.setAssignedSurveyCount(map.get(user.getEmail()));
+				}
+			}
+		}
 	}
 }
