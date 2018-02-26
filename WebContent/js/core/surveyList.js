@@ -4,7 +4,6 @@ function onLoadSurvey() {
 	var surveyAllPage = document.getElementById("surveyAllPage");
 	removeAllChild(surveyAllPage);
 	var card = getSurveyList();
-	removeAllChild(surveyAllPage);
 	surveyAllPage.appendChild(card);
 	$("#surveyAllPage").show();
 };
@@ -71,7 +70,7 @@ function getSurveyList() {
 	
 	thead_tr.appendChild(thead_th1);
 	thead_tr.appendChild(thead_th2);
-	thead_tr.appendChild(thead_th3);
+//	thead_tr.appendChild(thead_th3);
 	thead_tr.appendChild(thead_th4);
 	thead_tr.appendChild(thead_th5);
 	thead_tr.appendChild(thead_th6);
@@ -202,7 +201,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				
 				row.appendChild(index);
 				row.appendChild(surveyName);
-				row.appendChild(status);
+//				row.appendChild(status);
 				row.appendChild(createdOn);
 				row.appendChild(responseCount);
 				row.appendChild(pDiv);
@@ -236,7 +235,10 @@ function readSpecificSurvey(surveyId) {
 	httpRequest.onload = function () {
 //		$.unblockUI();
 		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
-			console.log(httpRequest.responseText);
+			var response = httpRequest.responseText;
+        	var survey = JSON.parse(response);
+        	console.log(survey);
+			displaySurveyPage(survey, "read");
 		} else {
 			// error scenario
 		}

@@ -569,5 +569,6 @@
 	<script src="../Test/js/core/surveyList.js"></script>
 	<script src="../Test/js/core/survey.js"></script>
 	<script src="../Test/js/core/adminUser.js"></script>
+	<script src="../Test/js/core/surveyReader.js"></script>
 </body>
 </html>

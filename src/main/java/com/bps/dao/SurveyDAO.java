@@ -1,6 +1,7 @@
 package com.bps.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -112,6 +113,7 @@ public class SurveyDAO extends DAO implements IBaseDAO {
 			Session session = SessionManager.getSession();
 			session.setDefaultReadOnly(true);
 			Survey dbSurvey = session.get(Survey.class, survey.getId());
+			setAssignedUsersCount(session, Arrays.asList(dbSurvey));
 			SessionManager.closeSession(session);
 			if (dbSurvey.getQuestions() != null && !dbSurvey.getQuestions().isEmpty()) {
 				List<Question> dbQuestions = dbSurvey.getQuestions();
