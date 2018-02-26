@@ -128,7 +128,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				createdOn.innerText = date;
 
 				var responseCount = document.createElement("td");
-				responseCount.innerText = data[i].assignedUsersCount;
+				responseCount.innerText = data[i].assignedUsersCount; 
 				
 				var pDiv = document.createElement("div");
 				pDiv.className = "dropdown show";
