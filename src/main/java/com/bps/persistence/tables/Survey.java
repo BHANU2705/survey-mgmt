@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -35,6 +36,13 @@ public class Survey implements IBaseEntity {
 	@OneToMany(mappedBy = "survey", fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL, orphanRemoval = true)
 	List<Question> questions = new ArrayList<Question>();
+
+	@Transient
+	private Integer assignedUsersCount = 0;
+
+	public Survey() {
+		assignedUsersCount = 0;
+	}
 
 	public void addQuestion(Question question) {
 		if (questions == null) {
@@ -87,5 +95,13 @@ public class Survey implements IBaseEntity {
 
 	public void setStatus(SurveyStatus status) {
 		this.status = status;
+	}
+
+	public Integer getAssignedUsersCount() {
+		return assignedUsersCount;
+	}
+
+	public void setAssignedUsersCount(Integer assignedUsersCount) {
+		this.assignedUsersCount = assignedUsersCount;
 	}
 }

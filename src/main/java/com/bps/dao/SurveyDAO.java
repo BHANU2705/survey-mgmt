@@ -1,9 +1,11 @@
 package com.bps.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.NoResultException;
@@ -62,7 +64,6 @@ public class SurveyDAO extends DAO implements IBaseDAO {
 		Query<?> query = session.createQuery(queryString);
 		query.setReadOnly(true);
 		List<?> data = query.getResultList();
-		SessionManager.closeSession(session);
 		Iterator<?> it = data.iterator();
 		while (it.hasNext()) {
 			Object[] list = (Object[]) it.next();
@@ -77,7 +78,31 @@ public class SurveyDAO extends DAO implements IBaseDAO {
 			survey.setLifeCycle(lifeCycle);
 			surveys.add(survey);
 		}
+		setAssignedUsersCount(session, surveys);
+		SessionManager.closeSession(session);
 		return surveys.toArray(new Survey[surveys.size()]);
+	}
+	
+	private void setAssignedUsersCount(Session session, List<Survey> surveys) {
+		String queryString = "SELECT surveyId, count(*) FROM SurveyClientUserLink group by surveyId";
+		Query<?> q1 = session.createQuery(queryString);
+		q1.setReadOnly(true);
+		List<?> data = q1.getResultList();
+		Iterator<?> it = data.iterator();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		while (it.hasNext()) {
+			Object[] list = (Object[]) it.next();
+			String surveyId = (String) list[0];
+			Long assignedUsersCount = (Long) list[1];
+			map.put(surveyId, assignedUsersCount.intValue());
+		}
+		if (data != null && surveys != null && !data.isEmpty() && !surveys.isEmpty()) {
+			for (Survey surevy : surveys) {
+				if (map.containsKey(surevy.getId())) {
+					surevy.setAssignedUsersCount(map.get(surevy.getId()));
+				}
+			}
+		}
 	}
 
 	@Override

@@ -64,7 +64,7 @@ function getSurveyList() {
 	var thead_th4 = document.createElement("th");
 	thead_th4.innerText = "Last Updated On";
 	var thead_th5 = document.createElement("th");
-	thead_th5.innerText = "Responses #";
+	thead_th5.innerText = "Attached Users #";
 	
 	var thead_th6 = document.createElement("th");
 	thead_th6.innerText = "Actions";
@@ -128,7 +128,7 @@ function setSurveyData(surveyTable, httpRequest) {
 				createdOn.innerText = date;
 
 				var responseCount = document.createElement("td");
-				responseCount.innerText = getResonseCount(data[i].id);
+				responseCount.innerText = data[i].assignedUsersCount;
 				
 				var pDiv = document.createElement("div");
 				pDiv.className = "dropdown show";
@@ -211,10 +211,6 @@ function setSurveyData(surveyTable, httpRequest) {
         	surveyTable.appendChild(tBody);
         }
     }
-};
-
-function getResonseCount(surveyId) {
-	return Math.floor(Math.random() * 101);
 };
 
 function deleteSurvey(surveyId, surveyName) {
