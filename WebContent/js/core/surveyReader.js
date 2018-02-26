@@ -68,7 +68,7 @@ function displaySurveyUI(survey, mode) {
 	var editSurvey = document.createElement('button');
 	editSurvey.id = "editSurveyBtn_" + survey.id;
 	editSurvey.className = "btn btn-md btn-primary btn-create";
-	editSurvey.innerText = "Edit";
+	editSurvey.innerText = "Edit Survey Name";
 	editSurvey.style = "background-color: #03ab22;color: white;";
 
 	editSurvey.addEventListener("click", function() {
@@ -131,6 +131,7 @@ function getExistingQuestionDiv(i, survey, mode) {
 
 	var questionCard = document.createElement('div');
 	questionCard.className = "card";
+	questionCard.style = "margin-bottom: 15px;";
 
 	var cardHeader = document.createElement('div');
 	cardHeader.className = "card-header";
@@ -176,7 +177,42 @@ function getExistingQuestionDiv(i, survey, mode) {
 		h5.appendChild(closeButton);
 	}
 
-	cardHeader.appendChild(h5);
+//	cardHeader.appendChild(h5);
+	
+	var editQuestion = document.createElement('button');
+	editQuestion.id = "editQuestionBtn_" + survey.questions[i].id;
+	editQuestion.className = "btn btn-md btn-primary btn-create";
+	editQuestion.innerText = "Edit Question";
+	editQuestion.style = "background-color: #03ab22;color: white;";
+
+	editQuestion.addEventListener("click", function() {
+//		addQuestionUsingCount();
+	});
+	cardHeader.appendChild(editQuestion);
+	
+	var questioRow = document.createElement('div');
+	questioRow.className = "row";
+	
+	var questioRow_Col1 = document.createElement("div");
+	questioRow_Col1.className = "col text-left";
+	var btn = document.createElement('button');
+	btn.className = "btn btn-md btn-primary btn-create";
+	btn.innerHTML = "Back to Survey Listing";
+	btn.style = "background-color: #03ab22;color: white;";
+
+	btn.addEventListener("click", function() {
+		onLoadSurvey();
+	});
+
+	questioRow_Col1.appendChild(h5);
+	questioRow.appendChild(questioRow_Col1);
+
+	var questioRow_Col2 = document.createElement("div");
+	questioRow_Col2.className = "col text-right";
+	questioRow_Col2.appendChild(editQuestion);
+	questioRow.appendChild(questioRow_Col2);
+	
+	cardHeader.appendChild(questioRow);
 	questionCard.appendChild(cardHeader);
 	questionParent.appendChild(questionCard);
 

@@ -193,6 +193,7 @@ function addQuestionDiv(i) {
 
 	var questionCard = document.createElement('div');
 	questionCard.className = "card";
+	questionCard.style = "margin-bottom: 15px;";
 
 	var cardHeader = document.createElement('div');
 	cardHeader.className = "card-header";
