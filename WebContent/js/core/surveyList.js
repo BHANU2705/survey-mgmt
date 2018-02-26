@@ -213,6 +213,7 @@ function setSurveyData(surveyTable, httpRequest) {
     }
 };
 
+
 function deleteSurvey(surveyId, surveyName) {
 	$.blockUI({ message: 'Deleting the Survey: ' +  surveyName});
 	var httpRequest = new XMLHttpRequest();
