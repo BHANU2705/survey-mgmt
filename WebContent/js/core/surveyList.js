@@ -1,11 +1,10 @@
 function onLoadSurvey() {
-	var createSurveyPage = document.getElementById("createSurveyPage");
-	removeAllChild(createSurveyPage);
-	$("#createSurveyPage").hide();
 	$("#subscriptionInfo").hide();
+	$("#surveyAllPage").hide();
 	var surveyAllPage = document.getElementById("surveyAllPage");
 	removeAllChild(surveyAllPage);
 	var card = getSurveyList();
+	removeAllChild(surveyAllPage);
 	surveyAllPage.appendChild(card);
 	$("#surveyAllPage").show();
 };
@@ -13,6 +12,7 @@ function onLoadSurvey() {
 function getSurveyList() {
 	var card = document.createElement('div');
 	card.className = "card";
+	card.id = "getSurveysCard";
 
 	var pDiv = document.createElement('div');
 	pDiv.className = "card-header";
@@ -108,10 +108,13 @@ function setSurveyData(surveyTable, httpRequest) {
 				
 				var surveyName = document.createElement("td");
 				var a = document.createElement('a');
+				a.id = "surveyLink_#@_" + data[i].id;
 				a.className = "nav-link active";
 				a.style = "color: #01ab21;cursor: pointer;";
-				a.addEventListener("click", function() {
-					readSpecificSurvey(data[i].id);
+				a.addEventListener("click", function(evt) {
+					var targetId = evt.currentTarget.id.trim();
+					var id = targetId.split("_#@_")[1].split(":")[0].trim();
+					readSpecificSurvey(id);
 				});
 				a.innerText = data[i].name;
 				surveyName.appendChild(a);

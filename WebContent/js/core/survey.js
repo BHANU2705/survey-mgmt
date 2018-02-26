@@ -4,17 +4,14 @@ var qSerialNumber = 0;
 function showCreateSurveyPage() {
 	var surveyAllPage = document.getElementById("surveyAllPage");
 	removeAllChild(surveyAllPage);
-	$("#surveyAllPage").hide();
-	var createSurveyPage = document.getElementById("createSurveyPage");
-	removeAllChild(createSurveyPage);
-	$("#createSurveyPage").show();
+	$("#surveyAllPage").show();
 	showCreateSurveyModal();
 };
 
 function showCreateSurveyModal() {
 	var modal = getModel('myId');
-	var createSurveyPage = document.getElementById('createSurveyPage');
-	createSurveyPage.appendChild(modal);
+	var surveyAllPage = document.getElementById('surveyAllPage');
+	surveyAllPage.appendChild(modal);
 	$('#myId').modal({
 		keyboard: false,
 		show: true,
@@ -28,10 +25,11 @@ function createSurvey() {
 	$('#myId').modal('toggle');
 	qCount = 0;
 	qSerialNumber = 0;
-	var createSurveyPage = document.getElementById('createSurveyPage');
+	var surveyAllPage = document.getElementById('surveyAllPage');
 	var card = document.createElement('div');
+	card.id = "createSurveyCard";
 	card.className = "card";
-	createSurveyPage.appendChild(card);
+	surveyAllPage.appendChild(card);
 
 	var pDiv = document.createElement('div');
 	pDiv.className = "card-header";

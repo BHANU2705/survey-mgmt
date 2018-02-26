@@ -304,7 +304,6 @@
 					 </button>
 				</div>
 				<div id = "surveyAllPage" style="display: none;"></div>
-				<div id = "createSurveyPage"></div>
 			</div>
 			<div id="user" style="display: none;"></div>
 			<div id="analytics" style="display: none;">
