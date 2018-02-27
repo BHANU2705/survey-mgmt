@@ -39,7 +39,7 @@ function displaySurveyUI(survey, mode) {
 	col2.className = "col text-center";
 	col2.style = "padding-top: 9px;";
 	var surveyTitle = document.createElement('input');
-	surveyTitle.id = survey.id;
+	surveyTitle.id = "sTitle_" + survey.id;
 	surveyTitle.setAttribute("readonly", true);
 	surveyTitle.value = survey.name;
 	surveyTitle.type = "text";
@@ -51,31 +51,88 @@ function displaySurveyUI(survey, mode) {
 	var col3 = document.createElement("div");
 	col3.className = "col text-right";
 	
-	var col3_1 = document.createElement("div");
-	col3_1.className = "col text-right";
-	var addQuestion = document.createElement('button');
-	addQuestion.className = "btn btn-md btn-primary btn-create";
-	addQuestion.innerText = "Add Question";
-	addQuestion.style = "background-color: #03ab22;color: white;";
+	var col3_row = document.createElement("div");
+	col3_row.className = "row";
+	col3_row.id = "col3_row";
+	
+	var col3_dummy1 = document.createElement("div");
+	col3_dummy1.className = "col text-right";
+	col3_row.appendChild(col3_dummy1);
+	
+	var col3_dummy2 = document.createElement("div");
+	col3_dummy2.className = "col text-right";
+	col3_row.appendChild(col3_dummy2);
+	
+	var col3_dummy3 = document.createElement("div");
+	col3_dummy3.className = "col text-right";
+	col3_row.appendChild(col3_dummy3);
 
-	addQuestion.addEventListener("click", function() {
-		addQuestionUsingCount();
-	});
-	col3_1.appendChild(addQuestion);
+	var col3_dummy4 = document.createElement("div");
+	col3_dummy4.className = "col text-right";
+	col3_row.appendChild(col3_dummy4);
 	
 	var col3_edit = document.createElement("div");
 	col3_edit.className = "col text-right";
 	var editSurvey = document.createElement('button');
 	editSurvey.id = "editSurveyBtn_" + survey.id;
 	editSurvey.className = "btn btn-md btn-primary btn-create";
-	editSurvey.innerText = "Edit Survey Name";
+	editSurvey.innerText = "Edit";
 	editSurvey.style = "background-color: #03ab22;color: white;";
+	editSurvey.setAttribute("currentAction","editSurveyAction");
 
-	editSurvey.addEventListener("click", function() {
-//		addQuestionUsingCount();
+	editSurvey.addEventListener("click", function(evt) {
+		console.log("edit survey name");
+		var currentAction = evt.currentTarget.getAttribute("currentaction");
+		var surveyId = evt.currentTarget.id.split("editSurveyBtn_")[1];
+		if(currentAction && currentAction === "editSurveyAction") {
+			evt.currentTarget.setAttribute("currentAction","saveSurveyAction");
+			evt.currentTarget.innerText = "Save";
+			
+			var col3_cancel = document.createElement("div");
+			col3_cancel.className = "col text-right";
+			col3_cancel.id = "col3_cancel";
+			var cancelEditSurveyName = document.createElement('button');
+			cancelEditSurveyName.className = "btn btn-md btn-primary btn-create";
+			cancelEditSurveyName.innerText = "Cancel";
+			cancelEditSurveyName.style = "background-color: #03ab22;color: white;";
+
+			cancelEditSurveyName.addEventListener("click", function(evt1) {
+				var col3_row = document.getElementById("col3_row");
+				var col3_cancel = document.getElementById("col3_cancel");
+				col3_row.removeChild(col3_cancel);
+				
+				var sTitle = document.getElementById("sTitle_" + surveyId);
+				sTitle.setAttribute("readonly", true);
+				sTitle.value = "original value";
+				sTitle.className = "form-control-plaintext";
+				surveyTitle.style = "text-align: center;font-weight: bold;";
+				
+				var editBtn = document.getElementById("editSurveyBtn_" + surveyId);
+				editBtn.innerText = "Edit";
+				editBtn.setAttribute("currentAction","editSurveyAction");
+				
+			});
+			col3_cancel.appendChild(cancelEditSurveyName);
+			var col3_row = document.getElementById("col3_row");
+			col3_row.appendChild(col3_cancel);
+			
+			var sTitle = document.getElementById("sTitle_" + surveyId);
+			sTitle.removeAttribute("readonly");
+//			sTitle.style = "form-control-plaintext background-color: white;";
+			sTitle.style = "form-control";
+			surveyTitle.style = "text-align: center;font-weight: bold; background-color: white;";
+			sTitle.focus();
+		}
 	});
+	
 	col3_edit.appendChild(editSurvey);
-	col3.appendChild(col3_edit);
+	col3_row.appendChild(col3_edit);
+	//col3_edit.appendChild(editSurvey);
+	
+	
+	
+//	col3.appendChild(col3_edit);
+	col3.appendChild(col3_row);
 	row.appendChild(col3);
 
 	var cardBody = document.createElement('div');
@@ -246,7 +303,7 @@ function getExistingQuestionSet(i, question, mode) {
 	qText.id="qText_" + i;
 	qText.name="qText_" + i;
 	qText.placeholder = "Enter Question";
-	qText.className = "form-control";
+	qText.className = "form-control-plaintext";
 	qText.rows = 1;
 	qText.value = question.text;
 	qText.setAttribute("readonly", true);
