@@ -79,6 +79,8 @@ function displaySurveyUI(survey, mode) {
 	editSurvey.innerText = "Edit";
 	editSurvey.style = "background-color: #03ab22;color: white;";
 	editSurvey.setAttribute("currentAction","editSurveyAction");
+	
+	var surveyName = survey.name;
 
 	editSurvey.addEventListener("click", function(evt) {
 		console.log("edit survey name");
@@ -103,7 +105,7 @@ function displaySurveyUI(survey, mode) {
 				
 				var sTitle = document.getElementById("sTitle_" + surveyId);
 				sTitle.setAttribute("readonly", true);
-				sTitle.value = "original value";
+				sTitle.value = surveyName;
 				sTitle.className = "form-control-plaintext";
 				surveyTitle.style = "text-align: center;font-weight: bold;";
 				
@@ -122,6 +124,40 @@ function displaySurveyUI(survey, mode) {
 			sTitle.style = "form-control";
 			surveyTitle.style = "text-align: center;font-weight: bold; background-color: white;";
 			sTitle.focus();
+			
+			
+		} else if(currentAction && currentAction === "saveSurveyAction") {
+			var sTitle = document.getElementById("sTitle_" + surveyId);
+			var updatedSurveyName = sTitle.value;
+			var data = {};
+			data.name = updatedSurveyName;
+			data.id = surveyId;
+			var payload =  JSON.stringify(data);
+			var httpRequest = new XMLHttpRequest();
+			var url = "/Test/survey?action=editSurveyName";
+			httpRequest.open('PUT', url);
+			httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+			httpRequest.setRequestHeader('Content-Type', 'application/json');
+			httpRequest.onreadystatechange = function() {
+				if (httpRequest.readyState === 4) {
+			        if (httpRequest.status === 202) {
+			        	var col3_row = document.getElementById("col3_row");
+						var col3_cancel = document.getElementById("col3_cancel");
+						col3_row.removeChild(col3_cancel);
+						
+						var sTitle = document.getElementById("sTitle_" + surveyId);
+						sTitle.setAttribute("readonly", true);
+						sTitle.value = updatedSurveyName;
+						sTitle.className = "form-control-plaintext";
+						surveyTitle.style = "text-align: center;font-weight: bold;";
+						
+						var editBtn = document.getElementById("editSurveyBtn_" + surveyId);
+						editBtn.innerText = "Edit";
+						editBtn.setAttribute("currentAction","editSurveyAction");
+			        }
+				}
+			};
+			httpRequest.send(payload);
 		}
 	});
 	

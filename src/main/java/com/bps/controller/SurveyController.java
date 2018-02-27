@@ -91,6 +91,22 @@ public class SurveyController extends HttpServlet {
 	}
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+		String email = (String) request.getSession().getAttribute(CommonConstants.EMAIL);
+		JsonElement payload = CommonUtility.getJSONData(request.getReader());
+		Gson gson = new Gson();
+		Survey survey = gson.fromJson(payload, Survey.class);
+		if(action != null && "editSurveyName".equalsIgnoreCase(action)) {
+			SurveyManager manager = new SurveyManager(email);
+			try {
+				Survey dbSurvey = manager.readSurvey(survey.getId());
+				dbSurvey.setName(survey.getName());
+				manager.updateSurvey(dbSurvey);
+				response.setStatus(HttpServletResponse.SC_ACCEPTED);
+			} catch (BaseException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
