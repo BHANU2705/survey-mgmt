@@ -271,14 +271,14 @@ function getExistingQuestionDiv(i, survey, mode) {
 				var col3_row = document.getElementById("questioRow_Col2_row_" + survey.questions[i].id);
 				var col3_cancel = document.getElementById("col3_cancel");
 				col3_row.removeChild(col3_cancel);
-				
+
 				// make question title, question type and other fields read only
-				
+
 				var qText = document.getElementById("qText_" + i);
 				qText.setAttribute("readonly", true);
 				qText.value = survey.questions[i].text;
 				qText.className = "form-control-plaintext";
-				
+
 				var qType = document.getElementById("inputGroupSelect_" + i);
 				qType.setAttribute("disabled", true);
 				qType.value = survey.questions[i].type;
@@ -286,33 +286,42 @@ function getExistingQuestionDiv(i, survey, mode) {
 				var editBtn = document.getElementById("editQuestionBtn_" + questionId);
 				editBtn.innerText = "Edit Question";
 				editBtn.setAttribute("currentAction","editQuestion");
-				
+
 				var optionsDiv = document.getElementById("row2Col1_" + i);
-				if (optionsDiv && optionsDiv.hasChildNodes()) {
-					var id = null;
-					var optionBox = null;
-					for (var index = 1; index < 6; index++) {
-						id = "q_" + i + "_option_" + index;
-						optionBox = document.getElementById(id);
-						optionBox.value = survey.questions[i].options[(index-1)].text;
-						optionBox.setAttribute("readonly", true);
+				var originalQType = survey.questions[i].type;
+				if (originalQType && 
+						(originalQType === "Radio" 
+							|| originalQType === "Dropdown" 
+								|| originalQType === "CheckBox")) {
+					if (optionsDiv && optionsDiv.hasChildNodes()) {
+						var id = null;
+						var optionBox = null;
+						for (var index = 1; index < 6; index++) {
+							id = "q_" + i + "_option_" + index;
+							optionBox = document.getElementById(id);
+							optionBox.value = survey.questions[i].options[(index-1)].text;
+							optionBox.setAttribute("readonly", true);
+						}
+						//q_0_option_1
+					} else {
+						for (var index = 1; index < 6; index++) {
+							var qText = document.createElement("input");
+							qText.type="text";
+							qText.id="q_" + i + "_option_" + index;
+							qText.name = qText.id;
+							qText.placeholder = "Enter an answer choice";
+							qText.className = "form-control";
+							qText.style = "margin-bottom: 8px; margin-top: 5px;";
+							qText.value = survey.questions[i].options[(index-1)].text;
+							qText.setAttribute("readonly", true);
+							optionsDiv.appendChild(qText);
+						}
 					}
-					//q_0_option_1
 				} else {
-					for (var index = 1; index < 6; index++) {
-						var qText = document.createElement("input");
-						qText.type="text";
-						qText.id="q_" + i + "_option_" + index;
-						qText.name = qText.id;
-						qText.placeholder = "Enter an answer choice";
-						qText.className = "form-control";
-						qText.style = "margin-bottom: 8px; margin-top: 5px;";
-						qText.value = survey.questions[i].options[(index-1)].text;
-						qText.setAttribute("readonly", true);
-						optionsDiv.appendChild(qText);
+					if (optionsDiv) {
+						removeAllChild(optionsDiv);
 					}
 				}
-				
 			});
 			col_cancel.appendChild(cancelEditQuestion);
 			var questioRow_Col2_row = document.getElementById("questioRow_Col2_row_" + questionId);
