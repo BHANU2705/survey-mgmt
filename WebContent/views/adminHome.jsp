@@ -111,22 +111,12 @@
 			}
 		}
 	});
-	console.log('isAdmin: ' + <%= request.getAttribute("isAdmin") %>);
-	console.log('isOwner:' + <%= request.getAttribute("isOwner") %>);
-	console.log('isUser:' +<%= request.getAttribute("isUser") %>);
-
-	var httpRequest = fetchMyRoles();
-	var roles = null;
-	httpRequest.onload = function () {
-		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
-			var response = httpRequest.responseText;
-        	roles = JSON.parse(response);
-        	console.log(roles);
-		} else {
-			// error scenario
-		}
+	var isAdmin = <%= request.getAttribute("isAdmin") %>;
+	var isOwner = <%= request.getAttribute("isOwner") %>;
+	var isUser = <%= request.getAttribute("isUser") %>;
+	if (isUser) {
+		$("#a_survey").hide();
 	}
-	
 </script>
 </head>
 
@@ -175,10 +165,14 @@
 						class="nav-link active" onclick="handleLeftPane('overview')"
 						href="#">Overview <!-- <span class="sr-only">(current)</span> --></a>
 					</li>
+					<%
+					Boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
+					if(isAdmin) { %>
 					<li class="nav-item"><a id="a_survey" class="nav-link"
 						onclick="handleLeftPane('survey')" href="">Surveys</a></li>
 					<li class="nav-item"><a id="a_user" class="nav-link"
 						onclick="handleLeftPane('user')" href="">My Users</a></li>
+						<% } %>
 					<li class="nav-item"><a id="a_analytics" class="nav-link"
 						onclick="handleLeftPane('analytics')" href="">Analytics</a></li>
 					<li class="nav-item"><a id="a_subscription" class="nav-link"
