@@ -26,8 +26,10 @@ public class QuestionController extends HttpServlet {
 		QuestionManager manager = new QuestionManager();
 		try {
 			manager.updateQuestion(question);
+			response.setStatus(HttpServletResponse.SC_ACCEPTED);
 		} catch (BaseException e) {
 			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 }

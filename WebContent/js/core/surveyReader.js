@@ -160,11 +160,6 @@ function displaySurveyUI(survey, mode) {
 	
 	col3_edit.appendChild(editSurvey);
 	col3_row.appendChild(col3_edit);
-	//col3_edit.appendChild(editSurvey);
-	
-	
-	
-//	col3.appendChild(col3_edit);
 	col3.appendChild(col3_row);
 	row.appendChild(col3);
 
@@ -185,7 +180,7 @@ function displaySurveyUI(survey, mode) {
 
 	var cardFooter =  document.createElement('div');
 	cardFooter.className = "card-footer text-right";
-	var saveSurvey = document.createElement('button');
+	/*var saveSurvey = document.createElement('button');
 	saveSurvey.className = "btn btn-md btn-primary btn-create";
 	saveSurvey.innerText = "Save Survey";
 	saveSurvey.style = "background-color: #03ab22;color: white;";
@@ -196,7 +191,7 @@ function displaySurveyUI(survey, mode) {
 			onSave();
 		}
 	});
-	cardFooter.appendChild(saveSurvey);
+	cardFooter.appendChild(saveSurvey);*/
 	card.appendChild(cardFooter);
 };
 
@@ -336,57 +331,55 @@ function getExistingQuestionDiv(i, survey, mode) {
 			var qType = document.getElementById("inputGroupSelect_" + i);
 			qType.removeAttribute("disabled");
 			
-			
-			
-			/*var optionsDiv = document.getElementById("row2Col1_" + i);
-			if (optionsDiv && optionsDiv.hasChildNodes()) {
-				var childrenCount = optionsDiv.childElementCount;
-				for (var i = 0; i < childrenCount; i++) {
-					optionsDiv.children[i].removeAttribute("readonly");
-				}
+		} else if(currentAction && currentAction === "saveQuestion") {
+			$.blockUI({ message: 'Saving the question...' });
+			var questionJson = {};
+			questionJson.id = questionId;
+			questionJson.text = document.getElementById("qText_" + i).value;
+			questionJson.type = document.getElementById("inputGroupSelect_" + i).value;
+			if (questionJson.type && (questionJson.type === "Radio" || questionJson.type === "Dropdown" || questionJson.type === "CheckBox")) {
 				var id = null;
 				var optionBox = null;
+				var options = [];
 				for (var index = 1; index < 6; index++) {
 					id = "q_" + i + "_option_" + index;
 					optionBox = document.getElementById(id);
-					optionBox.removeAttribute("readonly");
+					if (optionBox) {
+						var option = {};
+						option.text = optionBox.value;
+						options.push(option);
+					}
 				}
-			}*/
-		} else if(currentAction && currentAction === "saveQuestion") {
-			/*var sTitle = document.getElementById("sTitle_" + surveyId);
-			var updatedSurveyName = sTitle.value;
-			var data = {};
-			data.name = updatedSurveyName;
-			data.id = surveyId;
-			var payload =  JSON.stringify(data);
+				if (options && options.length > 0) {
+					questionJson.options = options;
+				}
+				
+			}
+			var payload =  JSON.stringify(questionJson);
+			console.log(questionJson);
+			console.log(payload);
 			var httpRequest = new XMLHttpRequest();
-			var url = "/Test/survey?action=editSurveyName";
+			var url = "/Test/question";
 			httpRequest.open('PUT', url);
 			httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 			httpRequest.setRequestHeader('Content-Type', 'application/json');
 			httpRequest.onreadystatechange = function() {
 				if (httpRequest.readyState === 4) {
+					$.unblockUI();
 			        if (httpRequest.status === 202) {
-			        	var col3_row = document.getElementById("col3_row");
-						var col3_cancel = document.getElementById("col3_cancel");
-						col3_row.removeChild(col3_cancel);
-						
-						var sTitle = document.getElementById("sTitle_" + surveyId);
-						sTitle.setAttribute("readonly", true);
-						sTitle.value = updatedSurveyName;
-						sTitle.className = "form-control-plaintext";
-						surveyTitle.style = "text-align: center;font-weight: bold;";
-						
-						var editBtn = document.getElementById("editSurveyBtn_" + surveyId);
-						editBtn.innerText = "Edit";
-						editBtn.setAttribute("currentAction","editSurveyAction");
+			        	if (survey && survey.id) {
+			        		$.blockUI({ message: 'Fetching the survey...' });
+			        		readSpecificSurvey(survey.id);
+			        		$.unblockUI();
+						} else {
+							console.log("find survey id");
+						}
 			        }
 				}
 			};
-			httpRequest.send(payload);*/
+			httpRequest.send(payload);
 		}
 	});
-//	cardHeader.appendChild(editQuestion);
 	
 	var questioRow = document.createElement('div');
 	questioRow.className = "row";
