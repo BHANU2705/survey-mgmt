@@ -100,7 +100,6 @@
 				$("#pwdChangeFailed").show();
 			}
 		}
-
 		$("#accountDeletionError").hide();
 		var isAccountDeletionSuccessful = <%= request.getAttribute("isAccountDeletionSuccessful") %>;
 		if (isAccountDeletionSuccessful != null) {
@@ -112,6 +111,22 @@
 			}
 		}
 	});
+	console.log('isAdmin: ' + <%= request.getAttribute("isAdmin") %>);
+	console.log('isOwner:' + <%= request.getAttribute("isOwner") %>);
+	console.log('isUser:' +<%= request.getAttribute("isUser") %>);
+
+	var httpRequest = fetchMyRoles();
+	var roles = null;
+	httpRequest.onload = function () {
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			var response = httpRequest.responseText;
+        	roles = JSON.parse(response);
+        	console.log(roles);
+		} else {
+			// error scenario
+		}
+	}
+	
 </script>
 </head>
 

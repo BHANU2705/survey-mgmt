@@ -117,3 +117,21 @@ function getInfoAlertUtility(text) {
 
 	return parent;
 };
+
+
+function fetchMyRoles() {
+	var httpRequest = new XMLHttpRequest();
+	var url = "/Test/roles";
+	httpRequest.open('GET', url);
+	/*httpRequest.onload = function () {
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			var response = httpRequest.responseText;
+        	var roles = JSON.parse(response);
+        	return roles;
+		} else {
+			// error scenario
+		}
+	}*/
+	httpRequest.send(null);
+	return httpRequest;
+}
