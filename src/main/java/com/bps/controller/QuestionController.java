@@ -15,7 +15,7 @@ import com.bps.util.CommonUtility;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
-@WebServlet("/question")
+@WebServlet(urlPatterns = "/question", name = "QuestionController")
 public class QuestionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
