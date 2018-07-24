@@ -9,7 +9,7 @@
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.default_schema">survey_mgmt</property>
 		<property name="hbm2ddl.auto">update</property>
-		<property name="hibernate.show_sql">trfalseue</property>
+		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<mapping class="com.bps.persistence.tables.User" />
