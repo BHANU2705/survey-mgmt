@@ -93,7 +93,7 @@ public class CommonUtility {
 			session.removeAttribute("name");
 			session.invalidate();
 		}
-		response.sendRedirect("/Test/");
+		response.sendRedirect(request.getContextPath());
 	}
 
 	public static JsonElement getJSONData(BufferedReader reader) {

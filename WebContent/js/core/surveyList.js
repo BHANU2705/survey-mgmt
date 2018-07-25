@@ -79,7 +79,7 @@ function getSurveyList() {
 	
 	$.blockUI({ message: 'Fetching Survey List...' });
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/survey";
+	var url = contextPath + "/survey";
 	httpRequest.open('GET', url);
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 	httpRequest.onreadystatechange = function() {
@@ -215,7 +215,7 @@ function setSurveyData(surveyTable, httpRequest) {
 function deleteSurvey(surveyId, surveyName) {
 	$.blockUI({ message: 'Deleting the Survey: ' +  surveyName});
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/survey?id="+surveyId;
+	var url = contextPath + "/survey?id="+surveyId;
 	httpRequest.open('DELETE', url);
 	httpRequest.onload = function () {
 		$.unblockUI();
@@ -230,7 +230,7 @@ function deleteSurvey(surveyId, surveyName) {
 
 function readSpecificSurvey(surveyId) {
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/survey?id="+surveyId;
+	var url = contextPath + "/survey?id="+surveyId;
 	httpRequest.open('GET', url);
 	httpRequest.onload = function () {
 //		$.unblockUI();

@@ -8,3 +8,14 @@ Required Color: #01ab21
 	color: #fff;
     background-color: #23242387;
     border-color: #f0f3f7;
+
+root password: root123
+user: testuser
+password: testpassword
+
+https://github.com/BHANU2705/survey-mgmt.git
+
+SET GLOBAL default_storage_engine = 'InnoDB';
+<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+
+catalina.bat jpda start

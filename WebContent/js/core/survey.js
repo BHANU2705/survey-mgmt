@@ -115,7 +115,7 @@ function onSave() {
 	} else {
 		var payload =  JSON.stringify(data);
 		var httpRequest = new XMLHttpRequest();
-		var url = "/Test/survey";
+		var url = contextPath + "/survey";
 		if (!httpRequest) {
 			alert('Giving up :( Cannot create an XMLHTTP instance');
 			return false;

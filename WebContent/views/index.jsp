@@ -7,12 +7,13 @@
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<script src="../Test/js/vendor/jquery-3.2.1.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/vendor/jquery-3.2.1.js"></script>
 
-	<link href="../Test/css/bootstrap.css" rel="stylesheet">
-	<link href="../Test/css/signin.css" rel="stylesheet">
+	<link href="..<%=request.getContextPath()%>/css/bootstrap.css" rel="stylesheet">
+	<link href="..<%=request.getContextPath()%>/css/signin.css" rel="stylesheet">
 	
 	<script>
+	var contextPath='<%=request.getContextPath()%>';
 	$(document).ready(function() {
 		var isLoginFailed = <%= request.getAttribute("isLoginFailed") %>;
 		$("#loginFailure").hide();
@@ -38,7 +39,7 @@
 	</header>
     <div class="container">
 	    <div id="loginbox">
-		    <form class="form-signin" action="/Test/home" method="post">
+		    <form class="form-signin" action="<%=request.getContextPath()%>/home" method="post">
 				<h2 class="form-signin-heading">Please Sign In</h2>
 				<div class="alert alert-danger alert-dismissible fade show" role="alert" id="loginFailure" style="display: none;">
 				  Incorrect Credentials - Try Again !
@@ -61,7 +62,7 @@
            </div>
 		</div>
 	    <div id="signupbox" style="display:none;">
-	    	<form class="form-signin" action="/Test/home" method="post">
+	    	<form class="form-signin" action="<%=request.getContextPath()%>/home" method="post">
 				<h2 class="form-signin-heading">Please Sign Up</h2>
 				<div class="alert alert-danger alert-dismissible fade show" role="alert" id="signUpFailure" style="display: none;">
 				  Unable to sign up - Missing mandatory data!

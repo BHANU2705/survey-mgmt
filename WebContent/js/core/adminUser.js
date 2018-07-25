@@ -74,7 +74,7 @@ function getUserList() {
 		alert('Giving up :( Cannot create an XMLHTTP instance');
 		return false;
 	}
-	var url = "/Test/cuser";
+	var url = contextPath + "/cuser";
 	httpRequest.open('GET', url);
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 	httpRequest.onload = function () {
@@ -232,7 +232,7 @@ function assignSurveyToUserModalBody(clientUserEmail) {
 		alert('Giving up :( Cannot create an XMLHTTP instance');
 		return false;
 	}
-	var url = "/Test/su?clientUserEmail=" + clientUserEmail + "&qType=getMyUnassignedSurveys";
+	var url = contextPath + "/su?clientUserEmail=" + clientUserEmail + "&qType=getMyUnassignedSurveys";
 	httpRequest.open('GET', url);
 	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 	httpRequest.onload = function () {
@@ -270,7 +270,7 @@ function assignSurveyToUser() {
 	}
 	var payload =  JSON.stringify(jsonPayload);
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/su";
+	var url = contextPath + "/su";
 	if (!httpRequest) {
 		alert('Giving up :( Cannot create an XMLHTTP instance');
 		return false;
@@ -326,7 +326,7 @@ function deleteUser(email, userName) {
 	var msg = "Deleting the User: " + userName + " (" + email + ")";
 	$.blockUI({ message: msg});
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/cuser?email="+email;
+	var url = contextPath + "/cuser?email="+email;
 	httpRequest.open('DELETE', url);
 	httpRequest.onload = function () {
 		$.unblockUI();
@@ -420,7 +420,7 @@ function onSaveUser() {
 	var payload =  JSON.stringify(cuser);
 	
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/cuser";
+	var url = contextPath + "/cuser";
 	if (!httpRequest) {
 		alert('Giving up :( Cannot create an XMLHTTP instance');
 		return false;

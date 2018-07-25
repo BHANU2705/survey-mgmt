@@ -121,7 +121,7 @@ function getInfoAlertUtility(text) {
 
 function fetchMyRoles() {
 	var httpRequest = new XMLHttpRequest();
-	var url = "/Test/roles";
+	var url = contextPath + "/roles";
 	httpRequest.open('GET', url);
 	/*httpRequest.onload = function () {
 		if (httpRequest.readyState == 4 && httpRequest.status == "200") {

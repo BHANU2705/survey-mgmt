@@ -10,20 +10,21 @@
 
 <title>Admin Home</title>
 
-<script src="../Test/js/vendor/jquery-3.2.1.js"></script>
-<script src="../Test/js/vendor/popper.min.js"></script>
-<script src="../Test/js/vendor/bootstrap.min.js"></script>
-<script src="../Test/js/vendor/Chart.js"></script>
-<script src="../Test/js/vendor/jquery.blockUI.js"></script>
-<script defer src="../Test/js/vendor/fontawesome-all.min.js"></script>
-<script src="../Test/js/core/Utility.js"></script>
+<script src="..<%=request.getContextPath()%>/js/vendor/jquery-3.2.1.js"></script>
+<script src="..<%=request.getContextPath()%>/js/vendor/popper.min.js"></script>
+<script src="..<%=request.getContextPath()%>/js/vendor/bootstrap.min.js"></script>
+<script src="..<%=request.getContextPath()%>/js/vendor/Chart.js"></script>
+<script src="..<%=request.getContextPath()%>/js/vendor/jquery.blockUI.js"></script>
+<script defer src="..<%=request.getContextPath()%>/js/vendor/fontawesome-all.min.js"></script>
+<script src="..<%=request.getContextPath()%>/js/core/Utility.js"></script>
 
-<link href="../Test/css/bootstrap.css" rel="stylesheet">
-<link href="../Test/css/carousel.css" rel="stylesheet">
-<link href="../Test/css/dashboard.css" rel="stylesheet">
-<link href="../Test/css/footer.css" rel="stylesheet">
+<link href="..<%=request.getContextPath()%>/css/bootstrap.css" rel="stylesheet">
+<link href="..<%=request.getContextPath()%>/css/carousel.css" rel="stylesheet">
+<link href="..<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
+<link href="..<%=request.getContextPath()%>/css/footer.css" rel="stylesheet">
 
 <script>
+	var contextPath ='<%=request.getContextPath()%>';
 	$(document).ready(function() {
 		$("#overview").show();
 		$("#survey").hide();
@@ -124,7 +125,7 @@
 	<header>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-info">
 			<a class="navbar-brand" href="#"> <img
-				src="../Test/images/logo.png" width="30" height="30"
+				src="..<%=request.getContextPath()%>/images/logo.png" width="30" height="30"
 				style="display: inline-block;"> <span
 				style="display: inline-block;">Dalin's Survey</span>
 			</a>
@@ -463,7 +464,7 @@
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>
 									</div>
-									<form class="form-signin" action="/Test/user" method="post" onerror="onError()">
+									<form class="form-signin" action="<%=request.getContextPath()%>/user" method="post" onerror="onError()">
 										<input type="text" name="name" id="name" class="form-control"
 											placeholder="Name" required style="margin-top: 20px;">
 										<input type="hidden" name="action" value="changeName">
@@ -493,7 +494,7 @@
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>
 									</div>
-									<form name = "pwdChangeForm" class="form-signin" action="/Test/user" method="post" onsubmit="return validatePasswordChange()">
+									<form name = "pwdChangeForm" class="form-signin" action="<%=request.getContextPath()%>/user" method="post" onsubmit="return validatePasswordChange()">
 										<input type="password" name="old_password" id="oldPassword"
 											class="form-control" placeholder="Current Password" required
 											style="margin-top: 20px;"> <input type="password"
@@ -541,7 +542,7 @@
 					    				<span aria-hidden="true">&times;</span>
 					 				  </button>
 									</div>
-									<form id = "accountDeletionForm" class="form-signin" action="/Test/user" method="post" novalidate>
+									<form id = "accountDeletionForm" class="form-signin" action="<%=request.getContextPath()%>/user" method="post" novalidate>
 										<input type="password" name="del_pwd" id="del_pwd"
 											class="form-control" placeholder="Current Password" required
 											style="margin-top: 20px;">
@@ -574,10 +575,10 @@
 			</main>
 		</div>
 	</div>
-	<script src="../Test/js/core/adminHome.js"></script>
-	<script src="../Test/js/core/surveyList.js"></script>
-	<script src="../Test/js/core/survey.js"></script>
-	<script src="../Test/js/core/adminUser.js"></script>
-	<script src="../Test/js/core/surveyReader.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/core/adminHome.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/core/surveyList.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/core/survey.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/core/adminUser.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/core/surveyReader.js"></script>
 </body>
 </html>

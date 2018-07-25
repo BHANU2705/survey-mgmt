@@ -131,7 +131,7 @@ function displaySurveyUI(survey, mode) {
 			data.id = surveyId;
 			var payload =  JSON.stringify(data);
 			var httpRequest = new XMLHttpRequest();
-			var url = "/Test/survey?action=editSurveyName";
+			var url = contextPath + "/survey?action=editSurveyName";
 			httpRequest.open('PUT', url);
 			httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 			httpRequest.setRequestHeader('Content-Type', 'application/json');
@@ -359,7 +359,7 @@ function getExistingQuestionDiv(i, survey, mode) {
 			console.log(questionJson);
 			console.log(payload);
 			var httpRequest = new XMLHttpRequest();
-			var url = "/Test/question";
+			var url = contextPath + "/question";
 			httpRequest.open('PUT', url);
 			httpRequest.setRequestHeader('Cache-Control', 'no-cache');
 			httpRequest.setRequestHeader('Content-Type', 'application/json');
