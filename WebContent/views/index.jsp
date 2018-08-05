@@ -74,7 +74,7 @@
 				<input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
 				<input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
 				<input type="hidden" name="action" value="signup">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
 			</form>
            <div class="col-md-12 control">
                <div style="text-align:right; border-top: 1px solid#888; padding-top:15px; font-size:85%" >

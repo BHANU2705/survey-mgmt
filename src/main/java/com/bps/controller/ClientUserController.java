@@ -3,7 +3,9 @@ package com.bps.controller;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.User;
 import com.bps.persistence.tables.UserRole;
+import com.bps.persistence.tables.UserRoleEnum;
 import com.bps.service.core.UserManager;
 import com.bps.service.core.email.EmailManager;
 import com.bps.service.exceptions.BaseException;
@@ -69,6 +72,8 @@ public class ClientUserController extends HttpServlet {
 			manager.deleteUser(email);
 		} catch (BaseException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 	}
@@ -83,15 +88,24 @@ public class ClientUserController extends HttpServlet {
 				user.setPassword(password);
 				UserManager userManager = new UserManager();
 				Role role = new Role();
-				role.setId(UserRole.User.toString());
-				role.setName(UserRole.User.toString());
+				role.setId(UserRoleEnum.User.toString());
+				role.setName(UserRoleEnum.User.toString());
 				List<Role> roles = new ArrayList<>();
 				roles.add(role);
-				user.setRoles(roles);
-
+				
 				HttpSession session = request.getSession();
 				String adminEmail = (String) session.getAttribute(CommonConstants.EMAIL);
 				String adminName = (String) session.getAttribute(CommonConstants.NAME);
+				
+				UserRole userRole = new UserRole();
+				userRole.setAdminEmailId(adminEmail);
+				userRole.setRole(role);
+				userRole.setUser(user);
+				
+				Set<UserRole> userRoles = new HashSet<UserRole>();
+				userRoles.add(userRole);
+				user.setUserRoles(userRoles);
+				
 				userManager.createUser(user, adminEmail);
 				EmailManager emailManager = new EmailManager();
 				String admin = adminName + " <"	+ adminEmail + ">";

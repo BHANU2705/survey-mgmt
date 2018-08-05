@@ -1,7 +1,7 @@
 package com.bps.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.UserRole;
+import com.bps.persistence.tables.UserRoleEnum;
 import com.bps.service.core.ProcessContextPool;
 import com.bps.util.CommonConstants;
 import com.bps.util.CommonUtility;
@@ -32,21 +32,19 @@ public class MainController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String page = null;
-		List<Role> roles = ProcessContextPool.get().getUser().getRoles();
-		boolean isAdmin = false, isOwner = false, isUser = false;
-		for (Role role : roles) {
-			if(UserRole.Admin.toString().equals(role.getId())) {
-				isAdmin = true;
-			}
-			if(UserRole.Owner.toString().equals(role.getId())) {
-				isOwner = true;
-			}
-			if(UserRole.User.toString().equals(role.getId())) {
-				isUser = true;
+		Set<UserRole> userRoles = ProcessContextPool.get().getUser().getUserRoles();
+		boolean isAdmin = false, isUser = false;
+		if (userRoles != null) {
+			for (UserRole userRole : userRoles) {
+				if(UserRoleEnum.Admin.toString().equals(userRole.getRole().getId())) {
+					isAdmin = true;
+				}
+				if(UserRoleEnum.User.toString().equals(userRole.getRole().getId())) {
+					isUser = true;
+				}
 			}
 		}
 		request.setAttribute("isAdmin", isAdmin);
-		request.setAttribute("isOwner", isOwner);
 		request.setAttribute("isUser", isUser);
 		page = "/views/adminHome.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

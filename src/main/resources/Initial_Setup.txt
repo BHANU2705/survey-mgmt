@@ -1,0 +1,4 @@
+Initial Set up
+
+INSERT INTO `survey_mgmt1`.`role` (`ID`,`name`) VALUES ('Admin','Admin');
+INSERT INTO `survey_mgmt1`.`role` (`ID`,`name`) VALUES ('User','User');

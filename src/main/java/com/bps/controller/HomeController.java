@@ -1,8 +1,8 @@
 package com.bps.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.bps.persistence.tables.Role;
 import com.bps.persistence.tables.User;
 import com.bps.persistence.tables.UserRole;
+import com.bps.persistence.tables.UserRoleEnum;
 import com.bps.service.core.ProcessContextPool;
 import com.bps.service.core.UserManager;
 import com.bps.service.core.email.EmailManager;
@@ -75,11 +76,17 @@ public class HomeController extends HttpServlet {
 				user.setName(name);
 				UserManager userManager = new UserManager();
 				Role role = new Role();
-				role.setId(UserRole.Admin.toString());
-				role.setName(UserRole.Admin.toString());
-				List<Role> roles = new ArrayList<>();
-				roles.add(role);
-				user.setRoles(roles);
+				role.setId(UserRoleEnum.Admin.toString());
+				role.setName(UserRoleEnum.Admin.toString());
+				
+				Set<UserRole> userRoles = new HashSet<>();
+				UserRole userRole = new UserRole();
+				userRole.setRole(role);
+				userRole.setUser(user);
+				
+				userRoles.add(userRole);
+				user.setUserRoles(userRoles);
+
 				try {
 					userManager.createUser(user, null);
 					EmailManager emailManager = new EmailManager();

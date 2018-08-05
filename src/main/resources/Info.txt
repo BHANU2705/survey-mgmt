@@ -19,3 +19,5 @@ SET GLOBAL default_storage_engine = 'InnoDB';
 <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
 
 catalina.bat jpda start
+
+scehma set up is latin-1

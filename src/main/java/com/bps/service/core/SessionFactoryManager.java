@@ -22,6 +22,7 @@ public class SessionFactoryManager {
 					.configure().build();
 			try {
 				sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+				System.out.println("Session factory loaded successfully.");
 			} catch (Exception e) {
 				e.printStackTrace();
 				BaseException ex = new BaseException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ErrorCode.DB_CONNECTION_FAILURE);
