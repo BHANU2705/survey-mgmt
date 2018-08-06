@@ -18,16 +18,20 @@ public class QuestionManager {
 					|| question.getType().equals(QuestionType.Dropdown) || question.getType().equals(QuestionType.Radio)) {
 				if (dbQuestion.getType().equals(QuestionType.CheckBox)
 						|| dbQuestion.getType().equals(QuestionType.Dropdown) || dbQuestion.getType().equals(QuestionType.Radio)) {
-					for (int i = 0; i < dbQuestion.getOptions().size(); i++) {
-						dbQuestion.getOptions().get(i).setText(question.getOptions().get(i).getText());
+					if (question.getOptions() != null && !question.getOptions().isEmpty()) {
+						for (int i = 0; i < dbQuestion.getOptions().size(); i++) {
+							dbQuestion.getOptions().get(i).setText(question.getOptions().get(i).getText());
+						}
 					}
 				} else {
-					QuestionOption option = null;
-					for (int i = 0; i < question.getOptions().size(); i++) {
-						option = new QuestionOption();
-						option.setText(question.getOptions().get(i).getText());
-						option.setQuestion(dbQuestion);
-						dbQuestion.addOption(option);
+					if (question.getOptions() != null && !question.getOptions().isEmpty()) {
+						QuestionOption option = null;
+						for (int i = 0; i < question.getOptions().size(); i++) {
+							option = new QuestionOption();
+							option.setText(question.getOptions().get(i).getText());
+							option.setQuestion(dbQuestion);
+							dbQuestion.addOption(option);
+						}
 					}
 				}
 			} else {

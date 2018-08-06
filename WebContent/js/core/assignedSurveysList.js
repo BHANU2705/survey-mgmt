@@ -166,9 +166,25 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 };
 
 function replySurvey(evt) {
-	console.log('replySurvey called');
 	var targetId = evt.currentTarget.id.trim();
 	var id = targetId.split("_#@_")[1];
-	console.log('survey id: ' + id);
-//	repondSurvey(id);
+	readAssignedSpecificSurvey(id);
 }
+
+function readAssignedSpecificSurvey(surveyId) {
+	var httpRequest = new XMLHttpRequest();
+	var url = contextPath + "/survey?id="+surveyId;
+	httpRequest.open('GET', url);
+	httpRequest.onload = function () {
+//		$.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			var response = httpRequest.responseText;
+        	var survey = JSON.parse(response);
+        	console.log(survey);
+//			displaySurveyPage(survey, "read");
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(null);
+};
