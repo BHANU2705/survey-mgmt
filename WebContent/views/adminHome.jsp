@@ -173,12 +173,20 @@
 						onclick="handleLeftPane('survey')" href="">Surveys</a></li>
 					<li class="nav-item"><a id="a_user" class="nav-link"
 						onclick="handleLeftPane('user')" href="">My Users</a></li>
-						<% } %>
+					<% } %>
+					
+					<%
+					Boolean isUser = (Boolean) request.getAttribute("isUser");
+					if(isUser) { %>
+					<li class="nav-item"><a id="a_assigned_surveys" class="nav-link"
+						onclick="handleLeftPane('assigned_surveys')" href="">Assigned Surveys</a></li>
+					<% } %>
+
 					<li class="nav-item"><a id="a_analytics" class="nav-link"
 						onclick="handleLeftPane('analytics')" href="">Analytics</a></li>
-					<li class="nav-item"><a id="a_subscription" class="nav-link"
+					<!-- <li class="nav-item"><a id="a_subscription" class="nav-link"
 						onclick="handleLeftPane('subscription')" href="">Subscription</a>
-					</li>
+					</li> -->
 				</ul>
 			</nav>
 			<main id="main" role="main"
@@ -316,6 +324,7 @@
 				<div id = "surveyAllPage" style="display: none;"></div>
 			</div>
 			<div id="user" style="display: none;"></div>
+			<div id = "assignedSurveyList" style="display: none;"></div>
 			<div id="analytics" style="display: none;">
 				<div class="row">
 					<div class="col-lg-12">
@@ -345,7 +354,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="subscription" style="display: none;">
+			<!-- <div id="subscription" style="display: none;">
 				<div class="container-fluid">
 					<div class="alert alert-info">
 						Your current subscription is <strong>Basic</strong> Package.
@@ -435,7 +444,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div id="myProfile" style="display: none;">
 				<ul class="nav nav-tabs" id="profile_tab">
 					<li class="nav-item"><a id="a_profile_general"
@@ -580,5 +589,6 @@
 	<script src="..<%=request.getContextPath()%>/js/core/survey.js"></script>
 	<script src="..<%=request.getContextPath()%>/js/core/adminUser.js"></script>
 	<script src="..<%=request.getContextPath()%>/js/core/surveyReader.js"></script>
+	<script src="..<%=request.getContextPath()%>/js/core/assignedSurveysList.js"></script>
 </body>
 </html>

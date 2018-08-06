@@ -12,6 +12,7 @@ function handleLeftPane(caller) {
 			$("#myProfile").hide();
 			$("#div_general").hide();
 			$("#div_account").hide();
+			$("#assignedSurveyList").hide();
 
 			$("#a_overview").addClass("active");
 			$("#li_home").addClass("active");
@@ -20,6 +21,7 @@ function handleLeftPane(caller) {
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
 			$("#li_user").removeClass("active");
+			$("#a_assigned_surveys").removeClass("active");
 		} else if (caller === 'survey') {
 			if (isAdmin) {
 				$("#overview").hide();
@@ -30,6 +32,7 @@ function handleLeftPane(caller) {
 				$("#myProfile").hide();
 				$("#div_general").hide();
 				$("#div_account").hide();
+				$("#assignedSurveyList").hide();
 
 				$("#a_overview").removeClass("active");
 				$("#li_home").removeClass("active");
@@ -38,6 +41,7 @@ function handleLeftPane(caller) {
 				$("#a_analytics").removeClass("active");
 				$("#a_subscription").removeClass("active");
 				$("#li_user").removeClass("active");
+				$("#a_assigned_surveys").removeClass("active");
 				
 				onLoadSurvey();
 			} else {
@@ -52,6 +56,7 @@ function handleLeftPane(caller) {
 			$("#myProfile").hide();
 			$("#div_general").hide();
 			$("#div_account").hide();
+			$("#assignedSurveyList").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");
@@ -60,6 +65,7 @@ function handleLeftPane(caller) {
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").removeClass("active");
 			$("#li_user").removeClass("active");
+			$("#a_assigned_surveys").removeClass("active");
 			
 			loadAdminUserPage();
 		} else if (caller === 'analytics') {
@@ -71,6 +77,7 @@ function handleLeftPane(caller) {
 			$("#myProfile").hide();
 			$("#div_general").hide();
 			$("#div_account").hide();
+			$("#assignedSurveyList").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");
@@ -79,6 +86,7 @@ function handleLeftPane(caller) {
 			$("#a_analytics").addClass("active");
 			$("#a_subscription").removeClass("active");
 			$("#li_user").removeClass("active");
+			$("#a_assigned_surveys").removeClass("active");
 		} else if (caller === 'subscription') {
 			$("#overview").hide();
 			$("#survey").hide();
@@ -88,6 +96,7 @@ function handleLeftPane(caller) {
 			$("#myProfile").hide();
 			$("#div_general").hide();
 			$("#div_account").hide();
+			$("#assignedSurveyList").hide();
 
 			$("#a_overview").removeClass("active");
 			$("#li_home").removeClass("active");
@@ -96,6 +105,28 @@ function handleLeftPane(caller) {
 			$("#a_analytics").removeClass("active");
 			$("#a_subscription").addClass("active");
 			$("#li_user").removeClass("active");
+			$("#a_assigned_surveys").removeClass("active");
+		} else if (caller === 'assigned_surveys') {
+			$("#overview").hide();
+			$("#survey").hide();
+			$("#user").hide();
+			$("#analytics").hide();
+			$("#subscription").hide();
+			$("#myProfile").hide();
+			$("#div_general").hide();
+			$("#div_account").hide();
+			$("#assignedSurveyList").show();
+
+			$("#a_overview").removeClass("active");
+			$("#li_home").removeClass("active");
+			$("#a_survey").removeClass("active");
+			$("#a_user").removeClass("active");
+			$("#a_analytics").removeClass("active");
+			$("#a_subscription").removeClass("active");
+			$("#li_user").removeClass("active");
+			$("#a_assigned_surveys").addClass("active");
+			
+			onLoadAssignedSurveyList();
 		}
 	}
 };
