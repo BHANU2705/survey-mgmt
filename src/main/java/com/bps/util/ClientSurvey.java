@@ -6,6 +6,7 @@ public class ClientSurvey implements IBaseEntity {
 	private String id;
 	private String name;
 	private String owner;
+	private boolean isResponded;
 
 	public ClientSurvey() {
 	}
@@ -38,5 +39,13 @@ public class ClientSurvey implements IBaseEntity {
 
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+
+	public boolean isResponded() {
+		return isResponded;
+	}
+
+	public void setResponded(boolean isResponded) {
+		this.isResponded = isResponded;
 	}
 }

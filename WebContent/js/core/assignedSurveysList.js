@@ -76,7 +76,99 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
     	if (httpRequest.status === 200) {
         	var response = httpRequest.responseText;
         	var data = JSON.parse(response);
-        	console.log(data);
+        	var tBody = document.createElement("tbody");
+        	for (var i = 0; i < data.length; i++) {
+				var row = document.createElement("tr");
+
+				var index = document.createElement("td");
+				index.innerText = (i+1);
+				
+				var surveyName = document.createElement("td");
+				surveyName.innerText = data[i].name;
+				/*var a = document.createElement('a');
+				a.id = "surveyLink_#@_" + data[i].id;
+				a.className = "nav-link active";
+				a.style = "color: #01ab21;cursor: pointer;";
+				a.addEventListener("click", function(evt) {
+					var targetId = evt.currentTarget.id.trim();
+					var id = targetId.split("_#@_")[1].split(":")[0].trim();
+					readSpecificSurvey(id);
+				});
+				a.innerText = data[i].name;
+				surveyName.appendChild(a);*/
+
+				var owner = document.createElement("td");
+				owner.innerText = data[i].owner;
+
+				var pDiv = document.createElement("div");
+				pDiv.className = "dropdown show";
+				pDiv.style = "margin-left: 30px;margin-top: 15px;";
+				pDiv.setAttribute("data-toggle", "tooltip");
+				pDiv.setAttribute("data-placement", "left");
+				pDiv.title = "Actions";
+				
+				var pDivA = document.createElement("a");
+				pDivA.className = "btn btn-sm btn-secondary btn-create dropdown-toggle";
+				pDivA.toolTip = "Actions";
+				pDivA.style = "background-color: rgb(126, 145, 130);color: white;";
+				pDivA.href = "#";
+				pDivA.role = "button";
+				var testId = "dropdownMenuLink_" + data[i].id;
+				pDivA.id = testId;
+				pDivA.setAttribute("data-toggle", "dropdown");
+				pDivA.setAttribute("aria-haspopup", "true");
+				pDivA.setAttribute("aria-expanded", "false");
+				
+				var pIcon = document.createElement("i");
+				pIcon.className = "fas fa-edit";
+				pIcon.id = "edit_icon_"+1;
+				
+				pDivA.appendChild(pIcon);
+				pDiv.appendChild(pDivA);
+				
+				var dropDownMenuId = "dropDownMenuId_" + data[i].id;
+				var dropDownMenuDiv = document.createElement("div");
+				dropDownMenuDiv.id = dropDownMenuId;
+				dropDownMenuDiv.className = "dropdown-menu";
+				dropDownMenuDiv.setAttribute("aria-labelledby", testId);
+				dropDownMenuDiv.style = "min-width: auto";
+			    
+				var dropdownItem1 = document.createElement("a");
+				dropdownItem1.id = "respond_survey_#@_" + data[i].id;
+				dropdownItem1.addEventListener("click", replySurvey);
+				dropdownItem1.className = "dropdown-item";
+				
+				var replyIcon = document.createElement("i");
+				replyIcon.className = "fas fa-reply";
+				
+				dropdownItem1.appendChild(replyIcon);
+				dropdownItem1.setAttribute("data-toggle", "tooltip");
+				dropdownItem1.setAttribute("data-placement", "left");
+				dropdownItem1.title = "Reply";
+				dropdownItem1.style = "cursor: pointer";
+				dropDownMenuDiv.appendChild(dropdownItem1);
+				pDiv.appendChild(dropDownMenuDiv);
+				
+				if (data[i].isResponded) {
+					dropdownItem1.removeEventListener("click", replySurvey);
+					dropdownItem1.title = "Already Replied";
+				}
+				
+				row.appendChild(index);
+				row.appendChild(surveyName);
+				row.appendChild(owner);
+				row.appendChild(pDiv);
+				tBody.appendChild(row);
+			}
+        	assignedSurveyListTable.appendChild(tBody);
     	}
 	}
 };
+
+function replySurvey(evt) {
+	console.log('replySurvey called');
+	var targetId = evt.currentTarget.id.trim();
+	var id = targetId.split("_#@_")[1];
+	console.log('survey id: ' + id);
+//	repondSurvey(id);
+}

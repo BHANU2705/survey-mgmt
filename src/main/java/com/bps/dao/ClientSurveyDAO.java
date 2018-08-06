@@ -42,27 +42,35 @@ public class ClientSurveyDAO extends DAO implements IBaseDAO {
 			Query<?> query = session.createQuery(queryString);
 			query.setReadOnly(true);
 			data = query.getResultList();
+
+			if (data != null && !data.isEmpty()) {
+				clientSurveys = new ArrayList<ClientSurvey>();
+				Iterator<?> it = data.iterator();
+				ClientSurvey clientSurvey = null;
+				while (it.hasNext()) {
+					Object[] list = (Object[]) it.next();
+					String id = (String) list[0];
+					String name = (String) list[1];
+					String owner = (String) list[2];
+					clientSurvey = new ClientSurvey();
+					clientSurvey.setId(id);
+					clientSurvey.setName(name);
+					clientSurvey.setOwner(owner);
+					clientSurveys.add(clientSurvey);
+				}
+				setIsResponded(session, clientSurveys);
+				return clientSurveys.toArray(new ClientSurvey[clientSurveys.size()]);
+			}
 		} finally {
 			SessionManager.closeSession(session);
 		}
-		if (data != null && !data.isEmpty()) {
-			clientSurveys = new ArrayList<ClientSurvey>();
-			Iterator<?> it = data.iterator();
-			ClientSurvey clientSurvey = null;
-			while (it.hasNext()) {
-				Object[] list = (Object[]) it.next();
-				String id = (String) list[0];
-				String name = (String) list[1];
-				String owner = (String) list[2];
-				clientSurvey = new ClientSurvey();
-				clientSurvey.setId(id);
-				clientSurvey.setName(name);
-				clientSurvey.setOwner(owner);
-				clientSurveys.add(clientSurvey);
-			}
-			return clientSurveys.toArray(new ClientSurvey[clientSurveys.size()]);
-		}
 		return null;
+	}
+
+	private void setIsResponded(Session session, List<ClientSurvey> clientSurveys) {
+		for (ClientSurvey clientSurvey : clientSurveys) {
+			clientSurvey.setResponded(false);
+		}
 	}
 
 	@Override
