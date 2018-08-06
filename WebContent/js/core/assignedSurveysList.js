@@ -102,7 +102,7 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 
 				var pDiv = document.createElement("div");
 				pDiv.className = "dropdown show";
-				pDiv.style = "margin-left: 30px;margin-top: 15px;";
+				pDiv.style = "margin-left: 30px;margin-top: 15px;margin-bottom: 15px;";
 				pDiv.setAttribute("data-toggle", "tooltip");
 				pDiv.setAttribute("data-placement", "left");
 				pDiv.title = "Actions";
@@ -131,7 +131,7 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 				dropDownMenuDiv.id = dropDownMenuId;
 				dropDownMenuDiv.className = "dropdown-menu";
 				dropDownMenuDiv.setAttribute("aria-labelledby", testId);
-				dropDownMenuDiv.style = "min-width: auto";
+				dropDownMenuDiv.style = "min-width: auto;";
 			    
 				var dropdownItem1 = document.createElement("a");
 				dropdownItem1.id = "respond_survey_#@_" + data[i].id;
