@@ -30,11 +30,11 @@ function getAssignedSurveyList() {
 	var cardBody = document.createElement('div');
 	cardBody.className = "card-body";
 	
-	var userTable = document.createElement("table");
-	userTable.id = "userTable";
-	userTable.className = "table table-striped table-bordered";
-	userTable.setAttribute("cellspacing", 0);
-	userTable.width = "100%";
+	var assignedSurveyListTable = document.createElement("table");
+	assignedSurveyListTable.id = "assignedSurveyListTable";
+	assignedSurveyListTable.className = "table table-striped table-bordered";
+	assignedSurveyListTable.setAttribute("cellspacing", 0);
+	assignedSurveyListTable.width = "100%";
 
 	var thead = document.createElement("thead");
 	var thead_tr = document.createElement("tr");
@@ -52,10 +52,31 @@ function getAssignedSurveyList() {
 	thead_tr.appendChild(thead_th3);
 	thead_tr.appendChild(thead_th4);
 	thead.appendChild(thead_tr);
-	userTable.appendChild(thead);
+	assignedSurveyListTable.appendChild(thead);
 	
-	cardBody.appendChild(userTable);
+	$.blockUI({ message: 'Fetching Assigned Survey List...' });
+	var httpRequest = new XMLHttpRequest();
+	var url = contextPath + "/csurvey";
+	httpRequest.open('GET', url);
+	httpRequest.setRequestHeader('Cache-Control', 'no-cache');
+	httpRequest.onreadystatechange = function() {
+		setAssignedSurveyData(assignedSurveyListTable, httpRequest);
+	};
+	httpRequest.send(null);
+	
+	cardBody.appendChild(assignedSurveyListTable);
 	card.appendChild(cardBody);
 	
 	return card;
+};
+
+function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
+	if (httpRequest.readyState === 4) {
+    	$.unblockUI();
+    	if (httpRequest.status === 200) {
+        	var response = httpRequest.responseText;
+        	var data = JSON.parse(response);
+        	console.log(data);
+    	}
+	}
 };

@@ -15,7 +15,8 @@ import com.bps.service.core.ProcessContextPool;
 import com.bps.util.CommonConstants;
 
 @WebFilter(filterName = "BootLoaderFilter", 
-	servletNames = { CommonConstants.HOME, "UserController", "SurveyController", "CUserController", "SurveyClientUserLinkController", "RoleController", "QuestionController"})
+	servletNames = { CommonConstants.HOME, "UserController", "SurveyController", "CUserController",
+			"SurveyClientUserLinkController", "RoleController", "QuestionController", "ClientSurveyController"})
 public class BootLoaderFilter implements Filter {
 
     public BootLoaderFilter() {

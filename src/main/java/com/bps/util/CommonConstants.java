@@ -11,6 +11,7 @@ public final class CommonConstants {
 	public static final String URL_HOME_CONTROLLER = "/home";
 	public static final String URL_MAIN_CONTROLLER = "/main";
 	public static final String URL_SURVEY_CONTROLLER = "/survey";
+	public static final String URL_CLIENT_SURVEY_CONTROLLER = "/csurvey";
 	public static final String URL_CUSER_CONTROLLER = "/cuser";
 	public static final String URL_SURVEY_CLIENTUSER_CONTROLLER = "/su";
 	public static final String NAME = "name";
