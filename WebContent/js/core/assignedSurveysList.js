@@ -279,7 +279,7 @@ function getEachQuestionDiv(i, question, surveyId) {
 	cardHeader.id = "heading_" + i;
 
 	var h5 = document.createElement('h5');
-	h5.className = "mb-0";
+	h5.className = "mb-0 text-left";
 
 	var collapseId = 'collapse_' + i;
 
@@ -290,9 +290,32 @@ function getEachQuestionDiv(i, question, surveyId) {
 	a.setAttribute('aria-expanded', 'true');
 	a.setAttribute('aria-controls', collapseId);
 	a.innerHTML = (i + 1) + ". " + question.text;
+	a.className = "text-left";
 
 	h5.appendChild(a);
-	cardHeader.appendChild(h5);
+	
+	var questioRow = document.createElement('div');
+	questioRow.className = "row";
+	
+	var questioRow_Col1 = document.createElement("div");
+	questioRow_Col1.className = "col text-left";
+	
+	questioRow_Col1.appendChild(h5);
+	questioRow.appendChild(questioRow_Col1);
+	
+	var questioRow_Col2 = document.createElement("div");
+	questioRow_Col1.className = "col text-right";
+	
+	var para = document.createElement("p");
+	para.id = "para_" + question.id;
+	para.className = "text-danger font-weight-bold";
+	para.innerText = "Un-answered";
+	para.style = "padding-right: 10px;";
+	questioRow_Col2.appendChild(para);
+	
+	questioRow.appendChild(questioRow_Col2);
+	
+	cardHeader.appendChild(questioRow);
 	questionCard.appendChild(cardHeader);
 
 	var collapse = document.createElement('div');
@@ -339,6 +362,12 @@ function getRadioButtonDiv(question, surveyId) {
 		input.name = question.id;
 		input.id = absoluteId;
 		input.value = question.options[i].id;
+		input.addEventListener("click", function (e) {
+			var paraId = "para_" + question.id;
+			var para = document.getElementById(paraId);
+			para.innerText = "Answered";
+			para.className = "text-success font-weight-bold";
+		});
 
 		var label = document.createElement('label');
 		label.className = "form-check-label";
