@@ -180,11 +180,61 @@ function readAssignedSpecificSurvey(surveyId) {
 		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
 			var response = httpRequest.responseText;
         	var survey = JSON.parse(response);
-        	console.log(survey);
-//			displaySurveyPage(survey, "read");
+        	var card = getAssignedSurveyCard(survey);
+        	
+        	$("#assignedSurveyList").hide();
+        	var parent = document.getElementById("assignedSurveyList");
+        	removeAllChild(parent);
+        	parent.appendChild(card);
+        	$("#assignedSurveyList").show();
 		} else {
 			// error scenario
 		}
 	}
 	httpRequest.send(null);
 };
+
+function getAssignedSurveyCard(survey) {
+	var card = document.createElement('div');
+	card.className = "card";
+	surveyAllPage.appendChild(card);
+
+	var pDiv = document.createElement('div');
+	pDiv.className = "card-header";
+	card.appendChild(pDiv);
+
+	var row = document.createElement('div');
+	row.className = "row";
+	pDiv.appendChild(row);
+
+	var col1 = document.createElement('div');
+	col1.className = "col text-left";
+	col1.style = "padding-top: 9px;";
+	var surveyTitle = document.createElement('h5');
+	surveyTitle.id = "sTitle_" + survey.id;
+	surveyTitle.innerText = survey.name;
+	surveyTitle.style = "text-align: left;";
+	col1.appendChild(surveyTitle);
+	row.appendChild(col1);
+	
+	var col2 = document.createElement("div");
+	col2.className = "col text-right";
+	var btn = document.createElement('button');
+	btn.className = "btn btn-md btn-primary btn-create";
+	btn.innerHTML = "Back to Survey Listing";
+	btn.style = "background-color: #03ab22;color: white;";
+
+	btn.addEventListener("click", function() {
+		onLoadAssignedSurveyList();
+	});
+
+	col2.appendChild(btn);
+	row.appendChild(col2);
+	
+	var cardBody = document.createElement('div');
+	cardBody.className = "card-body";
+	
+	return card;
+};
+
+
