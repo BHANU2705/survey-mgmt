@@ -238,7 +238,7 @@ function getAssignedSurveyCard(survey) {
 	loadQuestions(cardBody, survey);
 	card.appendChild(cardBody);
 
-	var cardFooter =  document.createElement('div');
+	var cardFooter = document.createElement('div');
 	cardFooter.className = "card-footer text-right";
 
 	var submitResponse = document.createElement('button');
@@ -293,28 +293,28 @@ function getEachQuestionDiv(i, question, surveyId) {
 	a.className = "text-left";
 
 	h5.appendChild(a);
-	
+
 	var questioRow = document.createElement('div');
 	questioRow.className = "row";
-	
+
 	var questioRow_Col1 = document.createElement("div");
 	questioRow_Col1.className = "col text-left";
-	
+
 	questioRow_Col1.appendChild(h5);
 	questioRow.appendChild(questioRow_Col1);
-	
+
 	var questioRow_Col2 = document.createElement("div");
 	questioRow_Col1.className = "col text-right";
-	
+
 	var para = document.createElement("p");
 	para.id = "para_" + question.id;
 	para.style = "padding-right: 10px;";
 	para.className = "text-danger font-weight-bold";
 	para.innerText = "Un-answered";
 	questioRow_Col2.appendChild(para);
-	
+
 	questioRow.appendChild(questioRow_Col2);
-	
+
 	cardHeader.appendChild(questioRow);
 	questionCard.appendChild(cardHeader);
 
@@ -350,13 +350,13 @@ function getOptionsDiv(question, surveyId) {
 	} else if (qType === "Gender") {
 		return getGenderDiv(question, surveyId);
 	} else if (qType === "YesNo") {
-		
+		return getYesNoDiv(question, surveyId);
 	} else if (qType === "Date") {
-		
+		return getDatePickerDiv(question, surveyId);
 	} else if (qType === "Image") {
-		
+
 	} else if (qType === "Geocode") {
-		
+
 	}
 	return document.createElement('div');
 };
@@ -368,8 +368,8 @@ function getRadioButtonDiv(question, surveyId) {
 		var option = document.createElement('div');
 		option.className = "form-check";
 
-		var absoluteId = surveyId + "@#@" + question.id + "@#@"
-		+ question.options[i].id;
+		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
+				+ "@#@" + question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
@@ -377,7 +377,7 @@ function getRadioButtonDiv(question, surveyId) {
 		input.name = question.id;
 		input.id = absoluteId;
 		input.value = question.options[i].id;
-		input.addEventListener("click", function (e) {
+		input.addEventListener("click", function(e) {
 			var paraId = "para_" + question.id;
 			setToAnswered(paraId);
 		});
@@ -396,30 +396,30 @@ function getRadioButtonDiv(question, surveyId) {
 
 function getDropdownDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
-	
+
 	var select = document.createElement('select');
 	select.className = "custom-select";
 	select.id = "dropdown@#@" + surveyId + "@#@" + question.id;
-	
+
 	var opt = document.createElement('option');
 	opt.setAttribute("selected", true);
 	opt.setAttribute("value", "choose");
 	opt.innerText = "Choose...";
 	select.appendChild(opt);
-	
+
 	for (var i = 0; i < question.options.length; i++) {
-		var absoluteId = surveyId + "@#@" + question.id + "@#@"
-		+ question.options[i].id;
+		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
+				+ "@#@" + question.options[i].id;
 		var opt = document.createElement('option');
 		opt.setAttribute("value", absoluteId);
 		opt.innerText = question.options[i].text;
 		select.appendChild(opt);
 	}
-	
-	select.addEventListener("change", function (e) {
+
+	select.addEventListener("change", function(e) {
 		var e1 = document.getElementById(e.currentTarget.id);
 		var value = e1.options[e1.selectedIndex].value;
-		if(value) {
+		if (value) {
 			var paraId = "para_" + question.id;
 			if (value === "choose") {
 				resetToUnAnswered(paraId);
@@ -428,7 +428,7 @@ function getDropdownDiv(question, surveyId) {
 			}
 		}
 	});
-	
+
 	optionsParent.appendChild(select);
 	return optionsParent;
 };
@@ -437,13 +437,13 @@ function getTextFieldDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
 	var input = document.createElement('input');
 	input.className = "form-control";
-	var absoluteId = surveyId + "@#@" + question.id;
+	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
 	input.id = absoluteId;
 	input.type = "text";
 	optionsParent.appendChild(input);
-	input.addEventListener("change", function (e) {
+	input.addEventListener("change", function(e) {
 		var paraId = "para_" + question.id;
-		if(input.value.trim()) {
+		if (input.value.trim()) {
 			setToAnswered(paraId);
 		} else {
 			resetToUnAnswered(paraId);
@@ -458,17 +458,17 @@ function getCheckBoxDiv(question, surveyId) {
 		var option = document.createElement('div');
 		option.className = "form-check";
 
-		var absoluteId = "CheckBox@#@" + surveyId + "@#@" + question.id + "@#@"
-		+ question.options[i].id;
+		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
+				+ "@#@" + question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
 		input.type = "checkbox";
 		input.id = absoluteId;
 		input.value = question.options[i].id;
-		input.addEventListener("click", function (e) {
+		input.addEventListener("click", function(e) {
 			var paraId = "para_" + question.id;
-			var isChecked =  $('input:checkbox').is(':checked')
+			var isChecked = $('input:checkbox').is(':checked')
 			if (isChecked) {
 				setToAnswered(paraId);
 			} else {
@@ -490,17 +490,99 @@ function getCheckBoxDiv(question, surveyId) {
 
 function getGenderDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
-	optionsParent.appendChild(getGenderOption(question, surveyId, "Male"));
-	optionsParent.appendChild(getGenderOption(question, surveyId, "Female"));
-	optionsParent.appendChild(getGenderOption(question, surveyId, "LGBT"));
+	optionsParent
+			.appendChild(getGenericRadioOption(question, surveyId, "Male"));
+	optionsParent.appendChild(getGenericRadioOption(question, surveyId,
+			"Female"));
+	optionsParent
+			.appendChild(getGenericRadioOption(question, surveyId, "LGBT"));
 	return optionsParent;
 };
 
-function getGenderOption(question, surveyId, val) {
+function getYesNoDiv(question, surveyId) {
+	var optionsParent = document.createElement('div');
+	optionsParent.appendChild(getGenericRadioOption(question, surveyId, "Yes"));
+	optionsParent.appendChild(getGenericRadioOption(question, surveyId, "No"));
+	return optionsParent;
+};
+
+function getDatePickerDiv(question, surveyId) {
+
+	$(function() {
+		$('[data-toggle="datepicker"]').datepicker({
+			autoHide : true,
+			zIndex : 2048,
+			format : 'yyyy-mm-dd'
+		});
+	});
+
+	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+	var optionsParent = document.createElement('div');
+	var datePicker = document.createElement('input');
+	datePicker.setAttribute("data-toggle", "datepicker");
+	datePicker.setAttribute("readonly", true);
+	datePicker.type = "text";
+	datePicker.className = "form-control";
+	datePicker.style = "max-width: fit-content;";
+	datePicker.id = absoluteId;
+	
+	/*datePicker.addEventListener("change", function() {
+		console.log("hello change");
+		var paraId = "para_" + question.id;
+		if (datePicker.value.trim()) {
+			setToAnswered(paraId);
+		} else {
+			resetToUnAnswered(paraId);
+		}
+	});
+	
+	datePicker.addEventListener("click", function() {
+		console.log("hello click");
+		var paraId = "para_" + question.id;
+		if (datePicker.value.trim()) {
+			setToAnswered(paraId);
+		} else {
+			resetToUnAnswered(paraId);
+		}
+	});*/
+	
+	/*datePicker.addEventListener("focusin", function() {
+		var paraId = "para_" + question.id;
+		if (datePicker.value.trim()) {
+			setToAnswered(paraId);
+		} else {
+			resetToUnAnswered(paraId);
+		}
+	});
+	
+	datePicker.addEventListener("focusout", function() {
+		var paraId = "para_" + question.id;
+		if (datePicker.value.trim()) {
+			setToAnswered(paraId);
+		} else {
+			resetToUnAnswered(paraId);
+		}
+	});*/
+	
+	datePicker.addEventListener("select", function() {
+		var paraId = "para_" + question.id;
+		if (datePicker.value.trim()) {
+			setToAnswered(paraId);
+		} else {
+			resetToUnAnswered(paraId);
+		}
+	});
+	
+	optionsParent.appendChild(datePicker);
+	return optionsParent;
+};
+
+function getGenericRadioOption(question, surveyId, val) {
 	var option = document.createElement('div');
 	option.className = "form-check";
 
-	var absoluteId = surveyId + "@#@" + question.id + "@#@" + val;
+	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
+			+ "@#@" + val;
 
 	var input = document.createElement('input');
 	input.className = "form-check-input";
@@ -508,7 +590,7 @@ function getGenderOption(question, surveyId, val) {
 	input.name = question.id;
 	input.id = absoluteId;
 	input.value = val;
-	input.addEventListener("click", function (e) {
+	input.addEventListener("click", function(e) {
 		var paraId = "para_" + question.id;
 		setToAnswered(paraId);
 	});
@@ -521,7 +603,7 @@ function getGenderOption(question, surveyId, val) {
 	option.appendChild(input);
 	option.appendChild(label);
 	return option;
-}
+};
 
 function setToAnswered(paraId) {
 	var para = document.getElementById(paraId);

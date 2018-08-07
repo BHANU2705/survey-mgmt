@@ -15,6 +15,7 @@
 <script src="..<%=request.getContextPath()%>/js/vendor/bootstrap.min.js"></script>
 <script src="..<%=request.getContextPath()%>/js/vendor/Chart.js"></script>
 <script src="..<%=request.getContextPath()%>/js/vendor/jquery.blockUI.js"></script>
+<script src="..<%=request.getContextPath()%>/js/vendor/datepicker.min.js"></script>
 <script defer src="..<%=request.getContextPath()%>/js/vendor/fontawesome-all.min.js"></script>
 <script src="..<%=request.getContextPath()%>/js/core/Utility.js"></script>
 
@@ -22,6 +23,7 @@
 <link href="..<%=request.getContextPath()%>/css/carousel.css" rel="stylesheet">
 <link href="..<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
 <link href="..<%=request.getContextPath()%>/css/footer.css" rel="stylesheet">
+<link href="..<%=request.getContextPath()%>/css/datepicker.min.css" rel="stylesheet">
 
 <script>
 	var contextPath ='<%=request.getContextPath()%>';
