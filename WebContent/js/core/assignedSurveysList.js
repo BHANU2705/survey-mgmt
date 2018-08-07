@@ -341,9 +341,24 @@ function getOptionsDiv(question, surveyId) {
 	var qType = question.type;
 	if (qType === "Radio") {
 		return getRadioButtonDiv(question, surveyId);
+	} else if (qType === "Dropdown") {
+		return getDropdownDiv(question, surveyId);
+	} else if (qType === "TextField") {
+		
+	} else if (qType === "CheckBox") {
+		
+	} else if (qType === "Gender") {
+		
+	} else if (qType === "YesNo") {
+		
+	} else if (qType === "Date") {
+		
+	} else if (qType === "Image") {
+		
+	} else if (qType === "Geocode") {
+		
 	}
-	return;
-
+	return document.createElement('div');
 };
 
 function getRadioButtonDiv(question, surveyId) {
@@ -380,3 +395,45 @@ function getRadioButtonDiv(question, surveyId) {
 	}
 	return optionsParent;
 }
+
+function getDropdownDiv(question, surveyId) {
+	var optionsParent = document.createElement('div');
+	
+	var select = document.createElement('select');
+	select.className = "custom-select";
+	select.id = "dropdown@#@" + surveyId + "@#@" + question.id;
+	
+	var opt = document.createElement('option');
+	opt.setAttribute("selected", true);
+	opt.setAttribute("value", "choose");
+	opt.innerText = "Choose...";
+	select.appendChild(opt);
+	
+	for (var i = 0; i < question.options.length; i++) {
+		var absoluteId = surveyId + "@#@" + question.id + "@#@"
+		+ question.options[i].id;
+		var opt = document.createElement('option');
+		opt.setAttribute("value", absoluteId);
+		opt.innerText = question.options[i].text;
+		select.appendChild(opt);
+	}
+	
+	select.addEventListener("change", function (e) {
+		var e1 = document.getElementById(e.currentTarget.id);
+		var value = e1.options[e1.selectedIndex].value;
+		if(value) {
+			var paraId = "para_" + question.id;
+			var para = document.getElementById(paraId);
+			if (value === "choose") {
+				para.className = "text-danger font-weight-bold";
+				para.innerText = "Un-answered";
+			} else {
+				para.innerText = "Answered";
+				para.className = "text-success font-weight-bold";
+			}
+		}
+	});
+	
+	optionsParent.appendChild(select);
+	return optionsParent;
+};
