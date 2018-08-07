@@ -348,7 +348,7 @@ function getOptionsDiv(question, surveyId) {
 	} else if (qType === "CheckBox") {
 		return getCheckBoxDiv(question, surveyId);
 	} else if (qType === "Gender") {
-		
+		return getGenderDiv(question, surveyId);
 	} else if (qType === "YesNo") {
 		
 	} else if (qType === "Date") {
@@ -488,6 +488,40 @@ function getCheckBoxDiv(question, surveyId) {
 	return optionsParent;
 };
 
+function getGenderDiv(question, surveyId) {
+	var optionsParent = document.createElement('div');
+	optionsParent.appendChild(getGenderOption(question, surveyId, "Male"));
+	optionsParent.appendChild(getGenderOption(question, surveyId, "Female"));
+	optionsParent.appendChild(getGenderOption(question, surveyId, "LGBT"));
+	return optionsParent;
+};
+
+function getGenderOption(question, surveyId, val) {
+	var option = document.createElement('div');
+	option.className = "form-check";
+
+	var absoluteId = surveyId + "@#@" + question.id + "@#@" + val;
+
+	var input = document.createElement('input');
+	input.className = "form-check-input";
+	input.type = "radio";
+	input.name = question.id;
+	input.id = absoluteId;
+	input.value = val;
+	input.addEventListener("click", function (e) {
+		var paraId = "para_" + question.id;
+		setToAnswered(paraId);
+	});
+
+	var label = document.createElement('label');
+	label.className = "form-check-label";
+	label.setAttribute("for", absoluteId);
+	label.innerText = val;
+
+	option.appendChild(input);
+	option.appendChild(label);
+	return option;
+}
 
 function setToAnswered(paraId) {
 	var para = document.getElementById(paraId);
