@@ -236,8 +236,20 @@ function getAssignedSurveyCard(survey) {
 	cardBody.className = "card-body";
 
 	loadQuestions(cardBody, survey);
-
 	card.appendChild(cardBody);
+
+	var cardFooter =  document.createElement('div');
+	cardFooter.className = "card-footer text-right";
+
+	var submitResponse = document.createElement('button');
+	submitResponse.className = "btn btn-md btn-primary btn-create";
+	submitResponse.innerText = "Submit";
+	submitResponse.style = "background-color: #03ab22;color: white;";
+	submitResponse.addEventListener("click", function() {
+		console.log("Submit");
+	});
+	cardFooter.appendChild(submitResponse);
+	card.appendChild(cardFooter);
 
 	return card;
 };
@@ -319,7 +331,7 @@ function getRadioButtonDiv(question, surveyId) {
 		option.className = "form-check";
 
 		var absoluteId = surveyId + "@#@" + question.id + "@#@"
-				+ question.options[i].id;
+		+ question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
