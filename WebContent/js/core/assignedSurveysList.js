@@ -308,9 +308,9 @@ function getEachQuestionDiv(i, question, surveyId) {
 	
 	var para = document.createElement("p");
 	para.id = "para_" + question.id;
+	para.style = "padding-right: 10px;";
 	para.className = "text-danger font-weight-bold";
 	para.innerText = "Un-answered";
-	para.style = "padding-right: 10px;";
 	questioRow_Col2.appendChild(para);
 	
 	questioRow.appendChild(questioRow_Col2);
@@ -344,9 +344,9 @@ function getOptionsDiv(question, surveyId) {
 	} else if (qType === "Dropdown") {
 		return getDropdownDiv(question, surveyId);
 	} else if (qType === "TextField") {
-		
+		return getTextFieldDiv(question, surveyId);
 	} else if (qType === "CheckBox") {
-		
+		return getCheckBoxDiv(question, surveyId);
 	} else if (qType === "Gender") {
 		
 	} else if (qType === "YesNo") {
@@ -379,9 +379,7 @@ function getRadioButtonDiv(question, surveyId) {
 		input.value = question.options[i].id;
 		input.addEventListener("click", function (e) {
 			var paraId = "para_" + question.id;
-			var para = document.getElementById(paraId);
-			para.innerText = "Answered";
-			para.className = "text-success font-weight-bold";
+			setToAnswered(paraId);
 		});
 
 		var label = document.createElement('label');
@@ -394,7 +392,7 @@ function getRadioButtonDiv(question, surveyId) {
 		optionsParent.appendChild(option);
 	}
 	return optionsParent;
-}
+};
 
 function getDropdownDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
@@ -423,17 +421,82 @@ function getDropdownDiv(question, surveyId) {
 		var value = e1.options[e1.selectedIndex].value;
 		if(value) {
 			var paraId = "para_" + question.id;
-			var para = document.getElementById(paraId);
 			if (value === "choose") {
-				para.className = "text-danger font-weight-bold";
-				para.innerText = "Un-answered";
+				resetToUnAnswered(paraId);
 			} else {
-				para.innerText = "Answered";
-				para.className = "text-success font-weight-bold";
+				setToAnswered(paraId);
 			}
 		}
 	});
 	
 	optionsParent.appendChild(select);
 	return optionsParent;
+};
+
+function getTextFieldDiv(question, surveyId) {
+	var optionsParent = document.createElement('div');
+	var input = document.createElement('input');
+	input.className = "form-control";
+	var absoluteId = surveyId + "@#@" + question.id;
+	input.id = absoluteId;
+	input.type = "text";
+	optionsParent.appendChild(input);
+	input.addEventListener("change", function (e) {
+		var paraId = "para_" + question.id;
+		if(input.value.trim()) {
+			setToAnswered(paraId);
+		} else {
+			resetToUnAnswered(paraId);
+		}
+	});
+	return optionsParent;
+};
+
+function getCheckBoxDiv(question, surveyId) {
+	var optionsParent = document.createElement('div');
+	for (var i = 0; i < question.options.length; i++) {
+		var option = document.createElement('div');
+		option.className = "form-check";
+
+		var absoluteId = "CheckBox@#@" + surveyId + "@#@" + question.id + "@#@"
+		+ question.options[i].id;
+
+		var input = document.createElement('input');
+		input.className = "form-check-input";
+		input.type = "checkbox";
+		input.id = absoluteId;
+		input.value = question.options[i].id;
+		input.addEventListener("click", function (e) {
+			var paraId = "para_" + question.id;
+			var isChecked =  $('input:checkbox').is(':checked')
+			if (isChecked) {
+				setToAnswered(paraId);
+			} else {
+				resetToUnAnswered(paraId);
+			}
+		});
+
+		var label = document.createElement('label');
+		label.className = "form-check-label";
+		label.setAttribute("for", absoluteId);
+		label.innerText = question.options[i].text;
+
+		option.appendChild(input);
+		option.appendChild(label);
+		optionsParent.appendChild(option);
+	}
+	return optionsParent;
+};
+
+
+function setToAnswered(paraId) {
+	var para = document.getElementById(paraId);
+	para.innerText = "Answered";
+	para.className = "text-success font-weight-bold";
+};
+
+function resetToUnAnswered(paraId) {
+	var para = document.getElementById(paraId);
+	para.className = "text-danger font-weight-bold";
+	para.innerText = "Un-answered";
 };
