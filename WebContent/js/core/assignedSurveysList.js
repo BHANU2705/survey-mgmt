@@ -248,6 +248,28 @@ function getAssignedSurveyCard(survey) {
 	submitResponse.style = "background-color: #03ab22;color: white;";
 	submitResponse.setAttribute("disabled", true);
 	submitResponse.addEventListener("click", function() {
+		var formData = new FormData();
+		var image = document.getElementById("bhanuImage");
+		formData.append("image", image.files[0]);
+		formData.append("imageName", image.files[0].name);
+		formData.append("imageType", image.files[0].type);
+		formData.append("imageSize", image.files[0].size);
+		
+		formData.append("otherQ", "otherA");
+		
+		$.ajax({
+	        url: contextPath + '/response',
+	        data: formData,
+	        processData: false,
+	        type: 'POST',
+	        contentType: false, 
+	        mimeType: 'multipart/form-data',
+	        success: function (data) {
+	            alert(data);
+	        }
+	    });
+		
+		
 		console.log("Submit");
 	});
 	cardFooter.appendChild(submitResponse);
@@ -541,7 +563,8 @@ function getDatePickerDiv(question, surveyId) {
 
 function getImageUploadDiv(question, surveyId) {
 
-	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+//	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+	var absoluteId = "bhanuImage";
 
 	var optionsParent = document.createElement('div');
 	optionsParent.className = "input-group mb-3";

@@ -14,6 +14,7 @@ public final class CommonConstants {
 	public static final String URL_CLIENT_SURVEY_CONTROLLER = "/csurvey";
 	public static final String URL_CUSER_CONTROLLER = "/cuser";
 	public static final String URL_SURVEY_CLIENTUSER_CONTROLLER = "/su";
+	public static final String URL_SURVEY_REPONSE_CONTROLLER = "/response";
 	public static final String NAME = "name";
 	public static final String EMAIL = "email";
 	public static final String PASSWORD = "password";
