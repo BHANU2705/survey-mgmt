@@ -1,7 +1,12 @@
 package com.bps.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
@@ -23,17 +28,51 @@ public class SurveyResponseController extends HttpServlet {
 	@SuppressWarnings("unused")
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		OutputStream out = null;
+		InputStream filecontent = null;
+		final PrintWriter writer = response.getWriter();
+		String path = "C:\\Users\\i305297\\Documents\\Personal\\Project\\Uploaded";
 		try {
-			String other = request.getParameter("otherQ"); // Retrieves <input type="text" name="description">
-		    Part filePart = request.getPart("image"); // Retrieves <input type="file" name="file">
-		    String x = filePart.getSubmittedFileName();
-		    Long size = filePart.getSize();
-		    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
-		    InputStream fileContent = filePart.getInputStream();
-		    System.out.println("Hello");
-		    response.getWriter().append("success");
+			String other = request.getParameter("otherQ");
+			Part filePart = request.getPart("image");
+			String x = filePart.getSubmittedFileName();
+			Long size = filePart.getSize();
+			String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
+			String fileName1 = getFileName(filePart);
+			InputStream fileContent = filePart.getInputStream();
+			out = new FileOutputStream(new File(path + File.separator + fileName));
+			filecontent = filePart.getInputStream();
+
+			int read = 0;
+			final byte[] bytes = new byte[1024];
+
+			while ((read = filecontent.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+			writer.append("success");
+		} catch (FileNotFoundException fne) {
+			fne.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (out != null) {
+	            out.close();
+	        }
+	        if (filecontent != null) {
+	            filecontent.close();
+	        }
+	        if (writer != null) {
+	            writer.close();
+	        }
 		}
+	}
+	private String getFileName(final Part part) {
+		for (String content : part.getHeader("content-disposition").split(";")) {
+			if (content.trim().startsWith("filename")) {
+				return content.substring(
+						content.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+		return null;
 	}
 }
