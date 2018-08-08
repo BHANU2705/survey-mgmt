@@ -507,17 +507,25 @@ function getYesNoDiv(question, surveyId) {
 };
 
 function getDatePickerDiv(question, surveyId) {
-
 	$(function() {
 		$('[data-toggle="datepicker"]').datepicker({
 			autoHide : true,
 			zIndex : 2048,
-			format : 'yyyy-mm-dd'
+			format : 'dd-mm-yyyy'
+		}).on('pick.datepicker', function (e) {
+			var paraId = "para_" + question.id;
+			if(e.date) {
+				setToAnswered(paraId);
+			} else {
+				resetToUnAnswered(paraId);
+			}
+		  
 		});
 	});
-
-	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+	
 	var optionsParent = document.createElement('div');
+	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+	
 	var datePicker = document.createElement('input');
 	datePicker.setAttribute("data-toggle", "datepicker");
 	datePicker.setAttribute("readonly", true);
@@ -525,55 +533,8 @@ function getDatePickerDiv(question, surveyId) {
 	datePicker.className = "form-control";
 	datePicker.style = "max-width: fit-content;";
 	datePicker.id = absoluteId;
-	
-	/*datePicker.addEventListener("change", function() {
-		console.log("hello change");
-		var paraId = "para_" + question.id;
-		if (datePicker.value.trim()) {
-			setToAnswered(paraId);
-		} else {
-			resetToUnAnswered(paraId);
-		}
-	});
-	
-	datePicker.addEventListener("click", function() {
-		console.log("hello click");
-		var paraId = "para_" + question.id;
-		if (datePicker.value.trim()) {
-			setToAnswered(paraId);
-		} else {
-			resetToUnAnswered(paraId);
-		}
-	});*/
-	
-	/*datePicker.addEventListener("focusin", function() {
-		var paraId = "para_" + question.id;
-		if (datePicker.value.trim()) {
-			setToAnswered(paraId);
-		} else {
-			resetToUnAnswered(paraId);
-		}
-	});
-	
-	datePicker.addEventListener("focusout", function() {
-		var paraId = "para_" + question.id;
-		if (datePicker.value.trim()) {
-			setToAnswered(paraId);
-		} else {
-			resetToUnAnswered(paraId);
-		}
-	});*/
-	
-	datePicker.addEventListener("select", function() {
-		var paraId = "para_" + question.id;
-		if (datePicker.value.trim()) {
-			setToAnswered(paraId);
-		} else {
-			resetToUnAnswered(paraId);
-		}
-	});
-	
 	optionsParent.appendChild(datePicker);
+	
 	return optionsParent;
 };
 
