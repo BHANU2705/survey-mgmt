@@ -244,7 +244,9 @@ function getAssignedSurveyCard(survey) {
 	var submitResponse = document.createElement('button');
 	submitResponse.className = "btn btn-md btn-primary btn-create";
 	submitResponse.innerText = "Submit";
+	submitResponse.id = "submit";
 	submitResponse.style = "background-color: #03ab22;color: white;";
+	submitResponse.setAttribute("disabled", true);
 	submitResponse.addEventListener("click", function() {
 		console.log("Submit");
 	});
@@ -309,7 +311,7 @@ function getEachQuestionDiv(i, question, surveyId) {
 	var para = document.createElement("p");
 	para.id = "para_" + question.id;
 	para.style = "padding-right: 10px;";
-	para.className = "text-danger font-weight-bold";
+	para.className = "text-danger font-weight-bold qStatus";
 	para.innerText = "Un-answered";
 	questioRow_Col2.appendChild(para);
 
@@ -355,9 +357,9 @@ function getOptionsDiv(question, surveyId) {
 		return getDatePickerDiv(question, surveyId);
 	} else if (qType === "Image") {
 		return getImageUploadDiv(question, surveyId);
-	} else if (qType === "Geocode") {
+	}/* else if (qType === "Geocode") {
 
-	}
+	}*/
 	return document.createElement('div');
 };
 
@@ -613,11 +615,41 @@ function getGenericRadioOption(question, surveyId, val) {
 function setToAnswered(paraId) {
 	var para = document.getElementById(paraId);
 	para.innerText = "Answered";
-	para.className = "text-success font-weight-bold";
+	para.className = "text-success font-weight-bold qStatus";
+	enableDisableSubmitButton();
 };
 
 function resetToUnAnswered(paraId) {
 	var para = document.getElementById(paraId);
-	para.className = "text-danger font-weight-bold";
+	para.className = "text-danger font-weight-bold qStatus";
 	para.innerText = "Un-answered";
+	enableDisableSubmitButton();
 };
+
+function enableDisableSubmitButton() {
+	var flags = document.querySelectorAll("p.qStatus");
+	var submitBtn = document.getElementById("submit");
+	submitBtn.setAttribute("disabled", true);
+	var status = [];
+	if(flags) {
+		for(var i = 0; i < flags.length; i++) {
+			status.push(isAnswered(flags[i].innerText.trim()));
+		}
+		if(status) {
+			var finalResult = true;
+			for(var i = 0; i < status.length; i++) {
+				finalResult = finalResult && status[i];
+			}
+		}
+		if(finalResult) {
+			submitBtn.removeAttribute("disabled");
+		}
+	}
+};
+
+function isAnswered(text) {
+	if(text === "Answered") {
+		return true;
+	}
+	return false;
+}
