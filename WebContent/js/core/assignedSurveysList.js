@@ -354,7 +354,7 @@ function getOptionsDiv(question, surveyId) {
 	} else if (qType === "Date") {
 		return getDatePickerDiv(question, surveyId);
 	} else if (qType === "Image") {
-
+		return getImageUploadDiv(question, surveyId);
 	} else if (qType === "Geocode") {
 
 	}
@@ -369,7 +369,7 @@ function getRadioButtonDiv(question, surveyId) {
 		option.className = "form-check";
 
 		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-				+ "@#@" + question.options[i].id;
+		+ "@#@" + question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
@@ -409,7 +409,7 @@ function getDropdownDiv(question, surveyId) {
 
 	for (var i = 0; i < question.options.length; i++) {
 		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-				+ "@#@" + question.options[i].id;
+		+ "@#@" + question.options[i].id;
 		var opt = document.createElement('option');
 		opt.setAttribute("value", absoluteId);
 		opt.innerText = question.options[i].text;
@@ -459,7 +459,7 @@ function getCheckBoxDiv(question, surveyId) {
 		option.className = "form-check";
 
 		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-				+ "@#@" + question.options[i].id;
+		+ "@#@" + question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
@@ -491,11 +491,11 @@ function getCheckBoxDiv(question, surveyId) {
 function getGenderDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
 	optionsParent
-			.appendChild(getGenericRadioOption(question, surveyId, "Male"));
+	.appendChild(getGenericRadioOption(question, surveyId, "Male"));
 	optionsParent.appendChild(getGenericRadioOption(question, surveyId,
-			"Female"));
+	"Female"));
 	optionsParent
-			.appendChild(getGenericRadioOption(question, surveyId, "LGBT"));
+	.appendChild(getGenericRadioOption(question, surveyId, "LGBT"));
 	return optionsParent;
 };
 
@@ -512,19 +512,19 @@ function getDatePickerDiv(question, surveyId) {
 			autoHide : true,
 			zIndex : 2048,
 			format : 'dd-mm-yyyy'
-		}).on('pick.datepicker', function (e) {
+		}).on('pick.datepicker', function(e) {
 			var paraId = "para_" + question.id;
-			if(e.date) {
+			if (e.date) {
 				setToAnswered(paraId);
 			} else {
 				resetToUnAnswered(paraId);
 			}
 		});
 	});
-	
+
 	var optionsParent = document.createElement('div');
 	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
-	
+
 	var datePicker = document.createElement('input');
 	datePicker.setAttribute("data-toggle", "datepicker");
 	datePicker.setAttribute("readonly", true);
@@ -533,7 +533,52 @@ function getDatePickerDiv(question, surveyId) {
 	datePicker.style = "max-width: fit-content;";
 	datePicker.id = absoluteId;
 	optionsParent.appendChild(datePicker);
+
+	return optionsParent;
+};
+
+function getImageUploadDiv(question, surveyId) {
+
+	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+
+	var optionsParent = document.createElement('div');
+	optionsParent.className = "input-group mb-3";
+
+	var customFileDiv = document.createElement('div');
+	customFileDiv.className = "custom-file";
+
+	var input = document.createElement('input');
+	input.type = "file";
+	input.className = "custom-file-input";
+	input.id = absoluteId;
+	input.name = absoluteId;
+	input.setAttribute("accept", "image/*");
 	
+
+	var label = document.createElement('label');
+	label.className = "custom-file-label";
+	label.setAttribute("for", absoluteId);
+	label.innerText = "Choose file";
+
+	customFileDiv.appendChild(input);
+	customFileDiv.appendChild(label);
+	optionsParent.appendChild(customFileDiv);
+
+	$(function() {
+		$('input[type="file"]').change(function(e) {
+			if (e && e.target && e.target.files && e.target.files[0] && e.target.files[0].name) {
+				var fileName = e.target.files[0].name;
+				$('.custom-file-label').html(fileName);
+				var paraId = "para_" + question.id;
+				if (fileName) {
+					setToAnswered(paraId);
+				} else {
+					resetToUnAnswered(paraId);
+				}
+			}
+		});
+	});
+
 	return optionsParent;
 };
 
@@ -542,7 +587,7 @@ function getGenericRadioOption(question, surveyId, val) {
 	option.className = "form-check";
 
 	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-			+ "@#@" + val;
+	+ "@#@" + val;
 
 	var input = document.createElement('input');
 	input.className = "form-check-input";

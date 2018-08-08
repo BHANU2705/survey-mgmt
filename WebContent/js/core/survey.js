@@ -445,6 +445,9 @@ function getQTypeOption(value, text, isSelected) {
 	var option = document.createElement('option');
 	option.value = value;
 	option.innerText = text;
+	if (value === "Geocode") {
+		option.setAttribute("disabled", true);
+	}
 	if(isSelected) {
 		option.setAttribute("selected", true);
 	}
