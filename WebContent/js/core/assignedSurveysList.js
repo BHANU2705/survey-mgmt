@@ -519,7 +519,6 @@ function getDatePickerDiv(question, surveyId) {
 			} else {
 				resetToUnAnswered(paraId);
 			}
-		  
 		});
 	});
 	
