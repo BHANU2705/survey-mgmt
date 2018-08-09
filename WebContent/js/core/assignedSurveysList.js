@@ -264,12 +264,13 @@ function getAssignedSurveyCard(survey) {
 			contentType: false, 
 			mimeType: 'multipart/form-data',
 			success: function (data) {
-				alert(data);
+				alert("Response submitted successfully.");
+				onLoadAssignedSurveyList();
+			},
+			error: function(data) {
+				alert(data.responseText);
 			}
 		});
-
-
-		console.log("Submit");
 	});
 	cardFooter.appendChild(submitResponse);
 	card.appendChild(cardFooter);

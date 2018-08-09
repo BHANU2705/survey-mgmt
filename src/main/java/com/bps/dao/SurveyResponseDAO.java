@@ -1,7 +1,12 @@
 package com.bps.dao;
 
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import com.bps.persistence.tables.IBaseEntity;
 import com.bps.persistence.tables.SurveyResponse;
@@ -37,7 +42,42 @@ public class SurveyResponseDAO extends DAO implements IBaseDAO {
 
 	@Override
 	public IBaseEntity read(IBaseEntity entity) throws BaseException {
-		return null;
-	}
+		SurveyResponse sr = (SurveyResponse) entity;
+		SurveyResponse dbResponse = null;
+		if (sr != null && sr.getSurveyId() != null && !sr.getSurveyId().isEmpty()) {
+			Session session = SessionManager.getSession();
+			session.setDefaultReadOnly(true);
+			String queryString = "SELECT s.responseId, s.surveyId, s.userId, s.answer, s.answeredOn, s.imageFileName, s.imageFilePath, s.imageSize "
+					+ "FROM SurveyResponse s WHERE s.userId = '" + super.getUserEmail() + "' and s.surveyId = '" + sr.getSurveyId() + "'";
+			Query<?> query = session.createQuery(queryString);
+			query.setReadOnly(true);
+			List<?> data = query.getResultList();
+			SessionManager.closeSession(session);
+			if (data != null && !data.isEmpty()) {
+				Iterator<?> it = data.iterator();
+				while (it.hasNext()) {
+					Object[] list = (Object[]) it.next();
+					String responseId = (String) list[0];
+					String surveyId = (String) list[1];
+					String userId = (String) list[2];
+					String answer = (String) list[3];
+					Calendar answeredOn = (Calendar) list[4];
+					String imageFileName = (String) list[5];
+					String imageFilePath = (String) list[6];
+					Long imageSize = (Long) list[7];
 
+					dbResponse = new SurveyResponse();
+					dbResponse.setAnswer(answer);
+					dbResponse.setAnsweredOn(answeredOn);
+					dbResponse.setImageFileName(imageFileName);
+					dbResponse.setImageFilePath(imageFilePath);
+					dbResponse.setImageSize(imageSize);
+					dbResponse.setSurveyId(surveyId);
+					dbResponse.setUserId(userId);
+					dbResponse.setResponseId(responseId);
+				}
+			}
+		}
+		return dbResponse;
+	}
 }

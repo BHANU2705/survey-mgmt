@@ -17,17 +17,29 @@ import com.bps.util.SurveyResponseEntity;
 
 public class SurveyResponseManager {
 	private SurveyResponseDAO surveyResponseDAO;
-//	private String userEmail;
+	// private String userEmail;
 	private final static String PATH = "C:\\Users\\i305297\\Documents\\Personal\\Project\\Uploaded";
+
 	public SurveyResponseManager(String email) {
 		surveyResponseDAO = new SurveyResponseDAO();
 		surveyResponseDAO.setUserEmail(email);
-//		setUserEmail(email);
+		// setUserEmail(email);
 	}
 
-	/*public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}*/
+	/*
+	 * public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+	 */
+
+	public SurveyResponseEntity getResponse(final String surveyId) throws BaseException {
+		SurveyResponseEntity entity = null;
+		SurveyResponse response = new SurveyResponse();
+		response.setSurveyId(surveyId);
+		SurveyResponse dbResponse = (SurveyResponse) surveyResponseDAO.read(response);
+		if (dbResponse != null) {
+			entity = SurveyResponseEntity.build(dbResponse);
+		}
+		return entity;
+	}
 
 	public void submitResponse(final SurveyResponseEntity responseEntity, final Part filePart) throws BaseException {
 		if (responseEntity != null) {
@@ -37,11 +49,11 @@ public class SurveyResponseManager {
 				surveyResponse.setImageFileName(getFileName(filePart));
 				surveyResponse.setImageSize(filePart.getSize());
 				surveyResponse.setImageFilePath(PATH);
-				surveyResponseDAO.create(surveyResponse);
 			}
+			surveyResponseDAO.create(surveyResponse);
 		}
 	}
-	
+
 	private String getFileName(final Part part) {
 		for (String content : part.getHeader("content-disposition").split(";")) {
 			if (content.trim().startsWith("filename")) {
@@ -66,10 +78,12 @@ public class SurveyResponseManager {
 					out.write(bytes, 0, read);
 				}
 			} catch (FileNotFoundException fne) {
-				BaseException baseException = new BaseException(HttpServletResponse.SC_BAD_REQUEST, "IMAGE_NOT_FOUND", fne);
+				BaseException baseException = new BaseException(HttpServletResponse.SC_BAD_REQUEST, "IMAGE_NOT_FOUND",
+						fne);
 				throw baseException;
 			} catch (IOException e) {
-				BaseException baseException = new BaseException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "IMAGE_IO_EXCEPTION", e);
+				BaseException baseException = new BaseException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"IMAGE_IO_EXCEPTION", e);
 				throw baseException;
 			} finally {
 				try {
