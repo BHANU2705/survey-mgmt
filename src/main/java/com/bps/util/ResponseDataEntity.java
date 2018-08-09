@@ -1,6 +1,6 @@
 package com.bps.util;
 
-public class ResponseData {
+public class ResponseDataEntity {
 	private String value;
 
 	public String getValue() {

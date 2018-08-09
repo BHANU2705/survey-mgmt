@@ -2,10 +2,10 @@ package com.bps.util;
 
 import java.util.List;
 
-public class SurveyResponse {
+public class SurveyResponseEntity {
 	private String surveyId;
 	private String userId;
-	private List<SurveyAnswer> answers;
+	private List<SurveyAnswerEntity> answers;
 	public String getSurveyId() {
 		return surveyId;
 	}
@@ -18,10 +18,11 @@ public class SurveyResponse {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public List<SurveyAnswer> getAnswers() {
+	public List<SurveyAnswerEntity> getAnswers() {
 		return answers;
 	}
-	public void setAnswers(List<SurveyAnswer> answers) {
+	public void setAnswers(List<SurveyAnswerEntity> answers) {
 		this.answers = answers;
 	}
+	
 }
