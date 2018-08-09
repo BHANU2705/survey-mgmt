@@ -25,7 +25,6 @@ import com.bps.util.CommonConstants;
 public class SurveyResponseController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	@SuppressWarnings("unused")
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OutputStream out = null;

@@ -16,7 +16,8 @@ import com.bps.util.CommonConstants;
 
 @WebFilter(filterName = "BootLoaderFilter", 
 	servletNames = { CommonConstants.HOME, "UserController", "SurveyController", "CUserController",
-			"SurveyClientUserLinkController", "RoleController", "QuestionController", "ClientSurveyController"})
+			"SurveyClientUserLinkController", "RoleController", "QuestionController", "ClientSurveyController",
+			"SurveyResponseController"})
 public class BootLoaderFilter implements Filter {
 
     public BootLoaderFilter() {

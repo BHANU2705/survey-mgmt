@@ -27,6 +27,8 @@
 
 <script>
 	var contextPath ='<%=request.getContextPath()%>';
+	var loggedInUserEmail = "<%= session.getAttribute("email") %>";
+	var GLOBAL_SEPARATOR = "@#@";
 	$(document).ready(function() {
 		$("#overview").show();
 		$("#survey").hide();

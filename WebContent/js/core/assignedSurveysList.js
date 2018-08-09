@@ -246,30 +246,29 @@ function getAssignedSurveyCard(survey) {
 	submitResponse.innerText = "Submit";
 	submitResponse.id = "submit";
 	submitResponse.style = "background-color: #03ab22;color: white;";
+	submitResponse.setAttribute("data-toggle", "tooltip");
 	submitResponse.setAttribute("disabled", true);
+	submitResponse.setAttribute("data-toggle", "tooltip");
+	submitResponse.setAttribute("data-placement", "left");
+	if (submitResponse.getAttribute("disabled")) {
+		submitResponse.title = "Answer all the questions to enable Submit button.";
+	}
 	submitResponse.addEventListener("click", function() {
-		var formData = new FormData();
-		var image = document.getElementById("bhanuImage");
-		formData.append("image", image.files[0]);
-		formData.append("imageName", image.files[0].name);
-		formData.append("imageType", image.files[0].type);
-		formData.append("imageSize", image.files[0].size);
-		
-		formData.append("otherQ", "otherA");
-		
+		var formData = collectAnswers(survey);
+
 		$.ajax({
-	        url: contextPath + '/response',
-	        data: formData,
-	        processData: false,
-	        type: 'POST',
-	        contentType: false, 
-	        mimeType: 'multipart/form-data',
-	        success: function (data) {
-	            alert(data);
-	        }
-	    });
-		
-		
+			url: contextPath + '/response',
+			data: formData,
+			processData: false,
+			type: 'POST',
+			contentType: false, 
+			mimeType: 'multipart/form-data',
+			success: function (data) {
+				alert(data);
+			}
+		});
+
+
 		console.log("Submit");
 	});
 	cardFooter.appendChild(submitResponse);
@@ -392,8 +391,8 @@ function getRadioButtonDiv(question, surveyId) {
 		var option = document.createElement('div');
 		option.className = "form-check";
 
-		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-		+ "@#@" + question.options[i].id;
+		var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id
+		+ GLOBAL_SEPARATOR + question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
@@ -420,10 +419,11 @@ function getRadioButtonDiv(question, surveyId) {
 
 function getDropdownDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
+	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
 
 	var select = document.createElement('select');
 	select.className = "custom-select";
-	select.id = "dropdown@#@" + surveyId + "@#@" + question.id;
+	select.id = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
 
 	var opt = document.createElement('option');
 	opt.setAttribute("selected", true);
@@ -432,10 +432,8 @@ function getDropdownDiv(question, surveyId) {
 	select.appendChild(opt);
 
 	for (var i = 0; i < question.options.length; i++) {
-		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-		+ "@#@" + question.options[i].id;
 		var opt = document.createElement('option');
-		opt.setAttribute("value", absoluteId);
+		opt.setAttribute("value", question.options[i].id);
 		opt.innerText = question.options[i].text;
 		select.appendChild(opt);
 	}
@@ -461,7 +459,7 @@ function getTextFieldDiv(question, surveyId) {
 	var optionsParent = document.createElement('div');
 	var input = document.createElement('input');
 	input.className = "form-control";
-	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
 	input.id = absoluteId;
 	input.type = "text";
 	optionsParent.appendChild(input);
@@ -482,8 +480,8 @@ function getCheckBoxDiv(question, surveyId) {
 		var option = document.createElement('div');
 		option.className = "form-check";
 
-		var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-		+ "@#@" + question.options[i].id;
+		var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id
+		+ GLOBAL_SEPARATOR + question.options[i].id;
 
 		var input = document.createElement('input');
 		input.className = "form-check-input";
@@ -547,7 +545,7 @@ function getDatePickerDiv(question, surveyId) {
 	});
 
 	var optionsParent = document.createElement('div');
-	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
 
 	var datePicker = document.createElement('input');
 	datePicker.setAttribute("data-toggle", "datepicker");
@@ -563,7 +561,7 @@ function getDatePickerDiv(question, surveyId) {
 
 function getImageUploadDiv(question, surveyId) {
 
-//	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id;
+//	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
 	var absoluteId = "bhanuImage";
 
 	var optionsParent = document.createElement('div');
@@ -578,7 +576,7 @@ function getImageUploadDiv(question, surveyId) {
 	input.id = absoluteId;
 	input.name = absoluteId;
 	input.setAttribute("accept", "image/*");
-	
+
 
 	var label = document.createElement('label');
 	label.className = "custom-file-label";
@@ -611,8 +609,8 @@ function getGenericRadioOption(question, surveyId, val) {
 	var option = document.createElement('div');
 	option.className = "form-check";
 
-	var absoluteId = question.type + "@#@" + surveyId + "@#@" + question.id
-	+ "@#@" + val;
+	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id
+	+ GLOBAL_SEPARATOR + val;
 
 	var input = document.createElement('input');
 	input.className = "form-check-input";
@@ -653,6 +651,9 @@ function enableDisableSubmitButton() {
 	var flags = document.querySelectorAll("p.qStatus");
 	var submitBtn = document.getElementById("submit");
 	submitBtn.setAttribute("disabled", true);
+	if (submitBtn.getAttribute("disabled")) {
+		submitBtn.title = "Answer all the questions to enable Submit button.";
+	}
 	var status = [];
 	if(flags) {
 		for(var i = 0; i < flags.length; i++) {
@@ -666,6 +667,7 @@ function enableDisableSubmitButton() {
 		}
 		if(finalResult) {
 			submitBtn.removeAttribute("disabled");
+			submitBtn.title = "Submit Survey";
 		}
 	}
 };
@@ -675,4 +677,77 @@ function isAnswered(text) {
 		return true;
 	}
 	return false;
-}
+};
+
+function collectAnswers(survey) {
+	var formData = new FormData();
+	var answersJson = {};
+	answersJson.surveyId = survey.id;
+	answersJson.userId = loggedInUserEmail;
+	answersJson.answers = [];
+
+	if(survey && survey.questions && survey.questions.length > 0) {
+		for (var k = 0; k < survey.questions.length; k++) {
+			var question = survey.questions[k];
+			var answer = {};
+			answer.questionId = question.id;
+			answer.questionType = question.type;
+			answer.responses = [];
+			var qType = question.type;
+			var id = question.type + GLOBAL_SEPARATOR + survey.id + GLOBAL_SEPARATOR + question.id;
+
+			if (qType === "Radio" || qType === "CheckBox") {
+				for (var j = 0; j < question.options.length; j++) {
+					var option = question.options[j];
+					var tempId = id + GLOBAL_SEPARATOR + option.id;
+					var element = document.getElementById(tempId);
+					if (element && element.checked) {
+						var valueJson = {};
+						valueJson.value = option.id; // actual answer or option id(s);
+						answer.responses.push(valueJson);
+					}
+				}
+			} else if (qType === "Dropdown" || qType === "TextField" || qType === "Date") {
+				var element = document.getElementById(id);
+				if(element) {
+					var valueJson = {};
+					valueJson.value = element.value;
+					answer.responses.push(valueJson);
+				}
+			} else if (qType === "Gender") {
+				var ids = [];
+				ids.push(id + GLOBAL_SEPARATOR + "Male");
+				ids.push(id + GLOBAL_SEPARATOR + "Female");
+				ids.push(id + GLOBAL_SEPARATOR + "LGBT");
+				setAnswersForGenderAndYesNoQuestions(ids, answer);
+			} else if (qType === "YesNo") {
+				var ids = [];
+				ids.push(id + GLOBAL_SEPARATOR + "Yes");
+				ids.push(id + GLOBAL_SEPARATOR + "No");
+				setAnswersForGenderAndYesNoQuestions(ids, answer);
+			} else if (qType === "Image") {
+				var image = document.getElementById("bhanuImage");
+				formData.append("image", image.files[0]);
+			}
+			answersJson.answers.push(answer);
+		}
+	}
+	
+	formData.append("answers", answersJson.toString());
+	return formData;
+};
+
+function setAnswersForGenderAndYesNoQuestions(ids, answer) {
+	if (ids && ids.length > 0) {
+		for (var m = 0; m < ids.length; m++) {
+			var tmp = ids[m];
+			var element = document.getElementById(tmp);
+			if (element && element.checked) {
+				var valueJson = {};
+				var array = tmp.split(GLOBAL_SEPARATOR);
+				valueJson.value = array[array.length-1];
+				answer.responses.push(valueJson);
+			}
+		}
+	}
+};
