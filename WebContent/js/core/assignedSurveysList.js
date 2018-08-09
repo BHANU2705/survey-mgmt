@@ -733,7 +733,7 @@ function collectAnswers(survey) {
 		}
 	}
 	
-	formData.append("answers", answersJson.toString());
+	formData.append("answers", JSON.stringify(answersJson));
 	return formData;
 };
 
