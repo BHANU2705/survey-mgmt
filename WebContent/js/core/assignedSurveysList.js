@@ -1,3 +1,6 @@
+var ANSWERED = "Answered";
+var UN_ANSWERED = "Un-answered";
+
 function onLoadAssignedSurveyList() {
 	$("#assignedSurveyList").hide();
 	var parent = document.getElementById("assignedSurveyList");
@@ -45,12 +48,15 @@ function getAssignedSurveyList() {
 	var thead_th3 = document.createElement("th");
 	thead_th3.innerText = "Survey Owner";
 	var thead_th4 = document.createElement("th");
-	thead_th4.innerText = "Actions";
+	thead_th4.innerText = "Status";
+	var thead_th5 = document.createElement("th");
+	thead_th5.innerText = "Actions";
 
 	thead_tr.appendChild(thead_th1);
 	thead_tr.appendChild(thead_th2);
 	thead_tr.appendChild(thead_th3);
 	thead_tr.appendChild(thead_th4);
+	thead_tr.appendChild(thead_th5);
 	thead.appendChild(thead_tr);
 	assignedSurveyListTable.appendChild(thead);
 
@@ -87,19 +93,23 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 
 				var surveyName = document.createElement("td");
 				surveyName.innerText = data[i].name;
-				/*
-				 * var a = document.createElement('a'); a.id = "surveyLink_#@_" +
-				 * data[i].id; a.className = "nav-link active"; a.style =
-				 * "color: #01ab21;cursor: pointer;";
-				 * a.addEventListener("click", function(evt) { var targetId =
-				 * evt.currentTarget.id.trim(); var id =
-				 * targetId.split("_#@_")[1].split(":")[0].trim();
-				 * readSpecificSurvey(id); }); a.innerText = data[i].name;
-				 * surveyName.appendChild(a);
-				 */
 
 				var owner = document.createElement("td");
 				owner.innerText = data[i].owner;
+				
+				var status = document.createElement("td");
+				
+				var para = document.createElement("p");
+				para.style = "padding-right: 10px;";
+				
+				if (data[i].isResponded) {
+					para.innerText = ANSWERED;
+					para.className = "text-success font-weight-bold qStatus";
+				} else {
+					para.className = "text-danger font-weight-bold";
+					para.innerText = UN_ANSWERED;
+				}
+				status.appendChild(para);
 
 				var pDiv = document.createElement("div");
 				pDiv.className = "dropdown show";
@@ -152,12 +162,14 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 
 				if (data[i].isResponded) {
 					dropdownItem1.removeEventListener("click", replySurvey);
-					dropdownItem1.title = "Already Replied";
+					dropdownItem1.addEventListener("click", viewSurveyResponse);
+					dropdownItem1.title = "Already Replied, View Response.";
 				}
 
 				row.appendChild(index);
 				row.appendChild(surveyName);
 				row.appendChild(owner);
+				row.appendChild(status);
 				row.appendChild(pDiv);
 				tBody.appendChild(row);
 			}
@@ -170,7 +182,17 @@ function replySurvey(evt) {
 	var targetId = evt.currentTarget.id.trim();
 	var id = targetId.split("_#@_")[1];
 	readAssignedSpecificSurvey(id);
-}
+};
+
+function viewSurveyResponse(evt) {
+	var targetId = evt.currentTarget.id.trim();
+	var surveyId = targetId.split("_#@_")[1];
+	readSurveyResponse(surveyId);
+};
+
+function readSurveyResponse(surveyId) {
+	console.log("hello: " + surveyId);
+};
 
 function readAssignedSpecificSurvey(surveyId) {
 	var httpRequest = new XMLHttpRequest();
@@ -334,7 +356,7 @@ function getEachQuestionDiv(i, question, surveyId) {
 	para.id = "para_" + question.id;
 	para.style = "padding-right: 10px;";
 	para.className = "text-danger font-weight-bold qStatus";
-	para.innerText = "Un-answered";
+	para.innerText = UN_ANSWERED;
 	questioRow_Col2.appendChild(para);
 
 	questioRow.appendChild(questioRow_Col2);
@@ -636,7 +658,7 @@ function getGenericRadioOption(question, surveyId, val) {
 
 function setToAnswered(paraId) {
 	var para = document.getElementById(paraId);
-	para.innerText = "Answered";
+	para.innerText = ANSWERED;
 	para.className = "text-success font-weight-bold qStatus";
 	enableDisableSubmitButton();
 };
@@ -644,7 +666,7 @@ function setToAnswered(paraId) {
 function resetToUnAnswered(paraId) {
 	var para = document.getElementById(paraId);
 	para.className = "text-danger font-weight-bold qStatus";
-	para.innerText = "Un-answered";
+	para.innerText = UN_ANSWERED;
 	enableDisableSubmitButton();
 };
 
@@ -674,7 +696,7 @@ function enableDisableSubmitButton() {
 };
 
 function isAnswered(text) {
-	if(text === "Answered") {
+	if(text === ANSWERED) {
 		return true;
 	}
 	return false;
