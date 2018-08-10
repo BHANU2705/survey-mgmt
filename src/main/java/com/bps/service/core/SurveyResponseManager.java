@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -18,7 +21,7 @@ import com.bps.util.SurveyResponseEntity;
 public class SurveyResponseManager {
 	private SurveyResponseDAO surveyResponseDAO;
 	// private String userEmail;
-	private final static String PATH = "C:\\Users\\i305297\\Documents\\Personal\\Project\\Uploaded";
+	private final static String ABSOLUTE_PATH = "C:\\Users\\i305297\\Documents\\Personal\\Project\\Uploaded";
 
 	public SurveyResponseManager(String email) {
 		surveyResponseDAO = new SurveyResponseDAO();
@@ -41,14 +44,17 @@ public class SurveyResponseManager {
 		return entity;
 	}
 
-	public void submitResponse(final SurveyResponseEntity responseEntity, final Part filePart) throws BaseException {
+	public void submitResponse(final SurveyResponseEntity responseEntity, final HashMap<String, Part> imageMap) throws BaseException {
 		if (responseEntity != null) {
 			SurveyResponse surveyResponse = SurveyResponse.build(responseEntity);
-			if (filePart != null && filePart.getSize() > 0) {
-				saveImage(filePart);
-				surveyResponse.setImageFileName(getFileName(filePart));
-				surveyResponse.setImageSize(filePart.getSize());
-				surveyResponse.setImageFilePath(PATH);
+			if (imageMap != null && imageMap.size() > 0) {
+				Iterator<Entry<String, Part>> it = imageMap.entrySet().iterator();
+				while(it.hasNext()) {
+					Entry<String, Part> entry = it.next();
+					String questionId = entry.getKey();
+					Part filePart = entry.getValue();
+					saveImage(responseEntity, questionId, filePart);
+				}
 			}
 			surveyResponseDAO.create(surveyResponse);
 		}
@@ -63,13 +69,19 @@ public class SurveyResponseManager {
 		return null;
 	}
 
-	private void saveImage(Part filePart) throws BaseException {
+	private void saveImage(SurveyResponseEntity responseEntity, String questionId, Part filePart) throws BaseException {
 		if (filePart != null) {
 			OutputStream out = null;
 			InputStream fileContent = null;
 			try {
 				fileContent = filePart.getInputStream();
-				out = new FileOutputStream(new File(PATH + File.separator + getFileName(filePart)));
+				String relativePath = File.separator + responseEntity.getSurveyId() + File.separator + questionId + File.separator + responseEntity.getUserId();
+				String folderPath = ABSOLUTE_PATH + relativePath;
+				File folder = new File(folderPath);
+				if(!folder.exists()) {
+					folder.mkdirs();
+				}
+				out = new FileOutputStream(new File(folderPath + File.separator + getFileName(filePart)));
 
 				int read = 0;
 				final byte[] bytes = new byte[1024];

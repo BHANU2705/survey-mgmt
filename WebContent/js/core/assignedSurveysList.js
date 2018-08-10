@@ -145,7 +145,7 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 				dropDownMenuDiv.style = "min-width: auto;";
 
 				var dropdownItem1 = document.createElement("a");
-				dropdownItem1.id = "respond_survey_#@_" + data[i].id;
+				dropdownItem1.id = "respond_survey" + GLOBAL_SEPARATOR + data[i].id;
 				dropdownItem1.addEventListener("click", replySurvey);
 				dropdownItem1.className = "dropdown-item";
 
@@ -180,13 +180,13 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 
 function replySurvey(evt) {
 	var targetId = evt.currentTarget.id.trim();
-	var id = targetId.split("_#@_")[1];
+	var id = targetId.split(GLOBAL_SEPARATOR)[1];
 	readAssignedSpecificSurvey(id);
 };
 
 function viewSurveyResponse(evt) {
 	var targetId = evt.currentTarget.id.trim();
-	var surveyId = targetId.split("_#@_")[1];
+	var surveyId = targetId.split(GLOBAL_SEPARATOR)[1];
 	readSurveyResponse(surveyId);
 };
 
@@ -584,8 +584,8 @@ function getDatePickerDiv(question, surveyId) {
 
 function getImageUploadDiv(question, surveyId) {
 
-//	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
-	var absoluteId = "bhanuImage";
+	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
+//	var absoluteId = "bhanuImage";
 
 	var optionsParent = document.createElement('div');
 	optionsParent.className = "input-group mb-3";
@@ -595,14 +595,16 @@ function getImageUploadDiv(question, surveyId) {
 
 	var input = document.createElement('input');
 	input.type = "file";
-	input.className = "custom-file-input";
+	var customCss = "img_" + question.id;
+	input.className = "custom-file-input " + customCss;
 	input.id = absoluteId;
 	input.name = absoluteId;
 	input.setAttribute("accept", "image/*");
 
 
 	var label = document.createElement('label');
-	label.className = "custom-file-label";
+	var customLabelCss = "lbl_" + question.id;
+	label.className = "custom-file-label " + customLabelCss;
 	label.setAttribute("for", absoluteId);
 	label.innerText = "Choose file";
 
@@ -611,10 +613,12 @@ function getImageUploadDiv(question, surveyId) {
 	optionsParent.appendChild(customFileDiv);
 
 	$(function() {
-		$('input[type="file"]').change(function(e) {
+		var css = ".img_" + question.id;
+		$(css).change(function(e) {
 			if (e && e.target && e.target.files && e.target.files[0] && e.target.files[0].name) {
 				var fileName = e.target.files[0].name;
-				$('.custom-file-label').html(fileName);
+				var lblCss = ".lbl_" + question.id;
+				$(lblCss).html(fileName);
 				var paraId = "para_" + question.id;
 				if (fileName) {
 					setToAnswered(paraId);
@@ -749,8 +753,8 @@ function collectAnswers(survey) {
 				ids.push(id + GLOBAL_SEPARATOR + "No");
 				setAnswersForGenderAndYesNoQuestions(ids, answer);
 			} else if (qType === "Image") {
-				var image = document.getElementById("bhanuImage");
-				formData.append("image", image.files[0]);
+				var image = document.getElementById(id);
+				formData.append(question.id, image.files[0]);
 			}
 			answersJson.answers.push(answer);
 		}
