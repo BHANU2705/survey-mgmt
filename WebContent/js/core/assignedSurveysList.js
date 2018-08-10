@@ -187,11 +187,26 @@ function replySurvey(evt) {
 function viewSurveyResponse(evt) {
 	var targetId = evt.currentTarget.id.trim();
 	var surveyId = targetId.split(GLOBAL_SEPARATOR)[1];
-	readSurveyResponse(surveyId);
-};
+	var httpRequest = new XMLHttpRequest();
+	var url = contextPath + "/response?surveyId=" + surveyId;
+	httpRequest.open('GET', url);
+	httpRequest.onload = function() {
+		// $.unblockUI();
+		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
+			var response = httpRequest.responseText;
+			var response = JSON.parse(response);
+//			var card = getAssignedSurveyCard(survey);
 
-function readSurveyResponse(surveyId) {
-	console.log("hello: " + surveyId);
+			$("#assignedSurveyList").hide();
+			var parent = document.getElementById("assignedSurveyList");
+			removeAllChild(parent);
+//			parent.appendChild(card);
+			$("#assignedSurveyList").show();
+		} else {
+			// error scenario
+		}
+	}
+	httpRequest.send(null);
 };
 
 function readAssignedSpecificSurvey(surveyId) {

@@ -22,34 +22,26 @@ import com.bps.util.SurveyAnswerEntity;
 import com.bps.util.SurveyResponseEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 @Entity
 public class SurveyResponse implements IBaseEntity {
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String responseId;
-	
+
 	@Column(nullable = false)
 	private String surveyId;
-	
+
 	@Column(nullable = false)
 	private String userId;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Calendar answeredOn;
-	
+
 	@Lob
 	private String answer;
-	
-	@Column
-	private String imageFileName;
-	
-	@Column
-	private Long imageSize;
-	
-	@Column
-	private String imageFilePath;
 
 	public String getResponseId() {
 		return responseId;
@@ -91,41 +83,19 @@ public class SurveyResponse implements IBaseEntity {
 		this.answer = answer;
 	}
 
-	public String getImageFileName() {
-		return imageFileName;
-	}
-
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName = imageFileName;
-	}
-
-	public Long getImageSize() {
-		return imageSize;
-	}
-
-	public void setImageSize(Long imageSize) {
-		this.imageSize = imageSize;
-	}
-
-	public String getImageFilePath() {
-		return imageFilePath;
-	}
-
-	public void setImageFilePath(String imageFilePath) {
-		this.imageFilePath = imageFilePath;
-	}
-
 	public static SurveyResponse build(final SurveyResponseEntity entity) {
 		SurveyResponse surveyResponse = null;
 		if (entity != null) {
 			surveyResponse = new SurveyResponse();
-			
+
 			Gson gson = CommonUtility.buildGson();
-			Type listType = new TypeToken<List<SurveyAnswerEntity>>() {}.getType();
+			Type listType = new TypeToken<List<SurveyAnswerEntity>>() {
+			}.getType();
 			String answerString = gson.toJson(entity.getAnswers(), listType);
 			surveyResponse.setAnswer(answerString);
-			
-			surveyResponse.setAnsweredOn(Calendar.getInstance(TimeZone.getTimeZone(CommonConstants.UTC), Locale.ENGLISH));
+
+			surveyResponse
+					.setAnsweredOn(Calendar.getInstance(TimeZone.getTimeZone(CommonConstants.UTC), Locale.ENGLISH));
 			surveyResponse.setSurveyId(entity.getSurveyId());
 			surveyResponse.setUserId(entity.getUserId());
 		}
