@@ -1,5 +1,7 @@
 var ANSWERED = "Answered";
 var UN_ANSWERED = "Un-answered";
+var MODE_READ = "read";
+var MODE_EDIT = "edit";
 
 function onLoadAssignedSurveyList() {
 	$("#assignedSurveyList").hide();
@@ -96,12 +98,12 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 
 				var owner = document.createElement("td");
 				owner.innerText = data[i].owner;
-				
+
 				var status = document.createElement("td");
-				
+
 				var para = document.createElement("p");
 				para.style = "padding-right: 10px;";
-				
+
 				if (data[i].isResponded) {
 					para.innerText = ANSWERED;
 					para.className = "text-success font-weight-bold qStatus";
@@ -193,15 +195,30 @@ function viewSurveyResponse(evt) {
 	httpRequest.onload = function() {
 		// $.unblockUI();
 		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
-			var response = httpRequest.responseText;
-			var response = JSON.parse(response);
-//			var card = getAssignedSurveyCard(survey);
+			var response2 = httpRequest.responseText;
+			var response = JSON.parse(response2);
+			
+			var httpRequest1 = new XMLHttpRequest();
+			var url = contextPath + "/survey?id=" + surveyId;
+			httpRequest1.open('GET', url);
+			
+			httpRequest1.onload = function() {
+				// $.unblockUI();
+				if (httpRequest1.readyState == 4 && httpRequest1.status == "200") {
+					var response1 = httpRequest1.responseText;
+					var survey = JSON.parse(response1);
+					var card = getAssignedSurveyCard(survey, MODE_READ, response);
 
-			$("#assignedSurveyList").hide();
-			var parent = document.getElementById("assignedSurveyList");
-			removeAllChild(parent);
-//			parent.appendChild(card);
-			$("#assignedSurveyList").show();
+					$("#assignedSurveyList").hide();
+					var parent = document.getElementById("assignedSurveyList");
+					removeAllChild(parent);
+					parent.appendChild(card);
+					$("#assignedSurveyList").show();
+				} else {
+					// error scenario
+				}
+			}
+			httpRequest1.send(null);
 		} else {
 			// error scenario
 		}
@@ -218,7 +235,7 @@ function readAssignedSpecificSurvey(surveyId) {
 		if (httpRequest.readyState == 4 && httpRequest.status == "200") {
 			var response = httpRequest.responseText;
 			var survey = JSON.parse(response);
-			var card = getAssignedSurveyCard(survey);
+			var card = getAssignedSurveyCard(survey, MODE_EDIT, null);
 
 			$("#assignedSurveyList").hide();
 			var parent = document.getElementById("assignedSurveyList");
@@ -232,7 +249,7 @@ function readAssignedSpecificSurvey(surveyId) {
 	httpRequest.send(null);
 };
 
-function getAssignedSurveyCard(survey) {
+function getAssignedSurveyCard(survey, mode, response) {
 	var card = document.createElement('div');
 	card.className = "card";
 	surveyAllPage.appendChild(card);
@@ -272,7 +289,7 @@ function getAssignedSurveyCard(survey) {
 	var cardBody = document.createElement('div');
 	cardBody.className = "card-body";
 
-	loadQuestions(cardBody, survey);
+	loadQuestions(cardBody, survey, mode, response);
 	card.appendChild(cardBody);
 
 	var cardFooter = document.createElement('div');
@@ -309,23 +326,25 @@ function getAssignedSurveyCard(survey) {
 			}
 		});
 	});
-	cardFooter.appendChild(submitResponse);
+	if (mode && mode === MODE_EDIT) {
+		cardFooter.appendChild(submitResponse);
+	}
 	card.appendChild(cardFooter);
 
 	return card;
 };
 
-function loadQuestions(cardBody, survey) {
+function loadQuestions(cardBody, survey, mode, reponse) {
 	if (survey && survey.questions && survey.questions.length > 0) {
 		for (var i = 0; i < survey.questions.length; i++) {
 			var question = survey.questions[i];
-			var questionDiv = getEachQuestionDiv(i, question, survey.id);
+			var questionDiv = getEachQuestionDiv(i, question, survey.id, mode, reponse);
 			cardBody.appendChild(questionDiv);
 		}
 	}
 };
 
-function getEachQuestionDiv(i, question, surveyId) {
+function getEachQuestionDiv(i, question, surveyId, mode, response) {
 	var questionParent = document.createElement('div');
 	questionParent.id = 'div_accordion_q_' + i;
 	questionParent.role = "tablist";
@@ -370,8 +389,17 @@ function getEachQuestionDiv(i, question, surveyId) {
 	var para = document.createElement("p");
 	para.id = "para_" + question.id;
 	para.style = "padding-right: 10px;";
-	para.className = "text-danger font-weight-bold qStatus";
-	para.innerText = UN_ANSWERED;
+
+	if(mode) {
+		if(mode === MODE_READ) {
+			para.innerText = ANSWERED;
+			para.className = "text-success font-weight-bold qStatus";
+		} else if(mode === MODE_EDIT) {
+			para.className = "text-danger font-weight-bold qStatus";
+			para.innerText = UN_ANSWERED;
+		}
+	}
+
 	questioRow_Col2.appendChild(para);
 
 	questioRow.appendChild(questioRow_Col2);
@@ -389,7 +417,7 @@ function getEachQuestionDiv(i, question, surveyId) {
 	var cardBody = document.createElement('div');
 	cardBody.className = "card-body";
 
-	cardBody.appendChild(getOptionsDiv(question, surveyId));
+	cardBody.appendChild(getOptionsDiv(question, surveyId, mode, response));
 
 	collapse.appendChild(cardBody);
 	questionCard.appendChild(collapse);
@@ -398,31 +426,31 @@ function getEachQuestionDiv(i, question, surveyId) {
 	return questionParent;
 };
 
-function getOptionsDiv(question, surveyId) {
+function getOptionsDiv(question, surveyId, mode, response) {
 	var qType = question.type;
 	if (qType === "Radio") {
-		return getRadioButtonDiv(question, surveyId);
+		return getRadioButtonDiv(question, surveyId, mode, response);
 	} else if (qType === "Dropdown") {
-		return getDropdownDiv(question, surveyId);
+		return getDropdownDiv(question, surveyId, mode, response);
 	} else if (qType === "TextField") {
-		return getTextFieldDiv(question, surveyId);
+		return getTextFieldDiv(question, surveyId, mode, response);
 	} else if (qType === "CheckBox") {
-		return getCheckBoxDiv(question, surveyId);
+		return getCheckBoxDiv(question, surveyId, mode, response);
 	} else if (qType === "Gender") {
-		return getGenderDiv(question, surveyId);
+		return getGenderDiv(question, surveyId, mode, response);
 	} else if (qType === "YesNo") {
-		return getYesNoDiv(question, surveyId);
+		return getYesNoDiv(question, surveyId, mode, response);
 	} else if (qType === "Date") {
-		return getDatePickerDiv(question, surveyId);
+		return getDatePickerDiv(question, surveyId, mode, response);
 	} else if (qType === "Image") {
-		return getImageUploadDiv(question, surveyId);
+		return getImageUploadDiv(question, surveyId, mode, response);
 	}/* else if (qType === "Geocode") {
 
 	}*/
 	return document.createElement('div');
 };
 
-function getRadioButtonDiv(question, surveyId) {
+function getRadioButtonDiv(question, surveyId, mode, response) {
 	var optionsParent = document.createElement('div');
 
 	for (var i = 0; i < question.options.length; i++) {
@@ -448,6 +476,31 @@ function getRadioButtonDiv(question, surveyId) {
 		label.setAttribute("for", absoluteId);
 		label.innerText = question.options[i].text;
 
+		if(mode) {
+			if(mode === MODE_READ) {
+				input.setAttribute("disabled", true);
+				/*var paraId = "para_" + question.id;
+				setToAnswered(paraId);*/
+				var answers = response.answers;
+				if(answers) {
+					for (var pp = 0; pp < answers.length; pp++) {
+						var ans = answers[pp];
+						if(ans && ans.questionId && ans.questionId === question.id) {
+							if (ans.responses && ans.responses.length > 0) {
+								for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+									var resp = ans.responses[pp1];
+									if (resp && resp.value && resp.value === question.options[i].id) {
+										input.checked = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		
 		option.appendChild(input);
 		option.appendChild(label);
 		optionsParent.appendChild(option);
@@ -455,7 +508,7 @@ function getRadioButtonDiv(question, surveyId) {
 	return optionsParent;
 };
 
-function getDropdownDiv(question, surveyId) {
+function getDropdownDiv(question, surveyId, mode, response) {
 	var optionsParent = document.createElement('div');
 	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
 
@@ -469,11 +522,38 @@ function getDropdownDiv(question, surveyId) {
 	opt.innerText = "Choose...";
 	select.appendChild(opt);
 
+	if(mode) {
+		if(mode === MODE_READ) {
+			select.setAttribute("disabled", true);
+		}
+	}
+	
 	for (var i = 0; i < question.options.length; i++) {
 		var opt = document.createElement('option');
 		opt.setAttribute("value", question.options[i].id);
 		opt.innerText = question.options[i].text;
 		select.appendChild(opt);
+		
+		if(mode) {
+			if(mode === MODE_READ) {
+				var answers = response.answers;
+				if(answers) {
+					for (var pp = 0; pp < answers.length; pp++) {
+						var ans = answers[pp];
+						if(ans && ans.questionId && ans.questionId === question.id) {
+							if (ans.responses && ans.responses.length > 0) {
+								for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+									var resp = ans.responses[pp1];
+									if (resp && resp.value && resp.value === question.options[i].id) {
+										opt.setAttribute("selected", true);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	select.addEventListener("change", function(e) {
@@ -489,11 +569,13 @@ function getDropdownDiv(question, surveyId) {
 		}
 	});
 
+	
+	
 	optionsParent.appendChild(select);
 	return optionsParent;
 };
 
-function getTextFieldDiv(question, surveyId) {
+function getTextFieldDiv(question, surveyId, mode, response) {
 	var optionsParent = document.createElement('div');
 	var input = document.createElement('input');
 	input.className = "form-control";
@@ -509,10 +591,35 @@ function getTextFieldDiv(question, surveyId) {
 			resetToUnAnswered(paraId);
 		}
 	});
+	
+	if(mode) {
+		if(mode === MODE_READ) {
+			input.setAttribute("readOnly", true);
+			/*var paraId = "para_" + question.id;
+			setToAnswered(paraId);*/
+			var answers = response.answers;
+			if(answers) {
+				for (var pp = 0; pp < answers.length; pp++) {
+					var ans = answers[pp];
+					if(ans && ans.questionId && ans.questionId === question.id) {
+						if (ans.responses && ans.responses.length > 0) {
+							for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+								var resp = ans.responses[pp1];
+								if (resp && resp.value) {
+									input.value = resp.value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	return optionsParent;
 };
 
-function getCheckBoxDiv(question, surveyId) {
+function getCheckBoxDiv(question, surveyId, mode, response) {
 	var optionsParent = document.createElement('div');
 	for (var i = 0; i < question.options.length; i++) {
 		var option = document.createElement('div');
@@ -541,6 +648,30 @@ function getCheckBoxDiv(question, surveyId) {
 		label.setAttribute("for", absoluteId);
 		label.innerText = question.options[i].text;
 
+		if(mode) {
+			if(mode === MODE_READ) {
+				input.setAttribute("disabled", true);
+				/*var paraId = "para_" + question.id;
+				setToAnswered(paraId);*/
+				var answers = response.answers;
+				if(answers) {
+					for (var pp = 0; pp < answers.length; pp++) {
+						var ans = answers[pp];
+						if(ans && ans.questionId && ans.questionId === question.id) {
+							if (ans.responses && ans.responses.length > 0) {
+								for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+									var resp = ans.responses[pp1];
+									if (resp && resp.value && resp.value === question.options[i].id) {
+										input.checked = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
 		option.appendChild(input);
 		option.appendChild(label);
 		optionsParent.appendChild(option);
@@ -548,25 +679,26 @@ function getCheckBoxDiv(question, surveyId) {
 	return optionsParent;
 };
 
-function getGenderDiv(question, surveyId) {
+function getGenderDiv(question, surveyId, mode, response) {
 	var optionsParent = document.createElement('div');
 	optionsParent
-	.appendChild(getGenericRadioOption(question, surveyId, "Male"));
+	.appendChild(getGenericRadioOption(question, surveyId, "Male", mode, response));
 	optionsParent.appendChild(getGenericRadioOption(question, surveyId,
 	"Female"));
 	optionsParent
-	.appendChild(getGenericRadioOption(question, surveyId, "LGBT"));
+	.appendChild(getGenericRadioOption(question, surveyId, "LGBT", mode, response));
+	
 	return optionsParent;
 };
 
-function getYesNoDiv(question, surveyId) {
+function getYesNoDiv(question, surveyId, mode, response) {
 	var optionsParent = document.createElement('div');
-	optionsParent.appendChild(getGenericRadioOption(question, surveyId, "Yes"));
-	optionsParent.appendChild(getGenericRadioOption(question, surveyId, "No"));
+	optionsParent.appendChild(getGenericRadioOption(question, surveyId, "Yes", mode, response));
+	optionsParent.appendChild(getGenericRadioOption(question, surveyId, "No", mode, response));
 	return optionsParent;
 };
 
-function getDatePickerDiv(question, surveyId) {
+function getDatePickerDiv(question, surveyId, mode, response) {
 	$(function() {
 		$('[data-toggle="datepicker"]').datepicker({
 			autoHide : true,
@@ -593,14 +725,36 @@ function getDatePickerDiv(question, surveyId) {
 	datePicker.style = "max-width: fit-content;";
 	datePicker.id = absoluteId;
 	optionsParent.appendChild(datePicker);
+	
+	if(mode) {
+		if(mode === MODE_READ) {
+			datePicker.setAttribute("disabled", true);
+			var answers = response.answers;
+			if(answers) {
+				for (var pp = 0; pp < answers.length; pp++) {
+					var ans = answers[pp];
+					if(ans && ans.questionId && ans.questionId === question.id) {
+						if (ans.responses && ans.responses.length > 0) {
+							for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+								var resp = ans.responses[pp1];
+								if (resp && resp.value) {
+									datePicker.value = resp.value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 
 	return optionsParent;
 };
 
-function getImageUploadDiv(question, surveyId) {
+function getImageUploadDiv(question, surveyId, mode, response) {
 
 	var absoluteId = question.type + GLOBAL_SEPARATOR + surveyId + GLOBAL_SEPARATOR + question.id;
-//	var absoluteId = "bhanuImage";
 
 	var optionsParent = document.createElement('div');
 	optionsParent.className = "input-group mb-3";
@@ -623,6 +777,28 @@ function getImageUploadDiv(question, surveyId) {
 	label.setAttribute("for", absoluteId);
 	label.innerText = "Choose file";
 
+	if(mode) {
+		if(mode === MODE_READ) {
+			input.setAttribute("disabled", true);
+			var answers = response.answers;
+			if(answers) {
+				for (var pp = 0; pp < answers.length; pp++) {
+					var ans = answers[pp];
+					if(ans && ans.questionId && ans.questionId === question.id) {
+						if (ans.responses && ans.responses.length > 0) {
+							for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+								var resp = ans.responses[pp1];
+								if (resp && resp.value) {
+									label.innerText = resp.value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	customFileDiv.appendChild(input);
 	customFileDiv.appendChild(label);
 	optionsParent.appendChild(customFileDiv);
@@ -647,7 +823,7 @@ function getImageUploadDiv(question, surveyId) {
 	return optionsParent;
 };
 
-function getGenericRadioOption(question, surveyId, val) {
+function getGenericRadioOption(question, surveyId, val, mode, response) {
 	var option = document.createElement('div');
 	option.className = "form-check";
 
@@ -670,6 +846,28 @@ function getGenericRadioOption(question, surveyId, val) {
 	label.setAttribute("for", absoluteId);
 	label.innerText = val;
 
+	if(mode) {
+		if(mode === MODE_READ) {
+			input.setAttribute("disabled", true);
+			var answers = response.answers;
+			if(answers) {
+				for (var pp = 0; pp < answers.length; pp++) {
+					var ans = answers[pp];
+					if(ans && ans.questionId && ans.questionId === question.id) {
+						if (ans.responses && ans.responses.length > 0) {
+							for(var pp1 = 0; pp1 < ans.responses.length; pp1++) {
+								var resp = ans.responses[pp1];
+								if (resp && resp.value && resp.value === val) {
+									input.checked = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	option.appendChild(input);
 	option.appendChild(label);
 	return option;
@@ -692,24 +890,26 @@ function resetToUnAnswered(paraId) {
 function enableDisableSubmitButton() {
 	var flags = document.querySelectorAll("p.qStatus");
 	var submitBtn = document.getElementById("submit");
-	submitBtn.setAttribute("disabled", true);
-	if (submitBtn.getAttribute("disabled")) {
-		submitBtn.title = "Answer all the questions to enable Submit button.";
-	}
-	var status = [];
-	if(flags) {
-		for(var i = 0; i < flags.length; i++) {
-			status.push(isAnswered(flags[i].innerText.trim()));
+	if(submitBtn) {
+		submitBtn.setAttribute("disabled", true);
+		if (submitBtn.getAttribute("disabled")) {
+			submitBtn.title = "Answer all the questions to enable Submit button.";
 		}
-		if(status) {
-			var finalResult = true;
-			for(var i = 0; i < status.length; i++) {
-				finalResult = finalResult && status[i];
+		var status = [];
+		if(flags) {
+			for(var i = 0; i < flags.length; i++) {
+				status.push(isAnswered(flags[i].innerText.trim()));
 			}
-		}
-		if(finalResult) {
-			submitBtn.removeAttribute("disabled");
-			submitBtn.title = "Submit Survey";
+			if(status) {
+				var finalResult = true;
+				for(var i = 0; i < status.length; i++) {
+					finalResult = finalResult && status[i];
+				}
+			}
+			if(finalResult) {
+				submitBtn.removeAttribute("disabled");
+				submitBtn.title = "Submit Survey";
+			}
 		}
 	}
 };
@@ -769,12 +969,15 @@ function collectAnswers(survey) {
 				setAnswersForGenderAndYesNoQuestions(ids, answer);
 			} else if (qType === "Image") {
 				var image = document.getElementById(id);
+				var valueJson = {};
+				valueJson.value = image.files[0].name;
+				answer.responses.push(valueJson);
 				formData.append(question.id, image.files[0]);
 			}
 			answersJson.answers.push(answer);
 		}
 	}
-	
+
 	formData.append("answers", JSON.stringify(answersJson));
 	return formData;
 };

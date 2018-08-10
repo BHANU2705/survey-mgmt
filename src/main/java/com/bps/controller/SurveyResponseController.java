@@ -65,8 +65,10 @@ public class SurveyResponseController extends HttpServlet {
 			}
 		} catch (BaseException e) {
 			e.printStackTrace();
+			setInvalidResponse(response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			setInvalidResponse(response);
 		} finally {
 			if (writer != null) {
 				writer.close();
@@ -76,7 +78,7 @@ public class SurveyResponseController extends HttpServlet {
 
 	private void setInvalidResponse(HttpServletResponse response) throws IOException {
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		response.getWriter().append("Invalid Response.");
+		response.getWriter().append("Invalid Request Data.");
 		response.setContentType("text/plain");
 	}
 
