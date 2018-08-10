@@ -150,11 +150,6 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 				dropdownItem1.id = "respond_survey" + GLOBAL_SEPARATOR + data[i].id;
 				dropdownItem1.addEventListener("click", replySurvey);
 				dropdownItem1.className = "dropdown-item";
-
-				var replyIcon = document.createElement("i");
-				replyIcon.className = "fas fa-reply";
-
-				dropdownItem1.appendChild(replyIcon);
 				dropdownItem1.setAttribute("data-toggle", "tooltip");
 				dropdownItem1.setAttribute("data-placement", "left");
 				dropdownItem1.title = "Reply";
@@ -166,6 +161,14 @@ function setAssignedSurveyData(assignedSurveyListTable, httpRequest) {
 					dropdownItem1.removeEventListener("click", replySurvey);
 					dropdownItem1.addEventListener("click", viewSurveyResponse);
 					dropdownItem1.title = "Already Replied, View Response.";
+					
+					var viewIcon = document.createElement("i");
+					viewIcon.className = "fas fa-eye";
+					dropdownItem1.appendChild(viewIcon);
+				} else {
+					var replyIcon = document.createElement("i");
+					replyIcon.className = "fas fa-reply";
+					dropdownItem1.appendChild(replyIcon);
 				}
 
 				row.appendChild(index);
