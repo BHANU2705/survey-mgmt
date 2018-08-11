@@ -177,6 +177,8 @@
 						onclick="handleLeftPane('survey')" href="">Surveys</a></li>
 					<li class="nav-item"><a id="a_user" class="nav-link"
 						onclick="handleLeftPane('user')" href="">My Users</a></li>
+					<li class="nav-item"><a id="a_analytics" class="nav-link"
+						onclick="handleLeftPane('analytics')" href="">Analytics</a></li>
 					<% } %>
 					
 					<%
@@ -186,8 +188,7 @@
 						onclick="handleLeftPane('assigned_surveys')" href="">Assigned Surveys</a></li>
 					<% } %>
 
-					<li class="nav-item"><a id="a_analytics" class="nav-link"
-						onclick="handleLeftPane('analytics')" href="">Analytics</a></li>
+					
 					<!-- <li class="nav-item"><a id="a_subscription" class="nav-link"
 						onclick="handleLeftPane('subscription')" href="">Subscription</a>
 					</li> -->
