@@ -282,6 +282,7 @@ function assignSurveyToUser() {
 		if (httpRequest.readyState == 4 && httpRequest.status == "201") {
 			alert('Surveys linked to user successfully.');
 			$('#assignSurveyModal').modal('toggle');
+			loadAdminUserPage();
 		} else {
 			// error scenario
 		}

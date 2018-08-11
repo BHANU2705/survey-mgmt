@@ -1,10 +1,14 @@
 package com.bps.service.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import org.apache.commons.io.FileUtils;
 
 import com.bps.dao.SurveyDAO;
 import com.bps.persistence.tables.Survey;
@@ -42,10 +46,28 @@ public class SurveyManager {
 	}
 	
 	public Survey deleteSurvey(Survey survey) throws BaseException {
-		surveyDAO.delete(survey);
+		if(surveyDAO.delete(survey)) {
+			deleteSurveyImageFolder(survey.getId());
+		}
 		return survey;
 	}
 	
+	private boolean deleteSurveyImageFolder(String surveyId) {
+		boolean isDeleted = false;
+		String relativePath = File.separator + surveyId;
+		String folderPath = CommonConstants.ABSOLUTE_PATH + relativePath;
+		File folder = new File(folderPath);
+		if(folder.exists()) {
+			try {
+				FileUtils.forceDelete(folder);
+				isDeleted = true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return isDeleted;
+	}
+
 	public Survey readSurvey(String surveyId) throws BaseException {
 		Survey survey = new Survey();
 		survey.setId(surveyId);

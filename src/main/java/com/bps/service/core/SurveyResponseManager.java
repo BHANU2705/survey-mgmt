@@ -16,22 +16,16 @@ import javax.servlet.http.Part;
 import com.bps.dao.SurveyResponseDAO;
 import com.bps.persistence.tables.SurveyResponse;
 import com.bps.service.exceptions.BaseException;
+import com.bps.util.CommonConstants;
 import com.bps.util.SurveyResponseEntity;
 
 public class SurveyResponseManager {
 	private SurveyResponseDAO surveyResponseDAO;
-	// private String userEmail;
-	private final static String ABSOLUTE_PATH = "C:\\Users\\i305297\\Documents\\Personal\\Project\\Uploaded";
 
 	public SurveyResponseManager(String email) {
 		surveyResponseDAO = new SurveyResponseDAO();
 		surveyResponseDAO.setUserEmail(email);
-		// setUserEmail(email);
 	}
-
-	/*
-	 * public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
-	 */
 
 	public SurveyResponseEntity getResponse(final String surveyId) throws BaseException {
 		SurveyResponseEntity entity = null;
@@ -76,7 +70,7 @@ public class SurveyResponseManager {
 			try {
 				fileContent = filePart.getInputStream();
 				String relativePath = File.separator + responseEntity.getSurveyId() + File.separator + questionId + File.separator + responseEntity.getUserId();
-				String folderPath = ABSOLUTE_PATH + relativePath;
+				String folderPath = CommonConstants.ABSOLUTE_PATH + relativePath;
 				File folder = new File(folderPath);
 				if(!folder.exists()) {
 					folder.mkdirs();

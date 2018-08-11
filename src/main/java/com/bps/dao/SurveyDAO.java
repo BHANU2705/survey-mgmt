@@ -51,8 +51,18 @@ public class SurveyDAO extends DAO implements IBaseDAO {
 		Session session = SessionManager.getSession();
 		Transaction tx = session.beginTransaction();
 		session.delete(survey);
+		
+		Query<?> deleteAnswers = session
+				.createQuery("DELETE FROM SurveyResponse WHERE surveyId = '" + survey.getId() + "'");
+		deleteAnswers.executeUpdate();
+		
+		Query<?> deleteSurveyClientUserLink = session
+				.createQuery("DELETE FROM SurveyClientUserLink WHERE surveyId = '" + survey.getId() + "'");
+		deleteSurveyClientUserLink.executeUpdate();
+		
 		tx.commit();
 		SessionManager.closeSession(session);
+		
 		return true;
 	}
 

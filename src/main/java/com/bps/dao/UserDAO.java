@@ -97,21 +97,6 @@ public class UserDAO extends DAO implements IBaseDAO {
 	}
 
 	public User[] getMyClientUsers() throws BaseException {
-		/*
-		 * String queryString =
-		 * "SELECT u.email, u.name from User u where u.email in (SELECT userEmail from UserRole where roleId = 'User' and adminEmailId = '"
-		 * + super.getUserEmail() + "')"; Session session = null; try { session =
-		 * SessionManager.getSession(); Query<?> q1 = session.createQuery(queryString);
-		 * q1.setReadOnly(true); List<?> data = q1.getResultList(); if (data.size() > 0)
-		 * { Iterator<?> it = data.iterator(); List<User> users = new ArrayList<User>();
-		 * User user = null; while (it.hasNext()) { Object[] list = (Object[])
-		 * it.next(); String clientUserEmail = (String) list[0]; String clientUserName =
-		 * (String) list[1]; user = new User(); user.setName(clientUserName);
-		 * user.setEmail(clientUserEmail); users.add(user); }
-		 * setAssignedSurveyCount(session, users); SessionManager.closeSession(session);
-		 * return users.toArray(new User[users.size()]); } } finally {
-		 * SessionManager.closeSession(session); }
-		 */
 		Session session = null;
 		List<User> filteredUsers = null;
 		try {

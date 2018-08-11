@@ -35,4 +35,5 @@ public final class CommonConstants {
 	public static final String QUERY_TYPE = "qType";
 	public static final String GET_MY_UNASSIGNED_SURVEYS = "getMyUnassignedSurveys";
 	public static final String GET_MY_UNASSIGNED_USERS = "getMyUnassignedUsers";
+	public final static String ABSOLUTE_PATH = "C:\\Users\\i305297\\Documents\\Personal\\Project\\Uploaded";
 }
