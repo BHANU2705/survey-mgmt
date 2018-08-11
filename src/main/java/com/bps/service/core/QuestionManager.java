@@ -1,5 +1,7 @@
 package com.bps.service.core;
 
+import java.util.List;
+
 import com.bps.dao.QuestionDAO;
 import com.bps.dao.QuestionOptionDAO;
 import com.bps.persistence.tables.Question;
@@ -57,5 +59,10 @@ public class QuestionManager {
 			return dbQuestion;
 		}
 		return null;
+	}
+	
+	public List<Question> readImageTypeQuestions() throws BaseException {
+		QuestionDAO dao = new QuestionDAO();
+		return dao.readImageTypeQuestions();
 	}
 }

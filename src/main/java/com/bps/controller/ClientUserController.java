@@ -68,7 +68,6 @@ public class ClientUserController extends HttpServlet {
 		String email = request.getParameter("email");
 		UserManager manager = new UserManager();
 		try {
-//			User user =  manager.getUser(email);
 			manager.deleteUser(email);
 		} catch (BaseException e) {
 			e.printStackTrace();
